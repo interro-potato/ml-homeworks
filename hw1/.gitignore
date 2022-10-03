@@ -1,0 +1,11 @@
+# LaTeX files
+*.log
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+*.out
+*.xdv
+svg-inkscape
+hw_files
