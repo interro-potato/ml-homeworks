@@ -108,11 +108,7 @@ $$
 Therefore, we must calculate the associated precision and sensitivity as follows:
 
 $$
-\text{Sensitivity} = \frac{TP}{TP + FN} = \frac{5}{5 + 6} = \frac{5}{11}
-$$
-
-$$
-\text{Precision} = \frac{TP}{TP + FP}= \frac{5}{5 + 2} = \frac{5}{7}
+\text{Sensitivity} = \frac{TP}{TP + FN} = \frac{5}{5 + 6} = \frac{5}{11}, \quad \text{Precision} = \frac{TP}{TP + FP}= \frac{5}{5 + 2} = \frac{5}{7}
 $$
 
 We can, now, calculate the F1 score:
@@ -150,12 +146,29 @@ We know that:
   \operatorname{H}(Y) = -\sum_{y \in Y} p(y) \log_2 p(y)
 \end{equation}
 
-Considering $y_{out}$ as our \textit{output variable}, with possible values $P$ or $N$,
-we'll be able to see that:
+By looking at the decision tree's confusion matrix (computed in the first question),
+we can infer that $P(y_{out} = P) = \frac{11}{20}$ and $P(y_{out} = N) = \frac{9}{20}$.
+After gathering the probabilities above, and considering $y_{out}$ as our \textit{output variable}, with possible values $P$ or $N$,
+we'll be able to note that:
 
 \begin{equation}
   \operatorname{H}(y_{out}) = \textcolor{teal}{(- \frac{11}{20} \log_2 \frac{11}{20} - \frac{9}{20} \log_2 \frac{9}{20})}
 \end{equation}
+
+To finish being able to calculate the previously mentioned information gain, we still
+need to mention a few missing probabilities associated with the given decision tree:
+
+\begin{itemize}
+  \item $P(y_1 = A) = \frac{7}{20}, P(y_1 = B) = \frac{13}{20}$,
+  which can be asserted by looking at the decision tree's confusion matrix
+  and adding the values in each column (the \textbf{real} values).
+  \item $P(y_{out} = P \mid y_1 = A) = \frac{5}{7}, P(y_{out} = N \mid y_1 = A) = \frac{2}{7}$,
+  which can be gathered by looking at the left-most tree path and checking the true
+  and false $P$ values.
+  \item $P(y_{out} = P \mid y_1 = B) = \frac{6}{13}, P(y_{out} = N \mid y_1 = B) = \frac{7}{13}$,
+  which can be gathered by looking at the right-most tree path's leaves,
+  checking each value's true or false values and adding them up.
+\end{itemize}
 
 \begin{equation}
   \operatorname{H}(y_{out} \mid y_1) = \textcolor{violet}{\left[\frac{7}{20}(- {\frac{5}{7}} \log_2 \frac{5}{7} - \frac{2}{7} \log_2 \frac{2}{7}) + \frac{13}{20}(- \frac{6}{13} \log_2 \frac{6}{13} - \frac{7}{13} \log_2 \frac{7}{13})\right]}
@@ -176,7 +189,7 @@ $$
 
 \begin{figure}[htpb]
   \centering
-  \includegraphics[width=0.8\textwidth]{../assets/hw1-2.1.png}
+  \includegraphics[width=0.5\textwidth]{../assets/hw1-2.1.png}
   \caption{Training and Testing Accuracy vs. Number of Features}
 \end{figure}
 
@@ -186,6 +199,7 @@ The code utilized to generate the plot is present in the report's appendix.
 
 Since the decision tree has no depth-limit associated, the worst-case scenario sees the tree
 holding exactly one leaf per training sample - leading to there always being a "correct path" in the tree for a given observation - and thus the training accuracy is always 1, for any train-test split of the dataset.
+It's the "limit case" for an overfitting situation, where the tree is completely tailored to the training data.
 
 The testing accuracy isn't necessarily 1, of course, just like it can be seen in the plot shown above: in the vast majority of cases, the testing set will hold samples which differ from all seen in the training set, effectively evicting the "guarantee" of a correct guess from the decision tree. It can, of course, still take a correct guess (with that being our goal), but it's not guaranteed.
 
