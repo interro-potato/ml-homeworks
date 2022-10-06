@@ -72,19 +72,25 @@
         We know that:
 
         $$
-          d = 1: \quad F_1 = \frac{2 * \text{Precision} * \text{Sensitivity}}{\text{Precision} + \text{Sensitivity}}
+          F_\beta = \frac{1}{\alpha\frac{1}{\text{Precision}} + (1 - \alpha)\frac{1}{\text{Recall}}},\qquad\text{where}\quad\beta^2 = \frac{1}{\alpha} - 1
         $$
 
-        Therefore, we must calculate the associated precision and sensitivity as follows:
+        For $\beta = 1$ (and thus $\alpha = \frac{1}{2}$), we have:
 
         $$
-          \text{Sensitivity} = \frac{TP}{TP + FN} = \frac{5}{5 + 6} = \frac{5}{11}, \quad \text{Precision} = \frac{TP}{TP + FP}= \frac{5}{5 + 2} = \frac{5}{7}
+          d = 1: \quad F_1 = \frac{1}{\frac{1}{2}\frac{1}{\text{Precision}} + \frac{1}{2}\frac{1}{\text{Recall}}}
         $$
 
-        We can, now, calculate the F1 score:
+        Therefore, we must calculate the associated precision and sensitivity (recall) as follows:
 
         $$
-          d = 1: \quad F_1 = \frac{2 * \frac{5}{7} * \frac{5}{11}}{\frac{5}{7} + \frac{5}{11}} = \frac{5}{9}
+          \text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{5}{5 + 2} = \frac{5}{7}, \quad \text{Sensitivity} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{5}{5 + 6} = \frac{5}{11}
+        $$
+
+        Finally, we can now calculate the $F_1$ score:
+
+        $$
+          d = 1: \quad F_1 = \frac{1}{\frac{1}{2}\cdot\frac{7}{5} + \frac{1}{2}\cdot\frac{11}{5}} = \frac{5}{9} \approx 0.5556
         $$
 
   \item \textbf{Identify two different reasons as to why the left tree path was not further decomposed.}
