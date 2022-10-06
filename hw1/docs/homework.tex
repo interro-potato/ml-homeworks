@@ -82,33 +82,30 @@
 \begin{enumerate}[leftmargin=\labelsep]
 \item \textbf{Draw the training confusion matrix.}
 
-Após consulta da árvore de decisão descrita no enunciado, podemos afirmar que
-a respetiva matriz de confusão é a seguinte:
+After consulting the decision tree described in the question's statement,
+we can assert that its confusion matrix is the following:
 
 \begin{figure}[htpb]
   \centering
   \includesvg{../assets/hw1-1.1.svg}
-  \caption{Matriz de Confusão}
+  \caption{Confusion Matrix}
 \end{figure}
-
-Note-se que as colunas correspondem aos acontecimentos reais, enquanto que as
-linhas correspondem aos acontecimentos previstos.
 
 \item \textbf{Identify the training F1 after a post-pruning of the given tree under a maximum depth of 1.}
 
 \begin{figure}[htpb]
 \centering
 \includesvg{../assets/hw1-1.2.svg}
-\caption{Matriz de Confusão pós-poda}
+\caption{Post-pruning confusion matrix}
 \end{figure}
 
-Temos que:
+We know that:
 
 $$
 d = 1: \quad F_1 = \frac{2 * \text{Precision} * \text{Sensitivity}}{\text{Precision} + \text{Sensitivity}}
 $$
 
-Precisamos, portanto, de calcular a precisão e a sensibilidade para obter o valor pretendido.
+Therefore, we must calculate the associated precision and sensitivity as follows:
 
 $$
 \text{Sensitivity} = \frac{TP}{TP + FN} = \frac{5}{5 + 6} = \frac{5}{11}
@@ -118,7 +115,7 @@ $$
 \text{Precision} = \frac{TP}{TP + FP}= \frac{5}{5 + 2} = \frac{5}{7}
 $$
 
-Perante os dados obtidos, podemos afirmar que:
+We can, now, calculate the F1 score:
 
 $$
 d = 1: \quad F_1 = \frac{2 * \frac{5}{7} * \frac{5}{11}}{\frac{5}{7} + \frac{5}{11}} = \frac{5}{9}
@@ -126,11 +123,24 @@ $$
 
 \item \textbf{Identify two different reasons as to why the left tree path was not further decomposed.}
 
-TODO
+We can find multiple reasons for the left-most tree path not being further decomposed.
+
+The first, perhaps most obvious reason is that we want to \textbf{avoid overfitting} the
+tree to the training data: given a threshold of $\frac{5}{7}$, it's already possible
+to make a very fair, general assessment about all instances that fall under the $y_1 = A$
+condition (asserting they fall onto the $P$ label). It's obviously not guaranteed
+that not further decomposing the tree will lead to a better labeling come testing time,
+but generally speaking it ends up being a good practice to avoid overfitting.
+
+Related to the overfitting idea, there also aren't many instances (only 7) in the
+left path, which makes it so that further decomposing that path doesn't change
+the classification error by much (if at all), while also adding unnecessary
+complexity to the tree - therefore, it's \textbf{not likely} that there will be a significant
+\textbf{entropy reduction} by further decomposing the left-most tree path.
 
 \item \textbf{Compute the information gain of variable y1.}
 
-Temos que:
+We know that:
 
 \begin{equation}
   \operatorname{IG}(y_{out} \mid y_1) = \textcolor{teal}{\operatorname{H}(y_{out})} - \textcolor{violet}{\operatorname{H}(y_{out} \mid y_1)}
@@ -140,7 +150,8 @@ Temos que:
   \operatorname{H}(Y) = -\sum_{y \in Y} p(y) \log_2 p(y)
 \end{equation}
 
-Ora, considerando aqui $y_{out}$ como a nossa variável de output, com valores $P$ ou $N$, vamos ter que:
+Considering $y_{out}$ as our \textit{output variable}, with possible values $P$ or $N$,
+we'll be able to see that:
 
 \begin{equation}
   \operatorname{H}(y_{out}) = \textcolor{teal}{(- \frac{11}{20} \log_2 \frac{11}{20} - \frac{9}{20} \log_2 \frac{9}{20})}
@@ -150,7 +161,7 @@ Ora, considerando aqui $y_{out}$ como a nossa variável de output, com valores $
   \operatorname{H}(y_{out} \mid y_1) = \textcolor{violet}{\left[\frac{7}{20}(- {\frac{5}{7}} \log_2 \frac{5}{7} - \frac{2}{7} \log_2 \frac{2}{7}) + \frac{13}{20}(- \frac{6}{13} \log_2 \frac{6}{13} - \frac{7}{13} \log_2 \frac{7}{13})\right]}
 \end{equation}
 
-Teremos, portanto:
+We have, therefore:
 
 $$
 \operatorname{IG}(y_{out} \mid y_1) = 0.04345941113
@@ -163,17 +174,13 @@ $$
 \begin{enumerate}[leftmargin=\labelsep,resume]
 \item \textbf{Using \texttt{sklearn}, apply a stratified 70-30 training-testing split with a fixed seed (\texttt{random\_state=1}), and assess in a single plot the training and testing accuracies of a decision tree with no depth limits (and remaining default behavior) for a varying number of selected features in \{5,10,40,100,250,700\}. Feature selection should be performed before decision tree learning considering the discriminative power of the input variables according to mutual information criterion (\texttt{mutual\_info\_classif}).}
 
-Como nota, os gráficos gerados não aparentaram ser determinísticos, mesmo dando \textit{set} à \textit{seed} manualmente - isto é,
-correr o código várias vezes leva a gráficos diferentes, apesar de semelhantes.
-A diferença, claro, surge apenas na linha da \textit{training accuracy}.
-
 \begin{figure}[htpb]
   \centering
   \includegraphics[width=0.8\textwidth]{../assets/hw1-2.1.png}
   \caption{Training and Testing Accuracy vs. Number of Features}
 \end{figure}
 
-O código utilizado para gerar o gráfico encontra-se no apêndice do presente relatório.
+The code utilized to generate the plot is present in the report's appendix.
 
 \item \textbf{Why is training accuracy persistently 1? Critically analyze the gathered results.}
 

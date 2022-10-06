@@ -28,14 +28,14 @@ y = train['class']
 # If we can only use a subset of features, we should select the most discriminative ones,
 # (i.e, if we can use 5 features, we should select the 5 most discriminative ones, and so on).
 
-mimportance = mutual_info_classif(X, y)
+mimportance = mutual_info_classif(X, y, random_state=SEED)
 SORTED_FEATURE_INDICES = np.argsort(mimportance)[::-1]
 
 # Now, time to finally assess (in a single plot) both the training and testing accuracies
 # of a decision tree with no depth limits (and remaining default behavior) for a varying number of selected features.
 
 def train_and_test(X_train, X_test, y_train, y_test):
-  clf = DecisionTreeClassifier()
+  clf = DecisionTreeClassifier(random_state=SEED)
   clf.fit(X_train, y_train)
   y_pred = clf.predict(X_test)
   return accuracy_score(y_test, y_pred)
