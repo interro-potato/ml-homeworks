@@ -10,6 +10,7 @@
 \usepackage{xcolor}
 \usepackage{mathtools}
 \usepackage{listings}
+\usepackage{float}
 \usepackage[colorlinks=true]{hyperref}
 
 \setlength{\droptitle}{-6em}
@@ -55,7 +56,7 @@
         After reviewing the decision tree described in the question's statement,
         we can assert that its confusion matrix is the following:
 
-        \begin{figure}[htpb]
+        \begin{figure}[H]
           \centering
           \includesvg{../assets/hw1-1.1.svg}
           \caption{Confusion Matrix}
@@ -63,7 +64,7 @@
 
   \item \textbf{Identify the training F1 after a post-pruning of the given tree under a maximum depth of 1.}
 
-        \begin{figure}[htpb]
+        \begin{figure}[H]
           \centering
           \includesvg{../assets/hw1-1.2.svg}
           \caption{Post-pruning confusion matrix}
@@ -158,12 +159,14 @@
 
 \end{enumerate}
 
+\pagebreak
+
 \center\large{\textbf{Part II}: Programming}
 
 \begin{enumerate}[leftmargin=\labelsep,resume]
   \item \textbf{Using \texttt{sklearn}, apply a stratified 70-30 training-testing split with a fixed seed (\texttt{random\_state=1}), and assess in a single plot the training and testing accuracies of a decision tree with no depth limits (and remaining default behavior) for a varying number of selected features in \{5,10,40,100,250,700\}. Feature selection should be performed before decision tree learning considering the discriminative power of the input variables according to mutual information criterion (\texttt{mutual\_info\_classif}).}
 
-        \begin{figure}[htpb]
+        \begin{figure}[H]
           \centering
           \includegraphics[width=0.5\textwidth]{../assets/hw1-2.1.png}
           \caption{Training and Testing Accuracy vs. Number of Features}
@@ -180,6 +183,8 @@
         The testing accuracy isn't necessarily 1, of course, just like it can be seen in the plot shown above: in the vast majority of cases, the testing set will hold samples which differ from all seen in the training set, effectively evicting the "guarantee" of a correct guess from the decision tree. It can, of course, still take a correct guess (with that being our goal), but it's not guaranteed.
 
 \end{enumerate}
+
+\pagebreak
 
 \large{\textbf{Appendix}\vskip 0.3cm}
 
