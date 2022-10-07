@@ -34,6 +34,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 CLF = DecisionTreeClassifier(random_state=SEED)
 
+
 def train_and_test(X_train, X_test, y_train, y_test):
     y_pred = CLF.predict(X_test)
     return accuracy_score(y_test, y_pred)
