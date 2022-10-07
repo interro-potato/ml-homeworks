@@ -34,8 +34,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 # of a decision tree with no depth limits (and remaining default behavior) for a varying number of selected features.
 
 CLF = DecisionTreeClassifier(random_state=SEED)
+
 def train_and_test(X_train, X_test, y_train, y_test):
-    CLF.fit(X_train, y_train)
     y_pred = CLF.predict(X_test)
     return accuracy_score(y_test, y_pred)
 def mutual_info_classif_custom(X, y):
@@ -49,6 +49,7 @@ for n in FEATURE_AMOUNT:
     selector.fit(X_train, y_train)
     X_train_new = selector.transform(X_train)
     X_test_new = selector.transform(X_test)
+    CLF.fit(X_train_new, y_train)
     train_accuracies.append(train_and_test(X_train_new, X_train_new, y_train, y_train))
     test_accuracies.append(train_and_test(X_train_new, X_test_new, y_train, y_test))
 
