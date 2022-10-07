@@ -1,7 +1,5 @@
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 from scipy.io.arff import loadarff
 from sklearn.model_selection import train_test_split
 from sklearn.feature_selection import mutual_info_classif
@@ -35,6 +33,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 # of a decision tree with no depth limits (and remaining default behavior) for a varying number of selected features.
 
 CLF = DecisionTreeClassifier(random_state=SEED)
+
 
 def train_and_test(X_train, X_test, y_train, y_test):
     y_pred = CLF.predict(X_test)
