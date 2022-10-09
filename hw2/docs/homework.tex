@@ -1,0 +1,101 @@
+\documentclass[12pt]{article}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{newtxtext, newtxmath}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{svg}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+\usepackage[colorlinks=true]{hyperref}
+
+\setlength{\droptitle}{-6em}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{
+        style=mystyle,
+        inputencoding=utf8,
+        extendedchars=true,
+}
+
+
+\title{\large{Aprendizagem 2022}\vskip 0.2cm Homework II -- Group 019\vskip 0.2cm Diogo Gaspar 99207, Rafael Oliveira 99311}
+\date{}
+\begin{document}
+\maketitle
+\center\large{\vskip -2.5cm\textbf{Part I}: Pen and paper}
+\begin{enumerate}[leftmargin=\labelsep]
+
+  \item \textbf{Compute the recall of a distance-weighted $k$NN with $k=5$ and distance
+  $d(x_1, x_2) = \operatorname{Hamming(x_1, x_2)} + \frac{1}{2}$ using leave-one-out
+  evaluation schema (i.e., when classifying one observation, use all remaining ones).}
+
+  \item \textbf{Considering the nine training observations, learn a Bayesian classifier assuming:
+  i) $y_1$ and $y_2$ are dependent, ii) $\{y_1 , y_2\}$ and $\{y_3 \}$ variable sets are
+  independent and equally important, and iii) $y_3$ is normally distributed. Show all parameters.}
+
+  \item \textbf{Under a MAP assumption, compute $P(Positive | x)$ of each testing observation.}
+
+  \item \textbf{Given a binary class variable, the default decision threshold of $\theta = 0.5$,
+    $$
+    f(x | \theta) = \begin{cases}
+      Positive & \text{if } P(positive | x) > \theta \\
+      Negative & otherwise
+    \end{cases}
+    $$
+    can be adjusted. Which decision threshold – 0.3, 0.5 or 0.7 – optimizes testing accuracy?
+  }
+
+\end{enumerate}
+
+\pagebreak
+
+\center\large{\textbf{Part II}: Programming}
+
+\begin{enumerate}[leftmargin=\labelsep,resume]
+  \item \textbf{Using \texttt{sklearn}, considering a 10-fold stratified cross validation (\texttt{random=0}), plot the cumulative
+  testing confusion matrices of $k$NN (uniform weights, $k = 5$, Euclidean distance) and Naïve Bayes
+  (Gaussian assumption). Use all remaining classifier parameters as default.}
+
+  \item \textbf{Using \texttt{scipy}, test the hypothesis “$k$NN is statistically superior to Naïve Bayes regarding
+  accuracy”, asserting whether is true.}
+  
+  \item \textbf{Enumerate three possible reasons that could underlie the observed differences in predictive
+  accuracy between $k$NN and Naïve Bayes.}
+  
+\end{enumerate}
+
+\pagebreak
+
+\large{\textbf{Appendix}\vskip 0.3cm}
+
+% The code utilized in the first question of the programming section is shown below:
+
+% \lstinputlisting[language=Python]{code.py}
+
+\end{document}
