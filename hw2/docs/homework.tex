@@ -11,6 +11,7 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{multicol}
+\usepackage{nicefrac}
 \usepackage[colorlinks=true]{hyperref}
 
 \setlength{\droptitle}{-6em}
@@ -63,8 +64,8 @@
   represents the Hamming distance ($+ \frac{1}{2}$) between two observations. This matrix is symmetric, of course.
   Each column $i$, here, will have $8 - 1 = 7$ associated entries, each representing the distance $d$
   between the observation $x_i$ and the remaining $7$ observations: we will, then,
-  pick the $k = 5$ nearest neighbors according to said distance, classifying $x_i$ as the class
-  that appears most frequently among them.
+  pick the $k = 5$ nearest neighbors according to said distance, classifying $x_i$
+  in a \textbf{distance-weighted} manner.
 
   \begin{table}[h]
     \setlength{\tabcolsep}{5pt} % column spacing
@@ -85,6 +86,35 @@
     \caption{Distance $d$ between observations - in teal, a given observation's $k$ nearest neighbors}
   \end{table}
 
+  For each observation $x_i$, the $k$ nearest neighbors are, therefore, the ones represented in
+  teal in the table above. Instead of predicting a class given the neighbors' mode,
+  we'll want to choose it in a distance-weighted manner here: this means that, for each
+  observation $x_i$, we'll want to compute the \textbf{weighted majority vote} of its $k$ nearest
+  neighbors, where the weight of each neighbor is given by:
+
+  $$w_{i, j} = \frac{1}{d(x_i, x_j)}$$
+
+  where $x_j$ is one of the $k$ nearest neighbors of $x_i$. Considering the data gathered up until now,
+  we'll have the following conclusions regarding the model's classification for each instance:
+
+\begin{table}[h]
+  \centering
+  \renewcommand{\arraystretch}{1.35} % row spacing
+  \begin{tabular}{c|c|c|c}
+        & Weighted distance to $N$                                & Weighted distance to $P$                                & Predicted Class \\
+  $x_1$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    &  $P$               \\
+  $x_2$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{4}$ & $ \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{\nicefrac{2}{3}}$                              &  $N$               \\
+  $x_3$ & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           &  $N$               \\
+  $x_4$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    &  $P$               \\
+  $x_5$ & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           &  $N$               \\
+  $x_6$ & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           &  $N$               \\
+  $x_7$ & $2 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{\nicefrac{1}{3}}$                           & $3 * \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{4}$ &  $P$               \\
+  $x_8$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    &  $P$              
+  \end{tabular}
+  \caption{Distance weighting for each observation}
+  \label{tab:my-table-1}
+  \end{table}
+  
   We'll have, given the data gathered above, the following confusion matrix:
 
   \begin{figure}[H]
@@ -99,8 +129,10 @@
   recall will, therefore, be:
 
   $$
-  \frac{TP}{TP + FN} = \frac{1}{1 + 3} = \frac{1}{4} = 0.25
+  \frac{TP}{TP + FN} = \frac{2}{2 + 2} = \frac{2}{4} = 0.5
   $$
+
+  \pagebreak
 
   \item \textbf{Considering the nine training observations, learn a Bayesian classifier assuming:
   i) $y_1$ and $y_2$ are dependent, ii) $\{y_1 , y_2\}$ and $\{y_3 \}$ variable sets are
@@ -144,6 +176,8 @@
 
   By also looking at the given training set (which includes the new, ninth sample), we'll be able
   to extrapolate the following probabilities:
+
+  \pagebreak
 
   \begin{multicols}{2}
     \setlength{\columnseprule}{1pt}
@@ -210,9 +244,36 @@
     \label{tab:my-table-2}
   \end{table}
 
+  \pagebreak
+
   \item \textbf{Under a MAP assumption, compute $P(Positive | x)$ of each testing observation.}
 
-  Under the MAP (\textit{maximum a posteriori}) assumption, 
+  Under the MAP (\textit{maximum a posteriori}) assumption, we can assert that $x$'s probability
+  is irrelevant for the posterior's computation. Thus, we can compute the posterior as follows:
+
+  $$
+  P(Positive | x) = P(x | Positive) P(Positive)
+  $$
+
+  For each observation, we'll then be able to assert that:
+
+  $$
+  \begin{aligned}
+    P(Positive | x_1) &= P(x_1 | Positive) P(Positive) \\
+    &= P(x_2 | Positive) P(Positive) \\
+    &= P(x_3 | Positive) P(Positive) \\
+    &= P(x_4 | Positive) P(Positive) \\
+    &= P(x_8 | Positive) P(Positive) \\
+    &= P(x_9 | Positive) P(Positive) \\
+    &= \frac{1}{5} \times \frac{5}{9} \\
+    &= \frac{1}{9} \\
+  \end{aligned}
+  $$
+
+  The other probabilities ($x \in \{x_5, x_6, x_7\}: P(Positive | x)$) have a value of $0$, since
+  there are not observations with their given set of features labeled as positive in the given training set.
+
+  \pagebreak
 
   \item \textbf{Given a binary class variable, the default decision threshold of $\theta = 0.5$,
     $$
