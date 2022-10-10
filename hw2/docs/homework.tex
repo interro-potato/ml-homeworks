@@ -248,30 +248,81 @@
 
   \item \textbf{Under a MAP assumption, compute $P(Positive | x)$ of each testing observation.}
 
-  Under the MAP (\textit{maximum a posteriori}) assumption, we can assert that $x$'s probability
-  is irrelevant for the posterior's computation. Thus, we can compute the posterior as follows:
+  Considering Bayes' theorem, we know $P(Positive | x)$ can also be written as follows:
 
   $$
-  P(Positive | x) = P(x | Positive) P(Positive)
+  P(Positive | x) = \frac{P(x| Positive) P(Positive)}{P(x)}
   $$
 
-  For each observation, we'll then be able to assert that:
+  Since $x$ has two independent variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, we'll be
+  able to write the above expression as follows (note that $x$'s $y_1$ value will
+  be written as $y_1$, for simplicity's sake):
 
   $$
-  \begin{aligned}
-    P(Positive | x_1) &= P(x_1 | Positive) P(Positive) \\
-    &= P(x_2 | Positive) P(Positive) \\
-    &= P(x_3 | Positive) P(Positive) \\
-    &= P(x_4 | Positive) P(Positive) \\
-    &= P(x_8 | Positive) P(Positive) \\
-    &= P(x_9 | Positive) P(Positive) \\
-    &= \frac{1}{5} \times \frac{5}{9} \\
-    &= \frac{1}{9} \\
-  \end{aligned}
+  P(Positive | x) = \frac{P(y_1, y_2| Positive) P(y_3| Positive) P(Positive)}{P(x)}
   $$
 
-  The other probabilities ($x \in \{x_5, x_6, x_7\}: P(Positive | x)$) have a value of $0$, since
-  there are not observations with their given set of features labeled as positive in the given training set.
+  Let's consider the three samples given in the question's statement:
+
+  $$
+    x_1' = \begin{pmatrix}
+      A \\
+      1 \\
+      0.8
+    \end{pmatrix}, \quad
+    x_2' = \begin{pmatrix}
+      B \\
+      1 \\
+      1
+    \end{pmatrix}, \quad
+    x_3' = \begin{pmatrix}
+      B \\
+      0 \\
+      0.9
+    \end{pmatrix}
+  $$
+
+  Considering the training observations, we can gather that there are:
+
+  \begin{multicols}{3}
+    \setlength{\columnseprule}{1pt}
+    \def\columnseprulecolor{\color{black}}
+    \centering
+
+    $x_1'$
+
+    Among all (five) positive training samples, one with features $y_1 = A, y_2 = 1$,
+    two with feature $y_3 = 0.8$.
+    Among all (nine) training samples, two with features $y_1 = A, y_2 = 1$, three
+    with feature $y_3 = 0.8$.
+
+    \columnbreak
+
+    $x_2'$
+
+    Among all (five) positive training samples, one with features $y_1 = B, y_2 = 1$,
+    zero with feature $y_3 = 1$.
+    Among all (nine) training samples, two with features $y_1 = B, y_2 = 1$, one
+    with feature $y_3 = 1$.
+
+    \columnbreak
+
+    $x_3'$
+
+    Among all (five) positive training samples, one with features $y_1 = B, y_2 = 0$,
+    one with feature $y_3 = 0.9$.
+    Among all (nine) training samples, three with features $y_1 = B, y_2 = 0$, two
+    with feature $y_3 = 0.9$.
+
+  \end{multicols}
+
+  We can, therefore, assert that:
+
+  \begin{align*}
+    P(Positive | x_1') &= \frac{\nicefrac{1}{5} \times \nicefrac{2}{5} \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times \nicefrac{3}{9}} = 0.6 \\
+    P(Positive | x_2') &= \frac{\nicefrac{1}{5} \times 0 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times \nicefrac{1}{9}} = 0 \\
+    P(Positive | x_3') &= \frac{\nicefrac{1}{5} \times \nicefrac{1}{5} \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times \nicefrac{2}{9}} = 0.3
+  \end{align*}
 
   \pagebreak
 
