@@ -256,10 +256,10 @@
 
   Since $x$ has two independent variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, we'll be
   able to write the above expression as follows (note that $x$'s $y_1$ value will
-  be written as $y_1$, for simplicity's sake):
+  be written as $y_1$, and so on, for simplicity's sake):
 
   $$
-  P(Positive | x) = \frac{P(y_1, y_2| Positive) P(y_3| Positive) P(Positive)}{P(x)}
+  P(Positive | x) = \frac{P(y_1, y_2| Positive) P(y_3| Positive) P(Positive)}{P(y_1, y_2) P(y_3)}
   $$
 
   Let's consider the three samples given in the question's statement:
@@ -311,17 +311,67 @@
 
     Among all (five) positive training samples, one with features $y_1 = B, y_2 = 0$,
     one with feature $y_3 = 0.9$.
-    Among all (nine) training samples, three with features $y_1 = B, y_2 = 0$, two
-    with feature $y_3 = 0.9$.
+    Among all (nine) training samples, three with features $y_1 = B, y_2 = 0$,
+    two with feature $y_3 = 0.9$.
+
+  \end{multicols}
+
+  Note, of course, that the probabilities regarding $y_1$ and $y_2$ features may
+  be calculated in a discrete manner, directly utilizing the values gathered above.
+  The same can't be said for $y_3$ with it being normally distributed:
+  we'll need to calculate the parameters for it (note that Positive parameters were computed in the
+  previous question), and only then will we be able to calculate the needed probabilities regarding
+  these samples' $y_3$ values:
+
+  \begin{align}
+    \mu_{y_3, Positive} = 0.84, \quad \mu_{y_3, All} = \frac{(1.2 + 0.8 + \cdots + 0.8)}{9} = 0.9 \\
+    \sigma_{y_3, Positive} = 0.063, \quad \sigma_{y_3, All} = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
+  \end{align}
+
+  \begin{multicols}{3}
+    \setlength{\columnseprule}{1pt}
+    \def\columnseprulecolor{\color{black}}
+    \centering
+
+    $x_1'$
+
+    $$
+    \begin{aligned}
+      &P(y_3 = 0.8 | P) = 0.56331, \\
+      &P(y_3 = 0.8) = 0.67682
+    \end{aligned}
+    $$
+
+    \columnbreak
+
+    $x_2'$
+
+    $$
+    \begin{aligned}
+      &P(y_3 = 1 | P) = 0.26191, \\
+      &P(y_3 = 1) = 0.32318
+    \end{aligned}
+    $$
+
+    \columnbreak
+
+    $x_3'$
+
+    $$
+    \begin{aligned}
+      &P(y_3 = 0.9 | P) = 0.40554, \\
+      &P(y_3 = 0.9) = 0.5
+    \end{aligned}
+    $$
 
   \end{multicols}
 
   We can, therefore, assert that:
 
   \begin{align*}
-    P(Positive | x_1') &= \frac{\nicefrac{1}{5} \times \nicefrac{2}{5} \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times \nicefrac{3}{9}} = 0.6 \\
-    P(Positive | x_2') &= \frac{\nicefrac{1}{5} \times 0 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times \nicefrac{1}{9}} = 0 \\
-    P(Positive | x_3') &= \frac{\nicefrac{1}{5} \times \nicefrac{1}{5} \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times \nicefrac{2}{9}} = 0.3
+    P(Positive | x_1') &= \frac{\nicefrac{1}{5} \times 0.56331 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 0.67682} = 0.416 \\
+    P(Positive | x_2') &= \frac{\nicefrac{1}{5} \times 0.26191 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 0.32318} = 0.405 \\
+    P(Positive | x_3') &= \frac{\nicefrac{1}{5} \times 0.40554 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 0.5} = 0.06759
   \end{align*}
 
   \pagebreak
