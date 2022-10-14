@@ -139,7 +139,7 @@
   independent and equally important, and iii) $y_3$ is normally distributed. Show all parameters.}
 
   Considering both variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, to be independent and equally important,
-  it'll make sense to train a Naive Bayes classifier here, such that (and utilizing the
+  it'll make sense to train a Naive Bayes classifier here, such that (and utilizing
   Bayes' theorem):
 
   $$
@@ -221,8 +221,6 @@
   The model is now ready to be used to classify new observations. Applying the model to
   the nine training observations, we'll have the following results:
 
-  % Please add the following required packages to your document preamble:
-% \usepackage{graphicx}
   \begin{table}[h]
     \centering
     \renewcommand{\arraystretch}{1.35} % row spacing
@@ -240,7 +238,7 @@
       $x_9$ & $B$   & $0$   & $0.8$ & $P$   & $\frac{4}{9} \times \frac{1}{2} \times 0.15206$      & $\frac{5}{9} \times \frac{1}{5} \times 0.43669$      & $P$             & $FP$    
     \end{tabular}%
     }
-    \caption{Classification results}
+    \caption{Classification vs Real results}
     \label{tab:my-table-2}
   \end{table}
 
@@ -421,10 +419,19 @@
 
 \center\large{\textbf{Part II}: Programming}
 
+The code utilized in order to answer this section's first two questions answers
+can be found in this report's appendix. There's both a "general" code section,
+which can be found initially, and two functions, \texttt{first} and \texttt{second},
+utilized to answer the respective questions - the first to plot the confusion matrices,
+while the second to test the given hypothesis.
+
 \begin{enumerate}[leftmargin=\labelsep,resume]
   \item \textbf{Using \texttt{sklearn}, considering a 10-fold stratified cross validation (\texttt{random=0}), plot the cumulative
   testing confusion matrices of $k$NN (uniform weights, $k = 5$, Euclidean distance) and Naïve Bayes
   (Gaussian assumption). Use all remaining classifier parameters as default.}
+
+  We ended up utilizing \texttt{seaborn}'s \texttt{heatmap} function to plot the
+  required confusion matrices side-by-side.
 
   \begin{figure}[h]
     \centering
@@ -433,14 +440,41 @@
     \label{fig:fig1}
   \end{figure}
 
-  The code utilized for this and the next question's answers can be found in this
-  report's appendix.
+  \pagebreak
 
   \item \textbf{Using \texttt{scipy}, test the hypothesis “$k$NN is statistically superior to Naïve Bayes regarding
   accuracy”, asserting whether is true.}
+
+  \texttt{scipy.stats} provides the \texttt{ttest\_rel} function, which can be utilized
+  to test a hypothesis given two related samples - here, both $kNN$'s and Naïve Bayes'
+  scores are inherently related, since we're working with the same dataset on both
+  classifiers, hence we can use this function to test the hypothesis.
   
+  We opted to utilize it with a \texttt{alternative = 'greater'} parameter, since
+  we're interested in testing whether $kNN$'s accuracy is statistically superior
+  to Naïve Bayes' accuracy, and not the other way around - as such, a "right-tailed"
+  test is more appropriate.
+  The considered hypotheses are, therefore:
+
+  \begin{itemize}
+    \item $H_0$: $kNN$'s accuracy is statistically equal to Naïve Bayes'
+    \item $H_1$: $kNN$'s accuracy is statistically superior to Naïve Bayes'
+  \end{itemize}
+
+  As a side-note, we've considered, in absence of a given confidence level in the
+  question's statement, a confidence level of $1 - \alpha = 0.95$.
+  After performing the test, we obtained a \textit{p-value} of $\approx 0.9104$ and
+  a \textit{t-statistic} of $\approx -1.457$, which leads us to assert that, given
+  $\alpha = 0.05$, we cannot reject the null hypothesis: we can't, therefore,
+  assert whether $kNN$'s accuracy is statistically superior to Naïve Bayes'.
+   
   \item \textbf{Enumerate three possible reasons that could underlie the observed differences in predictive
   accuracy between $k$NN and Naïve Bayes.}
+
+  Note: the \href{https://fenix.tecnico.ulisboa.pt/disciplinas/Apre2/2022-2023/1-semestre/homeworks}{homework's FAQ}
+  states that the answer could state as low as two reasons, even though the original
+  question's statement states three. We opted to answer the question as stated in
+  the FAQ.
   
 \end{enumerate}
 
