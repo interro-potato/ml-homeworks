@@ -322,8 +322,8 @@
   these samples' $y_3$ values:
 
   \begin{align}
-    \mu_{y_3, Positive} = 0.84, \quad \mu_{y_3, All} = \frac{(1.2 + 0.8 + \cdots + 0.8)}{9} = 0.9 \\
-    \sigma_{y_3, Positive}^2 = 0.063, \quad \sigma_{y_3, All}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
+    \mu_{y_3, Positive} = 0.84, \quad \mu_{y_3} = \frac{(1.2 + 0.8 + \cdots + 0.8)}{9} = 0.9 \\
+    \sigma_{y_3, Positive}^2 = 0.063, \quad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
   \end{align}
 
   \begin{multicols}{3}
@@ -440,10 +440,14 @@ while the second to test the given hypothesis.
     \label{fig:fig1}
   \end{figure}
 
+  As a relevant note, we opted to \textbf{normalize} our data, utilizing \texttt{sklearn}'s
+  \texttt{StandardScaler}, in order to avoid overfitting the data (even more so while
+  having relatively small training and testing sample subsets).
+
   \pagebreak
 
   \item \textbf{Using \texttt{scipy}, test the hypothesis “$k$NN is statistically superior to Naïve Bayes regarding
-  accuracy”, asserting whether is true.}
+  accuracy”, asserting whether it is true.}
 
   \texttt{scipy.stats} provides the \texttt{ttest\_rel} function, which can be utilized
   to test a hypothesis given two related samples - here, both $kNN$'s and Naïve Bayes'
@@ -463,23 +467,48 @@ while the second to test the given hypothesis.
 
   As a side-note, we've considered, in absence of a given confidence level in the
   question's statement, a confidence level of $1 - \alpha = 0.95$.
-  After performing the test, we obtained a \textit{p-value} of $\approx 0.9104$ and
-  a \textit{t-statistic} of $\approx -1.457$, which leads us to assert that, given
-  $\alpha = 0.05$, we cannot reject the null hypothesis: we can't, therefore,
-  assert whether $kNN$'s accuracy is statistically superior to Naïve Bayes'.
+  After performing the test, we obtained a \textit{p-value} of $\approx 0.0013168$ and
+  a \textit{t-statistic} of $\approx 4.1109$, which leads us to assert that, given
+  $\alpha = 0.05$, we should reject the null hypothesis and accept the alternative
+  one - $kNN$'s accuracy is statistically superior to Naïve Bayes' accuracy.
 
   \pagebreak
    
   \item \textbf{Enumerate three possible reasons that could underlie the observed differences in predictive
   accuracy between $k$NN and Naïve Bayes.}
 
-  Note: the \href{https://fenix.tecnico.ulisboa.pt/disciplinas/Apre2/2022-2023/1-semestre/homeworks}{homework's FAQ}
-  states that the answer could state as low as two reasons, even though the original
-  question's statement states three. We opted to answer the question as stated in
-  the FAQ.
+  \textit{Note: the \href{https://fenix.tecnico.ulisboa.pt/disciplinas/Apre2/2022-2023/1-semestre/homeworks}{homework's FAQ}
+  states that the answer could mention as low as two reasons, even though the original
+  question's statement asks for three. We opted to answer the question as stated in
+  the FAQ.}
 
-  TODO: add text
-  
+  \vspace*{0.5cm}
+
+  In the previous question, we were able to assert that, regarding accuracy, $kNN$ is
+  indeed statistically superior to Naïve Bayes. There are a couple of reasons
+  that could underlie this observation:
+
+  \begin{itemize}
+    \item \textbf{Naïve Bayes' assumption of independence between features.}
+    
+    Naïve Bayes' assumption of independence between features is, in fact, a very
+    strong assumption, which is not always true - more so in a relatively small dataset
+    with a relatively large amount of features, such as the one we're working with.
+    As such, Naïve Bayes' assumption of independence between features could be
+    detrimental to its accuracy, since it could lead to a loss of information
+    regarding the dataset's features.
+
+    \item \textbf{Unknown distribution of the dataset's features.}
+    
+    Naïve Bayes' assumption of Gaussian distribution of the dataset's features
+    is, again, a very strong assumption, which is not always true - once again,
+    even more prevalent in a relatively small dataset with a relatively large
+    amount of features, such as this one. As such, by assuming a Gaussian distribution
+    for \textbf{all} of the dataset's features, Naïve Bayes is very likely to
+    underfit the dataset, since it's not taking into account the dataset's
+    features' distributions, which could be very different from a Gaussian one.
+  \end{itemize}
+
 \end{enumerate}
 
 \pagebreak

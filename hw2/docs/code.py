@@ -9,6 +9,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
 from scipy.io.arff import loadarff
 from scipy.stats import ttest_rel
+from sklearn.preprocessing import StandardScaler
 
 # Load data
 data = loadarff('data/pd_speech.arff')
@@ -34,6 +35,11 @@ nb_scores = np.array([])
 for train_index, test_index in skf.split(X, y):
   X_train, X_test = X.iloc[train_index], X.iloc[test_index]
   y_train, y_test = y.iloc[train_index], y.iloc[test_index]
+
+  # Normalize data
+  scaler = StandardScaler().fit(X_train)
+  X_train = scaler.transform(X_train)
+  X_test = scaler.transform(X_test)
 
   knn.fit(X_train, y_train)
   nb.fit(X_train, y_train)
