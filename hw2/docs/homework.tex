@@ -12,6 +12,7 @@
 \usepackage{float}
 \usepackage{multicol}
 \usepackage{nicefrac}
+\usepackage{ragged2e}
 \usepackage[autostyle]{csquotes}
 \usepackage[colorlinks=true]{hyperref}
 
@@ -59,7 +60,7 @@
           $d(x_1, x_2) = \operatorname{Hamming(x_1, x_2)} + \frac{1}{2}$ using leave-one-out
           evaluation schema (i.e., when classifying one observation, use all remaining ones).}
 
-        For starters, it's worth noting that, in this context, the \textbf{Hamming distance} between two
+        For starters, it is worth noting that, in this context, the \textbf{Hamming distance} between two
         observations $x_1$ and $x_2$ is defined as the number of attributes that differ between them.
 
         Knowing this, we can now create an $8 \times 8$ matrix (as can be seen below), where each entry
@@ -131,7 +132,7 @@
         recall will, therefore, be:
 
         $$
-          \frac{TP}{TP + FN} = \frac{2}{2 + 2} = \frac{2}{4} = 0.5
+          R = \frac{TP}{TP + FN} = \frac{2}{2 + 2} = \frac{2}{4} = 0.5
         $$
 
         \pagebreak
@@ -141,7 +142,7 @@
           independent and equally important, and iii) $y_3$ is normally distributed. Show all parameters.}
 
         Considering both variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, to be independent and equally important,
-        it'll make sense to train a Naive Bayes classifier here, such that (and utilizing
+        it'll make sense to train a Naïve Bayes classifier here, such that (and utilizing
         Bayes' theorem):
 
         $$
@@ -156,7 +157,7 @@
         $$
 
         A Bayesian classifier's goal here will be to maximize the numerator of the above equation,
-        since we'll want to find the "maximum posterior hypothesis" (i.e $P(C = ^N_P)$, here), and
+        since we'll want to find the "maximum posterior hypothesis" (i.e., $P(C = ^N_P)$, here), and
         such a maximization will be independent of $P(y_1, y_2, y_3)$. As such, we know that
         we'll be looking for the following:
 
@@ -245,7 +246,7 @@
         Considering Bayes' theorem, we know $P(Positive | x)$ can also be written as follows:
 
         $$
-          P(Positive | x) = \frac{P(x| Positive) P(Positive)}{P(x)}
+          P(Positive | x) = \frac{P(x | Positive) P(Positive)}{P(x)}
         $$
 
         Since $x$ has two independent variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, we'll be
@@ -253,10 +254,10 @@
         be written as $y_1$, and so on, for simplicity's sake):
 
         $$
-          P(Positive | x) = \frac{P(y_1, y_2| Positive) P(y_3| Positive) P(Positive)}{P(y_1, y_2) P(y_3)}
+          P(Positive | x) = \frac{P(y_1, y_2 | Positive) P(y_3 | Positive) P(Positive)}{P(y_1, y_2) P(y_3)}
         $$
 
-        Let's consider the three samples given in the question's statement:
+        Let us consider the three samples given in the question's statement:
 
         $$
           x_1' = \begin{pmatrix}
@@ -314,22 +315,46 @@
         \end{multicols}
 
         Note, of course, that the probabilities regarding $y_1$ and $y_2$ features may
-        be calculated in a discrete manner, directly utilizing the values gathered above.
-        The same can't be said for $y_3$ with it being normally distributed:
+        be calculated in a discrete manner, directly utilizing the values gathered above:
+
+        \begin{multicols}{3}
+          \setlength{\columnseprule}{1pt}
+          \def\columnseprulecolor{\color{black}}
+          
+          $P(y_1 = A, y_2 = 1 | P) = \nicefrac{1}{5}$ \\
+          $P(y_1 = A, y_2 = 1) = \nicefrac{2}{9}$
+
+          \columnbreak
+
+          $P(y_1 = B, y_2 = 0 | P) = \nicefrac{1}{5}$ \\
+          $P(y_1 = B, y_2 = 0) = \nicefrac{2}{9}$
+
+          \columnbreak
+
+          $P(y_1 = B, y_2 = 1 | P) = \nicefrac{1}{5}$ \\
+          $P(y_1 = B, y_2 = 1) = \nicefrac{3}{9}$
+
+        \end{multicols}
+
+        \pagebreak
+
+        The same cannot be said, for $y_3$, however, with it being normally distributed:
         we'll need to calculate the parameters for it (note that Positive parameters were computed in the
         previous question), and only then will we be able to calculate the needed probabilities regarding
         these samples' $y_3$ values:
 
-        \begin{align}
-          \mu_{y_3, Positive} = 0.84, \quad \mu_{y_3} = \frac{(1.2 + 0.8 + \cdots + 0.8)}{9} = 0.9 \\
-          \sigma_{y_3, Positive}^2 = 0.063, \quad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
-        \end{align}
+        $$
+        \begin{aligned}
+          &\mu_{y_3, Positive} = 0.84 & & \qquad \mu_{y_3} = \frac{1.2 + 0.8 + \cdots + 1.2 + 0.8}{9} = 0.9 \\
+          &\sigma_{y_3, Positive}^2 = 0.063 & & \qquad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
+        \end{aligned}
+        $$
 
-        With $y_3$ being normally distributed, we can calculate both $P(y_3| Positive)$ and $P(y_3)$
+        With $y_3$ being normally distributed, we can calculate both $P(y_3 | Positive)$ and $P(y_3)$
         using the following formulas:
 
         $$
-          P(y_3| Positive) = \frac{1}{\sqrt{2 \pi \sigma_{y_3, Positive}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3, Positive})^2}{2 \sigma_{y_3, Positive}^2} \right)
+          P(y_3 | Positive) = \frac{1}{\sqrt{2 \pi \sigma_{y_3, Positive}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3, Positive})^2}{2 \sigma_{y_3, Positive}^2} \right)
         $$
 
         $$
@@ -341,34 +366,34 @@
           \def\columnseprulecolor{\color{black}}
           \centering
 
-          $x_1'$
+          $\mathbf{x_1'}$
 
           $$
             \begin{aligned}
-               & P(y_3 = 0.8 | P) \approx 1.569, \\
+               & P(y_3 = 0.8 | P) \approx 1.5694, \\
                & P(y_3 = 0.8) \approx 1.6476
             \end{aligned}
           $$
 
           \columnbreak
 
-          $x_2'$
+          $\mathbf{x_2'}$
 
           $$
             \begin{aligned}
-               & P(y_3 = 1 | P) = 1.2972, \\
-               & P(y_3 = 1) = 1.6476
+               & P(y_3 = 1 | P) \approx 1.2972, \\
+               & P(y_3 = 1) \approx 1.6476
             \end{aligned}
           $$
 
           \columnbreak
 
-          $x_3'$
+          $\mathbf{x_3'}$
 
           $$
             \begin{aligned}
-               & P(y_3 = 0.9 | P) = 1.5447, \\
-               & P(y_3 = 0.9) = 1.8305
+               & P(y_3 = 0.9 | P) \approx 1.5447, \\
+               & P(y_3 = 0.9) \approx 1.8305
             \end{aligned}
           $$
 
@@ -377,9 +402,9 @@
         We can, therefore, assert that:
 
         \begin{align*}
-          P(Positive | x_1') & = \frac{\nicefrac{1}{5} \times 1.569 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} = 0.4763  \\
-          P(Positive | x_2') & = \frac{\nicefrac{1}{5} \times 1.2972 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} = 0.3937 \\
-          P(Positive | x_3') & = \frac{\nicefrac{1}{5} \times 1.5447 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 1.8305} = 0.2813
+          P(Positive | x_1') & = \frac{\nicefrac{1}{5} \times 1.5694 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \approx 0.4763  \\
+          P(Positive | x_2') & = \frac{\nicefrac{1}{5} \times 1.2972 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \approx 0.3937 \\
+          P(Positive | x_3') & = \frac{\nicefrac{1}{5} \times 1.5447 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 1.8305} \approx 0.2813
         \end{align*}
 
         \pagebreak
@@ -387,7 +412,7 @@
   \item \textbf{Given a binary class variable, the default decision threshold of $\theta = 0.5$,
           $$
             f(x | \theta) = \begin{cases}
-              Positive & \text{if } P(positive | x) > \theta \\
+              Positive & \text{if } P(Positive | x) > \theta \\
               Negative & otherwise
             \end{cases}
           $$
@@ -429,11 +454,13 @@
 
 \center\large{\textbf{Part II}: Programming}
 
+\begin{justify}
 The code utilized in order to answer this section's first two questions answers
 can be found in this report's appendix. There's both a "general" code section,
 which can be found initially, and two functions, \texttt{first} and \texttt{second},
 utilized to answer the respective questions - the first to plot the confusion matrices,
 while the second to test the given hypothesis.
+\end{justify}
 
 \begin{enumerate}[leftmargin=\labelsep,resume]
   \item \textbf{Using \texttt{sklearn}, considering a 10-fold stratified cross validation (\texttt{random=0}), plot the cumulative
@@ -516,7 +543,7 @@ while the second to test the given hypothesis.
                 even more prevalent in a relatively small dataset with a relatively large
                 amount of features, such as this one. As such, by assuming a Gaussian distribution
                 for \textbf{all} of the dataset's features, Naïve Bayes is very likely to
-                underfit the dataset, since it's not taking into account the dataset's
+                underfit the dataset, since it is not taking into account the dataset's
                 features' distributions, which could be very different from a Gaussian one.
         \end{itemize}
 
