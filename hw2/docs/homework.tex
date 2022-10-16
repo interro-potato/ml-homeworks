@@ -199,6 +199,14 @@
     \sigma^2 = \frac{1}{4 - 1} \sum_{i = 1}^4 (y_{3, i} - \mu)^2 = 0.029
     $$
 
+    Therefore:
+
+    \vspace{-0.6cm}
+
+    $$
+    P(y_3 | \textcolor{purple}{C = N}) \sim \mathcal{N}(x | 0.975, 0.029)
+    $$
+
     \columnbreak
     $\textcolor{teal}{C = P}: P(\textcolor{teal}{C = P}) = \frac{5}{9}$
     \begin{itemize}
@@ -216,31 +224,17 @@
     \sigma^2 = \frac{1}{5 - 1} \sum_{i = 1}^5 (y_{3, i} - \mu)^2 = 0.063
     $$
 
+    Therefore:
+
+    \vspace{-0.6cm}
+
+    $$
+    P(y_3 | \textcolor{teal}{C = P}) \sim \mathcal{N}(x | 0.84, 0.063)
+    $$
+
   \end{multicols}
 
-  The model is now ready to be used to classify new observations. Applying the model to
-  the nine training observations, we'll have the following results:
-
-  \begin{table}[h]
-    \centering
-    \renewcommand{\arraystretch}{1.35} % row spacing
-    \resizebox{\columnwidth}{!}{%
-    \begin{tabular}{c|c|c|c|c|c|c|c|c}
-        & $y_1$ & $y_2$ & $y_3$ & Class & $P(\textcolor{purple}{C = N}) P(y_1, y_2, y_3 \mid \textcolor{purple}{C = N})$ & $P(\textcolor{teal}{C = P}) P(y_1, y_2, y_3 \mid \textcolor{teal}{C = P})$ & Predicted Class & Veredict \\
-      $x_1$ & $A$   & $0$   & $1.2$ & $P$   & $0$                                    & $\frac{5}{9} \times \frac{2}{5} \times 0.4913$      & $P$             & $TP$     \\
-      $x_2$ & $B$   & $1$   & $0.8$ & $P$   & $\frac{4}{9} \times \frac{1}{4} \times 1.339$      & $\frac{5}{9} \times \frac{1}{5} \times 1.749$      & $P$             & $TP$     \\
-      $x_3$ & $A$   & $1$   & $0.5$ & $P$   & $\frac{4}{9} \times \frac{1}{4} \times 0.0155$      & $\frac{5}{9} \times \frac{1}{5} \times 0.564$      & $P$             & $TP$     \\
-      $x_4$ & $A$   & $0$   & $0.9$ & $P$   & $0$                                    & $\frac{5}{9} \times \frac{2}{5} \times 1.714$      & $P$             & $TP$     \\
-      $x_5$ & $B$   & $0$   & $1$   & $N$   & $\frac{4}{9} \times \frac{1}{2} \times 2.659$      & $\frac{5}{9} \times \frac{1}{5} \times 1.378$      & $N$             & $TN$     \\
-      $x_6$ & $A$   & $0$   & $0.9$ & $N$   & $\frac{4}{9} \times \frac{1}{2} \times 2.3719$      & $\frac{5}{9} \times \frac{1}{5} \times 1.714$      & $N$             & $TN$     \\
-      $x_7$ & $B$   & $1$   & $1.2$ & $N$   & $\frac{4}{9} \times \frac{1}{4} \times 0.848$       & $\frac{5}{9} \times \frac{1}{5} \times 0.4913$      & $N$             & $TN$     \\
-      $x_8$ & $B$   & $1$   & $0.8$ & $N$   & $\frac{4}{9} \times \frac{1}{4} \times 1.339$      & $\frac{5}{9} \times \frac{1}{5} \times 1.749$      & $P$             & $FP$     \\
-      $x_9$ & $B$   & $0$   & $0.8$ & $P$   & $\frac{4}{9} \times \frac{1}{2} \times 1.339$      & $\frac{5}{9} \times \frac{1}{5} \times 1.749$      & $P$             & $TP$    
-    \end{tabular}%
-    }
-    \caption{Classification vs Real results}
-    \label{tab:my-table-2}
-  \end{table}
+  The model is now ready to be used to classify new observations.
 
   \pagebreak
 
@@ -368,8 +362,8 @@
 
     $$
     \begin{aligned}
-      &P(y_3 = 0.9 | P) = 1.8305, \\
-      &P(y_3 = 0.9) = 1.5447
+      &P(y_3 = 0.9 | P) = 1.5447, \\
+      &P(y_3 = 0.9) = 1.8305
     \end{aligned}
     $$
 
