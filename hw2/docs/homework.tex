@@ -54,369 +54,369 @@
 \begin{enumerate}[leftmargin=\labelsep]
 
   \item \textbf{Compute the recall of a distance-weighted $k$NN with $k=5$ and distance
-  $d(x_1, x_2) = \operatorname{Hamming(x_1, x_2)} + \frac{1}{2}$ using leave-one-out
-  evaluation schema (i.e., when classifying one observation, use all remaining ones).}
+          $d(x_1, x_2) = \operatorname{Hamming(x_1, x_2)} + \frac{1}{2}$ using leave-one-out
+          evaluation schema (i.e., when classifying one observation, use all remaining ones).}
 
-  For starters, it's worth noting that, in this context, the \textbf{Hamming distance} between two
-  observations $x_1$ and $x_2$ is defined as the number of attributes that differ between them.
+        For starters, it's worth noting that, in this context, the \textbf{Hamming distance} between two
+        observations $x_1$ and $x_2$ is defined as the number of attributes that differ between them.
 
-  Knowing this, we can now create an $8 \times 8$ matrix (as can be seen below), where each entry
-  represents the Hamming distance ($+ \frac{1}{2}$) between two observations. This matrix is symmetric, of course.
-  Each column $i$, here, will have $8 - 1 = 7$ associated entries, each representing the distance $d$
-  between the observation $x_i$ and the remaining $7$ observations: we will, then,
-  pick the $k = 5$ nearest neighbors according to said distance, classifying $x_i$
-  in a \textbf{distance-weighted} manner.
+        Knowing this, we can now create an $8 \times 8$ matrix (as can be seen below), where each entry
+        represents the Hamming distance ($+ \frac{1}{2}$) between two observations. This matrix is symmetric, of course.
+        Each column $i$, here, will have $8 - 1 = 7$ associated entries, each representing the distance $d$
+        between the observation $x_i$ and the remaining $7$ observations: we will, then,
+        pick the $k = 5$ nearest neighbors according to said distance, classifying $x_i$
+        in a \textbf{distance-weighted} manner.
 
-  \begin{table}[h]
-    \setlength{\tabcolsep}{5pt} % column spacing
-    \renewcommand{\arraystretch}{1.35} % row spacing
-    \centering
-    \label{tab:my-table}
-    \begin{tabular}{lllllllll}
-          & $x_1$                           & $x_2$                           & $x_3$                           & $x_4$                           & $x_5$                           & $x_6$                           & $x_7$                           & $x_8$                           \\
-    $x_1$ & $\times$                        & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   \\
-    $x_2$ & $\nicefrac{5}{2}$                   & $\times$                        & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{1}{2}}$ \\
-    $x_3$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\times$                        & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ \\
-    $x_4$ & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\times$                        & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   \\
-    $x_5$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\times$                        & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ \\
-    $x_6$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\times$                        & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ \\
-    $x_7$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\nicefrac{5}{2}$                   & $\times$                        & $\textcolor{teal}{\nicefrac{3}{2}}$ \\
-    $x_8$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\times$                       
-    \end{tabular}
-    \caption{Distance $d$ between observations - in teal, a given observation's $k$ nearest neighbors}
-  \end{table}
+        \begin{table}[h]
+          \setlength{\tabcolsep}{5pt} % column spacing
+          \renewcommand{\arraystretch}{1.35} % row spacing
+          \centering
+          \label{tab:my-table}
+          \begin{tabular}{lllllllll}
+                  & $x_1$                               & $x_2$                               & $x_3$                               & $x_4$                               & $x_5$                               & $x_6$                               & $x_7$                               & $x_8$                               \\
+            $x_1$ & $\times$                            & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   \\
+            $x_2$ & $\nicefrac{5}{2}$                   & $\times$                            & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{1}{2}}$ \\
+            $x_3$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\times$                            & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ \\
+            $x_4$ & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\times$                            & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   \\
+            $x_5$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\times$                            & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ \\
+            $x_6$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\times$                            & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ \\
+            $x_7$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\nicefrac{5}{2}$                   & $\times$                            & $\textcolor{teal}{\nicefrac{3}{2}}$ \\
+            $x_8$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{1}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\nicefrac{5}{2}$                   & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\textcolor{teal}{\nicefrac{3}{2}}$ & $\times$
+          \end{tabular}
+          \caption{Distance $d$ between observations - in teal, a given observation's $k$ nearest neighbors}
+        \end{table}
 
-  For each observation $x_i$, the $k$ nearest neighbors are, therefore, the ones represented in
-  teal in the table above. Instead of predicting a class given the neighbors' mode,
-  we'll want to choose it in a distance-weighted manner here: this means that, for each
-  observation $x_i$, we'll want to compute the \textbf{weighted majority vote} of its $k$ nearest
-  neighbors, where the weight of each neighbor is given by:
+        For each observation $x_i$, the $k$ nearest neighbors are, therefore, the ones represented in
+        teal in the table above. Instead of predicting a class given the neighbors' mode,
+        we'll want to choose it in a distance-weighted manner here: this means that, for each
+        observation $x_i$, we'll want to compute the \textbf{weighted majority vote} of its $k$ nearest
+        neighbors, where the weight of each neighbor is given by:
 
-  $$w_{i, j} = \frac{1}{d(x_i, x_j)}$$
+        $$w_{i, j} = \frac{1}{d(x_i, x_j)}$$
 
-  where $x_j$ is one of the $k$ nearest neighbors of $x_i$. Considering the data gathered up until now,
-  we'll have the following conclusions regarding the model's classification for each instance:
+        where $x_j$ is one of the $k$ nearest neighbors of $x_i$. Considering the data gathered up until now,
+        we'll have the following conclusions regarding the model's classification for each instance:
 
-\begin{table}[h]
-  \centering
-  \renewcommand{\arraystretch}{1.35} % row spacing
-  \begin{tabular}{c|c|c|c}
-        & Weighted distance to $N$                                & Weighted distance to $P$                                & Predicted Class \\
-  $x_1$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    &  $P$               \\
-  $x_2$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{4}$ & $ \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{\nicefrac{2}{3}}$                              &  $N$               \\
-  $x_3$ & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           &  $N$               \\
-  $x_4$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    &  $P$               \\
-  $x_5$ & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           &  $N$               \\
-  $x_6$ & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           &  $N$               \\
-  $x_7$ & $2 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{\nicefrac{1}{3}}$                           & $3 * \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{4}$ &  $P$               \\
-  $x_8$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                           & $ \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$    &  $P$              
-  \end{tabular}
-  \caption{Distance weighting for each observation}
-  \label{tab:my-table-1}
-  \end{table}
-  
-  We'll have, given the data gathered above, the following confusion matrix:
+        \begin{table}[h]
+          \centering
+          \renewcommand{\arraystretch}{1.35} % row spacing
+          \begin{tabular}{c|c|c|c}
+                  & Weighted distance to $N$                                                                                & Weighted distance to $P$                                                                                & Predicted Class \\
+            $x_1$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                                           & $\nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$ & $P$             \\
+            $x_2$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{4}$           & $\nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{\nicefrac{2}{3}}$                                 & $N$             \\
+            $x_3$ & $\nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                                           & $N$             \\
+            $x_4$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                                           & $\nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$ & $P$             \\
+            $x_5$ & $\nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                                           & $N$             \\
+            $x_6$ & $\nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                                           & $N$             \\
+            $x_7$ & $2 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{\nicefrac{1}{3}}$                             & $3 * \nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{4}$           & $P$             \\
+            $x_8$ & $3 * \nicefrac{1}{(\nicefrac{3}{2})} = \textcolor{purple}{2}$                                           & $\nicefrac{1}{(\nicefrac{3}{2})} + \nicefrac{1}{(\nicefrac{1}{2})} = \textcolor{teal}{\nicefrac{8}{3}}$ & $P$
+          \end{tabular}
+          \caption{Distance weighting for each observation}
+          \label{tab:my-table-1}
+        \end{table}
 
-  \begin{figure}[H]
-    \centering
-    \includesvg{../assets/hw2-1.1.svg}
-    \caption{Confusion Matrix}
-  \end{figure}
+        We'll have, given the data gathered above, the following confusion matrix:
 
-  Moreover, the \textbf{recall} of a classifier is defined as the ratio between the number of
-  true positives and the number of true positives plus the number of false negatives that the
-  classifier makes. Looking at the confusion matrix above, we can assert that the associated
-  recall will, therefore, be:
+        \begin{figure}[H]
+          \centering
+          \includesvg{../assets/hw2-1.1.svg}
+          \caption{Confusion Matrix}
+        \end{figure}
 
-  $$
-  \frac{TP}{TP + FN} = \frac{2}{2 + 2} = \frac{2}{4} = 0.5
-  $$
+        Moreover, the \textbf{recall} of a classifier is defined as the ratio between the number of
+        true positives and the number of true positives plus the number of false negatives that the
+        classifier makes. Looking at the confusion matrix above, we can assert that the associated
+        recall will, therefore, be:
 
-  \pagebreak
+        $$
+          \frac{TP}{TP + FN} = \frac{2}{2 + 2} = \frac{2}{4} = 0.5
+        $$
+
+        \pagebreak
 
   \item \textbf{Considering the nine training observations, learn a Bayesian classifier assuming:
-  i) $y_1$ and $y_2$ are dependent, ii) $\{y_1 , y_2\}$ and $\{y_3 \}$ variable sets are
-  independent and equally important, and iii) $y_3$ is normally distributed. Show all parameters.}
+          i) $y_1$ and $y_2$ are dependent, ii) $\{y_1 , y_2\}$ and $\{y_3 \}$ variable sets are
+          independent and equally important, and iii) $y_3$ is normally distributed. Show all parameters.}
 
-  Considering both variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, to be independent and equally important,
-  it'll make sense to train a Naive Bayes classifier here, such that (and utilizing
-  Bayes' theorem):
+        Considering both variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, to be independent and equally important,
+        it'll make sense to train a Naive Bayes classifier here, such that (and utilizing
+        Bayes' theorem):
 
-  $$
-  P(C = ^N_P | y_1, y_2, y_3) = \frac{P(y_1, y_2, y_3 | C = ^N_P) P(C = ^N_P)}{P(y_1, y_2, y_3)}
-  $$
+        $$
+          P(C = ^N_P | y_1, y_2, y_3) = \frac{P(y_1, y_2, y_3 | C = ^N_P) P(C = ^N_P)}{P(y_1, y_2, y_3)}
+        $$
 
-  More so, since $\{y_1, y_2\}$ and $\{y_3\}$ are independent (and $y_1$ and $y_2$ are dependent),
-  we can rewrite the above as:
+        More so, since $\{y_1, y_2\}$ and $\{y_3\}$ are independent (and $y_1$ and $y_2$ are dependent),
+        we can rewrite the above as:
 
-  $$
-  P(C = ^N_P | y_1, y_2, y_3) = \frac{P(y_1, y_2 | C = ^N_P) P(y_3 | C = ^N_P) P(C = ^N_P)}{P(y_1, y_2) P(y_3)}
-  $$
+        $$
+          P(C = ^N_P | y_1, y_2, y_3) = \frac{P(y_1, y_2 | C = ^N_P) P(y_3 | C = ^N_P) P(C = ^N_P)}{P(y_1, y_2) P(y_3)}
+        $$
 
-  A Bayesian classifier's goal here will be to maximize the numerator of the above equation,
-  since we'll want to find the "maximum posterior hypothesis" (i.e $P(C = ^N_P)$, here), and
-  such a maximization will be independent of $P(y_1, y_2, y_3)$. As such, we know that
-  we'll be looking for the following:
+        A Bayesian classifier's goal here will be to maximize the numerator of the above equation,
+        since we'll want to find the "maximum posterior hypothesis" (i.e $P(C = ^N_P)$, here), and
+        such a maximization will be independent of $P(y_1, y_2, y_3)$. As such, we know that
+        we'll be looking for the following:
 
-  $$
-  \operatorname{argmax}_{c \in \{N, P\}} P(y_1, y_2 | C = c) P(y_3 | C = c) P(C = c)
-  $$
+        $$
+          \operatorname{argmax}_{c \in \{N, P\}} P(y_1, y_2 | C = c) P(y_3 | C = c) P(C = c)
+        $$
 
-  For starters, we can note that, from the given training set:
-  
-  $$
-  P(\textcolor{purple}{C = N}) = \frac{4}{9}, \quad P(\textcolor{teal}{C = P}) = \frac{5}{9}
-  $$
+        For starters, we can note that, from the given training set:
 
-  We also know that $y_3$ is normally distributed, meaning we'll have:
+        $$
+          P(\textcolor{purple}{C = N}) = \frac{4}{9}, \quad P(\textcolor{teal}{C = P}) = \frac{5}{9}
+        $$
 
-  $$
-  P(y_3 | C = ^N_P) \sim \mathcal{N}(x | \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( - \frac{(x - \mu)^2}{2 \sigma^2} \right)
-  $$
+        We also know that $y_3$ is normally distributed, meaning we'll have:
 
-  By also looking at the given training set (which includes the new, ninth sample), we'll be able
-  to extrapolate the following probabilities:
+        $$
+          P(y_3 | C = ^N_P) \sim \mathcal{N}(x | \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( - \frac{(x - \mu)^2}{2 \sigma^2} \right)
+        $$
 
-  \pagebreak
+        By also looking at the given training set (which includes the new, ninth sample), we'll be able
+        to extrapolate the following probabilities:
 
-  \begin{multicols}{2}
-    \setlength{\columnseprule}{1pt}
-    \def\columnseprulecolor{\color{black}}
-    \centering
-    $\textcolor{purple}{C = N}: P(\textcolor{purple}{C = N}) = \frac{4}{9}$
-    \begin{itemize}
-      \item $P(y_1 = A, y_2 = 0 | \textcolor{purple}{C = N}) = 0$
-      \item $P(y_1 = A, y_2 = 1 | \textcolor{purple}{C = N}) = \frac{1}{4}$
-      \item $P(y_1 = B, y_2 = 0 | \textcolor{purple}{C = N}) = \frac{2}{4} = \frac{1}{2}$
-      \item $P(y_1 = B, y_2 = 1 | \textcolor{purple}{C = N}) = \frac{1}{4}$
-    \end{itemize}
-    Regarding $y_3$ and $\textcolor{purple}{N}$ labeled observations, we'll have the following parameters:
-    
-    $$
-    \mu = \frac{1 + 0.9 + 1.2 + 0.8}{4} = 0.975
-    $$
-    $$
-    \sigma^2 = \frac{1}{4 - 1} \sum_{i = 1}^4 (y_{3, i} - \mu)^2 = 0.029
-    $$
+        \pagebreak
 
-    Therefore:
+        \begin{multicols}{2}
+          \setlength{\columnseprule}{1pt}
+          \def\columnseprulecolor{\color{black}}
+          \centering
+          $\textcolor{purple}{C = N}: P(\textcolor{purple}{C = N}) = \frac{4}{9}$
+          \begin{itemize}
+            \item $P(y_1 = A, y_2 = 0 | \textcolor{purple}{C = N}) = 0$
+            \item $P(y_1 = A, y_2 = 1 | \textcolor{purple}{C = N}) = \frac{1}{4}$
+            \item $P(y_1 = B, y_2 = 0 | \textcolor{purple}{C = N}) = \frac{2}{4} = \frac{1}{2}$
+            \item $P(y_1 = B, y_2 = 1 | \textcolor{purple}{C = N}) = \frac{1}{4}$
+          \end{itemize}
+          Regarding $y_3$ and $\textcolor{purple}{N}$ labeled observations, we'll have the following parameters:
 
-    \vspace{-0.6cm}
+          $$
+            \mu = \frac{1 + 0.9 + 1.2 + 0.8}{4} = 0.975
+          $$
+          $$
+            \sigma^2 = \frac{1}{4 - 1} \sum_{i = 1}^4 (y_{3, i} - \mu)^2 = 0.029
+          $$
 
-    $$
-    P(y_3 | \textcolor{purple}{C = N}) \sim \mathcal{N}(x | 0.975, 0.029)
-    $$
+          Therefore:
 
-    \columnbreak
-    $\textcolor{teal}{C = P}: P(\textcolor{teal}{C = P}) = \frac{5}{9}$
-    \begin{itemize}
-      \item $P(y_1 = A, y_2 = 0 | \textcolor{teal}{C = P}) = \frac{2}{5}$
-      \item $P(y_1 = A, y_2 = 1 | \textcolor{teal}{C = P}) = \frac{1}{5}$
-      \item $P(y_1 = B, y_2 = 0 | \textcolor{teal}{C = P}) = \frac{1}{5}$
-      \item $P(y_1 = B, y_2 = 1 | \textcolor{teal}{C = P}) = \frac{1}{5}$
-    \end{itemize}
-    Regarding $y_3$ and $\textcolor{teal}{P}$ labeled observations, we'll have the following parameters:
+          \vspace{-0.6cm}
 
-    $$
-    \mu = \frac{1.2 + 0.8 + 0.5 + 0.9 + 0.8}{5} = 0.84
-    $$
-    $$
-    \sigma^2 = \frac{1}{5 - 1} \sum_{i = 1}^5 (y_{3, i} - \mu)^2 = 0.063
-    $$
+          $$
+            P(y_3 | \textcolor{purple}{C = N}) \sim \mathcal{N}(x | 0.975, 0.029)
+          $$
 
-    Therefore:
+          \columnbreak
+          $\textcolor{teal}{C = P}: P(\textcolor{teal}{C = P}) = \frac{5}{9}$
+          \begin{itemize}
+            \item $P(y_1 = A, y_2 = 0 | \textcolor{teal}{C = P}) = \frac{2}{5}$
+            \item $P(y_1 = A, y_2 = 1 | \textcolor{teal}{C = P}) = \frac{1}{5}$
+            \item $P(y_1 = B, y_2 = 0 | \textcolor{teal}{C = P}) = \frac{1}{5}$
+            \item $P(y_1 = B, y_2 = 1 | \textcolor{teal}{C = P}) = \frac{1}{5}$
+          \end{itemize}
+          Regarding $y_3$ and $\textcolor{teal}{P}$ labeled observations, we'll have the following parameters:
 
-    \vspace{-0.6cm}
+          $$
+            \mu = \frac{1.2 + 0.8 + 0.5 + 0.9 + 0.8}{5} = 0.84
+          $$
+          $$
+            \sigma^2 = \frac{1}{5 - 1} \sum_{i = 1}^5 (y_{3, i} - \mu)^2 = 0.063
+          $$
 
-    $$
-    P(y_3 | \textcolor{teal}{C = P}) \sim \mathcal{N}(x | 0.84, 0.063)
-    $$
+          Therefore:
 
-  \end{multicols}
+          \vspace{-0.6cm}
 
-  The model is now ready to be used to classify new observations.
+          $$
+            P(y_3 | \textcolor{teal}{C = P}) \sim \mathcal{N}(x | 0.84, 0.063)
+          $$
 
-  \pagebreak
+        \end{multicols}
+
+        The model is now ready to be used to classify new observations.
+
+        \pagebreak
 
   \item \textbf{Under a MAP assumption, compute $P(Positive | x)$ of each testing observation.}
 
-  Considering Bayes' theorem, we know $P(Positive | x)$ can also be written as follows:
+        Considering Bayes' theorem, we know $P(Positive | x)$ can also be written as follows:
 
-  $$
-  P(Positive | x) = \frac{P(x| Positive) P(Positive)}{P(x)}
-  $$
+        $$
+          P(Positive | x) = \frac{P(x| Positive) P(Positive)}{P(x)}
+        $$
 
-  Since $x$ has two independent variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, we'll be
-  able to write the above expression as follows (note that $x$'s $y_1$ value will
-  be written as $y_1$, and so on, for simplicity's sake):
+        Since $x$ has two independent variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, we'll be
+        able to write the above expression as follows (note that $x$'s $y_1$ value will
+        be written as $y_1$, and so on, for simplicity's sake):
 
-  $$
-  P(Positive | x) = \frac{P(y_1, y_2| Positive) P(y_3| Positive) P(Positive)}{P(y_1, y_2) P(y_3)}
-  $$
+        $$
+          P(Positive | x) = \frac{P(y_1, y_2| Positive) P(y_3| Positive) P(Positive)}{P(y_1, y_2) P(y_3)}
+        $$
 
-  Let's consider the three samples given in the question's statement:
+        Let's consider the three samples given in the question's statement:
 
-  $$
-    x_1' = \begin{pmatrix}
-      A \\
-      1 \\
-      0.8
-    \end{pmatrix}, \quad
-    x_2' = \begin{pmatrix}
-      B \\
-      1 \\
-      1
-    \end{pmatrix}, \quad
-    x_3' = \begin{pmatrix}
-      B \\
-      0 \\
-      0.9
-    \end{pmatrix}
-  $$
+        $$
+          x_1' = \begin{pmatrix}
+            A \\
+            1 \\
+            0.8
+          \end{pmatrix}, \quad
+          x_2' = \begin{pmatrix}
+            B \\
+            1 \\
+            1
+          \end{pmatrix}, \quad
+          x_3' = \begin{pmatrix}
+            B \\
+            0 \\
+            0.9
+          \end{pmatrix}
+        $$
 
-  Considering the training observations, we can gather that there are:
+        Considering the training observations, we can gather that there are:
 
-  \begin{multicols}{3}
-    \setlength{\columnseprule}{1pt}
-    \def\columnseprulecolor{\color{black}}
-    \centering
+        \begin{multicols}{3}
+          \setlength{\columnseprule}{1pt}
+          \def\columnseprulecolor{\color{black}}
+          \centering
 
-    $x_1'$
+          $x_1'$
 
-    Among all (five) positive training samples, one with features $y_1 = A, y_2 = 1$,
-    two with feature $y_3 = 0.8$.
-    Among all (nine) training samples, two with features $y_1 = A, y_2 = 1$, three
-    with feature $y_3 = 0.8$.
+          Among all (five) positive training samples, one with features $y_1 = A, y_2 = 1$,
+          two with feature $y_3 = 0.8$.
+          Among all (nine) training samples, two with features $y_1 = A, y_2 = 1$, three
+          with feature $y_3 = 0.8$.
 
-    \columnbreak
+          \columnbreak
 
-    $x_2'$
+          $x_2'$
 
-    Among all (five) positive training samples, one with features $y_1 = B, y_2 = 1$,
-    zero with feature $y_3 = 1$.
-    Among all (nine) training samples, two with features $y_1 = B, y_2 = 1$, one
-    with feature $y_3 = 1$.
+          Among all (five) positive training samples, one with features $y_1 = B, y_2 = 1$,
+          zero with feature $y_3 = 1$.
+          Among all (nine) training samples, two with features $y_1 = B, y_2 = 1$, one
+          with feature $y_3 = 1$.
 
-    \columnbreak
+          \columnbreak
 
-    $x_3'$
+          $x_3'$
 
-    Among all (five) positive training samples, one with features $y_1 = B, y_2 = 0$,
-    one with feature $y_3 = 0.9$.
-    Among all (nine) training samples, three with features $y_1 = B, y_2 = 0$,
-    two with feature $y_3 = 0.9$.
+          Among all (five) positive training samples, one with features $y_1 = B, y_2 = 0$,
+          one with feature $y_3 = 0.9$.
+          Among all (nine) training samples, three with features $y_1 = B, y_2 = 0$,
+          two with feature $y_3 = 0.9$.
 
-  \end{multicols}
+        \end{multicols}
 
-  Note, of course, that the probabilities regarding $y_1$ and $y_2$ features may
-  be calculated in a discrete manner, directly utilizing the values gathered above.
-  The same can't be said for $y_3$ with it being normally distributed:
-  we'll need to calculate the parameters for it (note that Positive parameters were computed in the
-  previous question), and only then will we be able to calculate the needed probabilities regarding
-  these samples' $y_3$ values:
+        Note, of course, that the probabilities regarding $y_1$ and $y_2$ features may
+        be calculated in a discrete manner, directly utilizing the values gathered above.
+        The same can't be said for $y_3$ with it being normally distributed:
+        we'll need to calculate the parameters for it (note that Positive parameters were computed in the
+        previous question), and only then will we be able to calculate the needed probabilities regarding
+        these samples' $y_3$ values:
 
-  \begin{align}
-    \mu_{y_3, Positive} = 0.84, \quad \mu_{y_3} = \frac{(1.2 + 0.8 + \cdots + 0.8)}{9} = 0.9 \\
-    \sigma_{y_3, Positive}^2 = 0.063, \quad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
-  \end{align}
+        \begin{align}
+          \mu_{y_3, Positive} = 0.84, \quad \mu_{y_3} = \frac{(1.2 + 0.8 + \cdots + 0.8)}{9} = 0.9 \\
+          \sigma_{y_3, Positive}^2 = 0.063, \quad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
+        \end{align}
 
-  With $y_3$ being normally distributed, we can calculate both $P(y_3| Positive)$ and $P(y_3)$
-  using the following formulas:
+        With $y_3$ being normally distributed, we can calculate both $P(y_3| Positive)$ and $P(y_3)$
+        using the following formulas:
 
-  $$
-  P(y_3| Positive) = \frac{1}{\sqrt{2 \pi \sigma_{y_3, Positive}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3, Positive})^2}{2 \sigma_{y_3, Positive}^2} \right)
-  $$
+        $$
+          P(y_3| Positive) = \frac{1}{\sqrt{2 \pi \sigma_{y_3, Positive}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3, Positive})^2}{2 \sigma_{y_3, Positive}^2} \right)
+        $$
 
-  $$
-  P(y_3) = \frac{1}{\sqrt{2 \pi \sigma_{y_3}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3})^2}{2 \sigma_{y_3}^2} \right)
-  $$
+        $$
+          P(y_3) = \frac{1}{\sqrt{2 \pi \sigma_{y_3}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3})^2}{2 \sigma_{y_3}^2} \right)
+        $$
 
-  \begin{multicols}{3}
-    \setlength{\columnseprule}{1pt}
-    \def\columnseprulecolor{\color{black}}
-    \centering
+        \begin{multicols}{3}
+          \setlength{\columnseprule}{1pt}
+          \def\columnseprulecolor{\color{black}}
+          \centering
 
-    $x_1'$
+          $x_1'$
 
-    $$
-    \begin{aligned}
-      &P(y_3 = 0.8 | P) \approx 1.569, \\
-      &P(y_3 = 0.8) \approx 1.6476
-    \end{aligned}
-    $$
+          $$
+            \begin{aligned}
+               & P(y_3 = 0.8 | P) \approx 1.569, \\
+               & P(y_3 = 0.8) \approx 1.6476
+            \end{aligned}
+          $$
 
-    \columnbreak
+          \columnbreak
 
-    $x_2'$
+          $x_2'$
 
-    $$
-    \begin{aligned}
-      &P(y_3 = 1 | P) = 1.2972, \\
-      &P(y_3 = 1) = 1.6476
-    \end{aligned}
-    $$
+          $$
+            \begin{aligned}
+               & P(y_3 = 1 | P) = 1.2972, \\
+               & P(y_3 = 1) = 1.6476
+            \end{aligned}
+          $$
 
-    \columnbreak
+          \columnbreak
 
-    $x_3'$
+          $x_3'$
 
-    $$
-    \begin{aligned}
-      &P(y_3 = 0.9 | P) = 1.5447, \\
-      &P(y_3 = 0.9) = 1.8305
-    \end{aligned}
-    $$
+          $$
+            \begin{aligned}
+               & P(y_3 = 0.9 | P) = 1.5447, \\
+               & P(y_3 = 0.9) = 1.8305
+            \end{aligned}
+          $$
 
-  \end{multicols}
+        \end{multicols}
 
-  We can, therefore, assert that:
+        We can, therefore, assert that:
 
-  \begin{align*}
-    P(Positive | x_1') &= \frac{\nicefrac{1}{5} \times 1.569 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} = 0.4763 \\
-    P(Positive | x_2') &= \frac{\nicefrac{1}{5} \times 1.2972 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} = 0.3937 \\
-    P(Positive | x_3') &= \frac{\nicefrac{1}{5} \times 1.5447 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 1.8305} = 0.2813
-  \end{align*}
+        \begin{align*}
+          P(Positive | x_1') & = \frac{\nicefrac{1}{5} \times 1.569 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} = 0.4763  \\
+          P(Positive | x_2') & = \frac{\nicefrac{1}{5} \times 1.2972 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} = 0.3937 \\
+          P(Positive | x_3') & = \frac{\nicefrac{1}{5} \times 1.5447 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 1.8305} = 0.2813
+        \end{align*}
 
-  \pagebreak
+        \pagebreak
 
   \item \textbf{Given a binary class variable, the default decision threshold of $\theta = 0.5$,
-    $$
-    f(x | \theta) = \begin{cases}
-      Positive & \text{if } P(positive | x) > \theta \\
-      Negative & otherwise
-    \end{cases}
-    $$
-    can be adjusted. Which decision threshold – 0.3, 0.5 or 0.7 – optimizes testing accuracy?
-  }
+          $$
+            f(x | \theta) = \begin{cases}
+              Positive & \text{if } P(positive | x) > \theta \\
+              Negative & otherwise
+            \end{cases}
+          $$
+          can be adjusted. Which decision threshold – 0.3, 0.5 or 0.7 – optimizes testing accuracy?
+        }
 
-  As given by the question's statement, we know the actual class values of the testing observations.
-  Moreover, we've calculated $P(Positive | x)$ for each of them in the previous question's answer,
-  so we can easily calculate the accuracy of the classifier for each of the three decision thresholds
-  (considering only these three testing samples):
+        As given by the question's statement, we know the actual class values of the testing observations.
+        Moreover, we've calculated $P(Positive | x)$ for each of them in the previous question's answer,
+        so we can easily calculate the accuracy of the classifier for each of the three decision thresholds
+        (considering only these three testing samples):
 
-  \begin{table}[h]
-    \centering
-    \begin{tabular}{l|l|l|l|l|l}
-    \hline
-           & Class      & $P(Positive | x)$ & $\theta = 0.3$ & $\theta = 0.5$ & $\theta = 0.7$ \\ \hline
-    $x_1'$ & $Positive$ & $0.4763$           & $Positive$     & $Negative$     & $Negative$     \\ \hline
-    $x_2'$ & $Positive$ & $0.3937$           & $Positive$     & $Negative$     & $Negative$     \\ \hline
-    $x_3'$ & $Negative$ & $0.2813$         & $Negative$     & $Negative$     & $Negative$     \\ \hline
-    \end{tabular}
-    \caption{$f(x | \theta)$ for varying thresholds, given three testing samples}
-    \label{tab:thresholds}
-  \end{table}
+        \begin{table}[h]
+          \centering
+          \begin{tabular}{l|l|l|l|l|l}
+            \hline
+                   & Class      & $P(Positive | x)$ & $\theta = 0.3$ & $\theta = 0.5$ & $\theta = 0.7$ \\ \hline
+            $x_1'$ & $Positive$ & $0.4763$          & $Positive$     & $Negative$     & $Negative$     \\ \hline
+            $x_2'$ & $Positive$ & $0.3937$          & $Positive$     & $Negative$     & $Negative$     \\ \hline
+            $x_3'$ & $Negative$ & $0.2813$          & $Negative$     & $Negative$     & $Negative$     \\ \hline
+          \end{tabular}
+          \caption{$f(x | \theta)$ for varying thresholds, given three testing samples}
+          \label{tab:thresholds}
+        \end{table}
 
-  Here, the classifier's accuracy, considering the table above, amounts to:
+        Here, the classifier's accuracy, considering the table above, amounts to:
 
-  \begin{align*}
-    \text{Accuracy}(\theta = 0.3) &= 1 \\
-    \text{Accuracy}(\theta = 0.5) &= \nicefrac{1}{3} \\
-    \text{Accuracy}(\theta = 0.7) &= \nicefrac{1}{3}
-  \end{align*}
+        \begin{align*}
+          \text{Accuracy}(\theta = 0.3) & = 1               \\
+          \text{Accuracy}(\theta = 0.5) & = \nicefrac{1}{3} \\
+          \text{Accuracy}(\theta = 0.7) & = \nicefrac{1}{3}
+        \end{align*}
 
-  As can be seen above, a threshold of $\theta = 0.3$ yields a higher accuracy than
-  both $0.5$ and $0.7$, hence it should be chosen in order to optimize testing accuracy.
+        As can be seen above, a threshold of $\theta = 0.3$ yields a higher accuracy than
+        both $0.5$ and $0.7$, hence it should be chosen in order to optimize testing accuracy.
 
 \end{enumerate}
 
@@ -432,88 +432,88 @@ while the second to test the given hypothesis.
 
 \begin{enumerate}[leftmargin=\labelsep,resume]
   \item \textbf{Using \texttt{sklearn}, considering a 10-fold stratified cross validation (\texttt{random=0}), plot the cumulative
-  testing confusion matrices of $k$NN (uniform weights, $k = 5$, Euclidean distance) and Naïve Bayes
-  (Gaussian assumption). Use all remaining classifier parameters as default.}
+          testing confusion matrices of $k$NN (uniform weights, $k = 5$, Euclidean distance) and Naïve Bayes
+          (Gaussian assumption). Use all remaining classifier parameters as default.}
 
-  We ended up utilizing \texttt{seaborn}'s \texttt{heatmap} function to plot the
-  required confusion matrices side-by-side.
+        We ended up utilizing \texttt{seaborn}'s \texttt{heatmap} function to plot the
+        required confusion matrices side-by-side.
 
-  \begin{figure}[h]
-    \centering
-    \includegraphics[width=1.1\textwidth]{../assets/hw2-2.1.png}
-    \caption{Cumulative testing confusion matrices of $k$NN and Naïve Bayes}
-    \label{fig:fig1}
-  \end{figure}
+        \begin{figure}[h]
+          \centering
+          \includegraphics[width=1.1\textwidth]{../assets/hw2-2.1.png}
+          \caption{Cumulative testing confusion matrices of $k$NN and Naïve Bayes}
+          \label{fig:fig1}
+        \end{figure}
 
-  As a relevant note, we opted to \textbf{normalize} our data, utilizing \texttt{sklearn}'s
-  \texttt{StandardScaler}, in order to avoid overfitting the data (even more so while
-  having relatively small training and testing sample subsets). As such, both this
-  question's answer \textbf{and the following ones} will be based on normalized data.
+        As a relevant note, we opted to \textbf{normalize} our data, utilizing \texttt{sklearn}'s
+        \texttt{StandardScaler}, in order to avoid overfitting the data (even more so while
+        having relatively small training and testing sample subsets). As such, both this
+        question's answer \textbf{and the following ones} will be based on normalized data.
 
-  \pagebreak
+        \pagebreak
 
   \item \textbf{Using \texttt{scipy}, test the hypothesis “$k$NN is statistically superior to Naïve Bayes regarding
-  accuracy”, asserting whether it is true.}
+          accuracy”, asserting whether it is true.}
 
-  \texttt{scipy.stats} provides the \texttt{ttest\_rel} function, which can be utilized
-  to test a hypothesis given two related samples - here, both $kNN$'s and Naïve Bayes'
-  scores are inherently related, since we're working with the same dataset on both
-  classifiers, hence we can use this function to test the hypothesis.
-  
-  We opted to utilize it with a \texttt{alternative = 'greater'} parameter, since
-  we're interested in testing whether $kNN$'s accuracy is statistically superior
-  to Naïve Bayes' accuracy, and not the other way around - as such, a "right-tailed"
-  test is more appropriate.
-  The considered hypotheses are, therefore:
+        \texttt{scipy.stats} provides the \texttt{ttest\_rel} function, which can be utilized
+        to test a hypothesis given two related samples - here, both $kNN$'s and Naïve Bayes'
+        scores are inherently related, since we're working with the same dataset on both
+        classifiers, hence we can use this function to test the hypothesis.
 
-  \begin{itemize}
-    \item $H_0$: $kNN$'s accuracy is statistically equal to Naïve Bayes'
-    \item $H_1$: $kNN$'s accuracy is statistically superior to Naïve Bayes'
-  \end{itemize}
+        We opted to utilize it with a \texttt{alternative = 'greater'} parameter, since
+        we're interested in testing whether $kNN$'s accuracy is statistically superior
+        to Naïve Bayes' accuracy, and not the other way around - as such, a "right-tailed"
+        test is more appropriate.
+        The considered hypotheses are, therefore:
 
-  As a side-note, we've considered, in absence of a given confidence level in the
-  question's statement, a confidence level of $1 - \alpha = 0.95$.
-  After performing the test, we obtained a \textit{p-value} of $\approx 0.0013168$ and
-  a \textit{t-statistic} of $\approx 4.1109$, which leads us to assert that, given
-  $\alpha = 0.05$, we should reject the null hypothesis and accept the alternative
-  one - $kNN$'s accuracy is statistically superior to Naïve Bayes' accuracy.
+        \begin{itemize}
+          \item $H_0$: $kNN$'s accuracy is statistically equal to Naïve Bayes'
+          \item $H_1$: $kNN$'s accuracy is statistically superior to Naïve Bayes'
+        \end{itemize}
 
-  \pagebreak
-   
+        As a side-note, we've considered, in absence of a given confidence level in the
+        question's statement, a confidence level of $1 - \alpha = 0.95$.
+        After performing the test, we obtained a \textit{p-value} of $\approx 0.0013168$ and
+        a \textit{t-statistic} of $\approx 4.1109$, which leads us to assert that, given
+        $\alpha = 0.05$, we should reject the null hypothesis and accept the alternative
+        one - $kNN$'s accuracy is statistically superior to Naïve Bayes' accuracy.
+
+        \pagebreak
+
   \item \textbf{Enumerate three possible reasons that could underlie the observed differences in predictive
-  accuracy between $k$NN and Naïve Bayes.}
+          accuracy between $k$NN and Naïve Bayes.}
 
-  \textit{Note: the \href{https://fenix.tecnico.ulisboa.pt/disciplinas/Apre2/2022-2023/1-semestre/homeworks}{homework's FAQ}
-  states that the answer could mention as low as two reasons, even though the original
-  question's statement asks for three. We opted to answer the question as stated in
-  the FAQ.}
+        \textit{Note: the \href{https://fenix.tecnico.ulisboa.pt/disciplinas/Apre2/2022-2023/1-semestre/homeworks}{homework's FAQ}
+          states that the answer could mention as low as two reasons, even though the original
+          question's statement asks for three. We opted to answer the question as stated in
+          the FAQ.}
 
-  \vspace*{0.5cm}
+        \vspace*{0.5cm}
 
-  In the previous question, we were able to assert that, regarding accuracy, $kNN$ is
-  indeed statistically superior to Naïve Bayes. There are a couple of reasons
-  that could underlie this observation:
+        In the previous question, we were able to assert that, regarding accuracy, $kNN$ is
+        indeed statistically superior to Naïve Bayes. There are a couple of reasons
+        that could underlie this observation:
 
-  \begin{itemize}
-    \item \textbf{Naïve Bayes' assumption of independence between features.}
-    
-    Naïve Bayes' assumption of independence between features is, in fact, a very
-    strong assumption, which is not always true - more so in a relatively small dataset
-    with a relatively large amount of features, such as the one we're working with.
-    As such, Naïve Bayes' assumption of independence between features could be
-    detrimental to its accuracy, since it could lead to a loss of information
-    regarding the dataset's features.
+        \begin{itemize}
+          \item \textbf{Naïve Bayes' assumption of independence between features.}
 
-    \item \textbf{Unknown distribution of the dataset's features.}
-    
-    Naïve Bayes' assumption of Gaussian distribution of the dataset's features
-    is, again, a very strong assumption, which is not always true - once again,
-    even more prevalent in a relatively small dataset with a relatively large
-    amount of features, such as this one. As such, by assuming a Gaussian distribution
-    for \textbf{all} of the dataset's features, Naïve Bayes is very likely to
-    underfit the dataset, since it's not taking into account the dataset's
-    features' distributions, which could be very different from a Gaussian one.
-  \end{itemize}
+                Naïve Bayes' assumption of independence between features is, in fact, a very
+                strong assumption, which is not always true - more so in a relatively small dataset
+                with a relatively large amount of features, such as the one we're working with.
+                As such, Naïve Bayes' assumption of independence between features could be
+                detrimental to its accuracy, since it could lead to a loss of information
+                regarding the dataset's features.
+
+          \item \textbf{Unknown distribution of the dataset's features.}
+
+                Naïve Bayes' assumption of Gaussian distribution of the dataset's features
+                is, again, a very strong assumption, which is not always true - once again,
+                even more prevalent in a relatively small dataset with a relatively large
+                amount of features, such as this one. As such, by assuming a Gaussian distribution
+                for \textbf{all} of the dataset's features, Naïve Bayes is very likely to
+                underfit the dataset, since it's not taking into account the dataset's
+                features' distributions, which could be very different from a Gaussian one.
+        \end{itemize}
 
 \end{enumerate}
 
