@@ -276,37 +276,40 @@
           \end{pmatrix}
         $$
 
-        Considering the training observations, we can gather that there are:
+        Considering the training observations, we can gather that:
 
         \begin{multicols}{3}
           \setlength{\columnseprule}{1pt}
           \def\columnseprulecolor{\color{black}}
           \centering
 
-          $x_1'$
+          $\mathbf{x_1'}$
 
-          Among all (five) positive training samples, one with features $y_1 = A, y_2 = 1$,
-          two with feature $y_3 = 0.8$.
-          Among all (nine) training samples, two with features $y_1 = A, y_2 = 1$, three
-          with feature $y_3 = 0.8$.
+          Among all (five) positive training samples, there is \textbf{1} with features $y_1 = A \wedge y_2 = 1$ and
+          \textbf{2} with feature $y_3 = 0.8$.
 
-          \columnbreak
-
-          $x_2'$
-
-          Among all (five) positive training samples, one with features $y_1 = B, y_2 = 1$,
-          zero with feature $y_3 = 1$.
-          Among all (nine) training samples, two with features $y_1 = B, y_2 = 1$, one
-          with feature $y_3 = 1$.
+          Among all (nine) training samples, there are \textbf{2} with features $y_1 = A \wedge y_2 = 1$, and
+          \textbf{3} with feature $y_3 = 0.8$.
 
           \columnbreak
 
-          $x_3'$
+          $\mathbf{x_2'}$
 
-          Among all (five) positive training samples, one with features $y_1 = B, y_2 = 0$,
-          one with feature $y_3 = 0.9$.
-          Among all (nine) training samples, three with features $y_1 = B, y_2 = 0$,
-          two with feature $y_3 = 0.9$.
+          Among all (five) positive training samples, there is \textbf{1} with features $y_1 = B \wedge y_2 = 1$ and
+          \textbf{0} with feature $y_3 = 1$.
+
+          Among all (nine) training samples, there are \textbf{2} with features $y_1 = B \wedge y_2 = 1$ and
+          \textbf{1} with feature $y_3 = 1$.
+
+          \columnbreak
+
+          $\mathbf{x_3'}$
+
+          Among all (five) positive training samples there is \textbf{1} with features $y_1 = B \wedge y_2 = 0$ and
+          \textbf{1} with feature $y_3 = 0.9$.
+
+          Among all (nine) training samples, there are \textbf{3} with features $y_1 = B \wedge y_2 = 0$ and
+          \textbf{2} with feature $y_3 = 0.9$.
 
         \end{multicols}
 
