@@ -153,10 +153,10 @@
   P(C = ^N_P | y_1, y_2, y_3) = \frac{P(y_1, y_2 | C = ^N_P) P(y_3 | C = ^N_P) P(C = ^N_P)}{P(y_1, y_2) P(y_3)}
   $$
 
-  According to the Naive Bayes' assumption, "the presence (or absence) of a particular feature
-  in a class is unrelated to the presence (or absence) of any other feature", so we will, in fact,
-  only need the above equation's numerator to be able to classify a new observation.
-  The goal here is to find:
+  A Bayesian classifier's goal here will be to maximize the numerator of the above equation,
+  since we'll want to find the "maximum posterior hypothesis" (i.e $P(C = ^N_P)$, here), and
+  such a maximization will be independent of $P(y_1, y_2, y_3)$. As such, we know that
+  we'll be looking for the following:
 
   $$
   \operatorname{argmax}_{c \in \{N, P\}} P(y_1, y_2 | C = c) P(y_3 | C = c) P(C = c)
@@ -165,7 +165,7 @@
   For starters, we can note that, from the given training set:
   
   $$
-  P(C = P) = \frac{5}{9}, \quad P(C = N) = \frac{4}{9}
+  P(\textcolor{purple}{C = N}) = \frac{4}{9}, \quad P(\textcolor{teal}{C = P}) = \frac{5}{9}
   $$
 
   We also know that $y_3$ is normally distributed, meaning we'll have:
