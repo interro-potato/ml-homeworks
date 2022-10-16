@@ -185,8 +185,8 @@
     \centering
     $\textcolor{purple}{C = N}: P(\textcolor{purple}{C = N}) = \frac{4}{9}$
     \begin{itemize}
-      \item $P(y_2 = A, y_2 = 0 | \textcolor{purple}{C = N}) = 0$
-      \item $P(y_2 = A, y_2 = 1 | \textcolor{purple}{C = N}) = \frac{1}{4}$
+      \item $P(y_1 = A, y_2 = 0 | \textcolor{purple}{C = N}) = 0$
+      \item $P(y_1 = A, y_2 = 1 | \textcolor{purple}{C = N}) = \frac{1}{4}$
       \item $P(y_1 = B, y_2 = 0 | \textcolor{purple}{C = N}) = \frac{2}{4} = \frac{1}{2}$
       \item $P(y_1 = B, y_2 = 1 | \textcolor{purple}{C = N}) = \frac{1}{4}$
     \end{itemize}
@@ -203,7 +203,7 @@
     $\textcolor{teal}{C = P}: P(\textcolor{teal}{C = P}) = \frac{5}{9}$
     \begin{itemize}
       \item $P(y_1 = A, y_2 = 0 | \textcolor{teal}{C = P}) = \frac{2}{5}$
-      \item $P(y_2 = A, y_2 = 1 | \textcolor{teal}{C = P}) = \frac{1}{5}$
+      \item $P(y_1 = A, y_2 = 1 | \textcolor{teal}{C = P}) = \frac{1}{5}$
       \item $P(y_1 = B, y_2 = 0 | \textcolor{teal}{C = P}) = \frac{1}{5}$
       \item $P(y_1 = B, y_2 = 1 | \textcolor{teal}{C = P}) = \frac{1}{5}$
     \end{itemize}
@@ -227,15 +227,15 @@
     \resizebox{\columnwidth}{!}{%
     \begin{tabular}{c|c|c|c|c|c|c|c|c}
         & $y_1$ & $y_2$ & $y_3$ & Class & $P(\textcolor{purple}{C = N}) P(y_1, y_2, y_3 \mid \textcolor{purple}{C = N})$ & $P(\textcolor{teal}{C = P}) P(y_1, y_2, y_3 \mid \textcolor{teal}{C = P})$ & Predicted Class & Veredict \\
-      $x_1$ & $A$   & $0$   & $1.2$ & $P$   & $0$                                    & $\frac{5}{9} \times \frac{2}{5} \times 0.92425$      & $P$             & $TP$     \\
-      $x_2$ & $B$   & $1$   & $0.8$ & $P$   & $\frac{4}{9} \times \frac{1}{4} \times 0.15206$      & $\frac{5}{9} \times \frac{1}{5} \times 0.43669$      & $P$             & $TP$     \\
-      $x_3$ & $A$   & $1$   & $0.5$ & $P$   & $\frac{4}{9} \times \frac{1}{4} \times 0.00264$      & $\frac{5}{9} \times \frac{1}{5} \times 0.08777$      & $N$             & $FN$     \\
-      $x_4$ & $A$   & $0$   & $0.9$ & $P$   & $0$                                    & $\frac{5}{9} \times \frac{2}{5} \times 0.59446$      & $P$             & $TP$     \\
-      $x_5$ & $B$   & $0$   & $1$   & $N$   & $\frac{4}{9} \times \frac{1}{2} \times 0.55836$      & $\frac{5}{9} \times \frac{1}{5} \times 0.73809$      & $N$             & $TN$     \\
-      $x_6$ & $A$   & $0$   & $0.9$ & $N$   & $\frac{4}{9} \times \frac{1}{2} \times 0.32981$      & $\frac{5}{9} \times \frac{1}{5} \times 0.59446$      & $N$             & $TN$     \\
-      $x_7$ & $B$   & $1$   & $1.2$ & $N$   & $\frac{4}{9} \times \frac{1}{4} \times 0.9068$       & $\frac{5}{9} \times \frac{1}{5} \times 0.92425$      & $P$             & $FP$     \\
-      $x_8$ & $B$   & $1$   & $0.8$ & $N$   & $\frac{4}{9} \times \frac{1}{4} \times 0.15206$      & $\frac{5}{9} \times \frac{1}{5} \times 0.43669$      & $P$             & $FP$     \\
-      $x_9$ & $B$   & $0$   & $0.8$ & $P$   & $\frac{4}{9} \times \frac{1}{2} \times 0.15206$      & $\frac{5}{9} \times \frac{1}{5} \times 0.43669$      & $P$             & $FP$    
+      $x_1$ & $A$   & $0$   & $1.2$ & $P$   & $0$                                    & $\frac{5}{9} \times \frac{2}{5} \times 0.4913$      & $P$             & $TP$     \\
+      $x_2$ & $B$   & $1$   & $0.8$ & $P$   & $\frac{4}{9} \times \frac{1}{4} \times 1.339$      & $\frac{5}{9} \times \frac{1}{5} \times 1.749$      & $P$             & $TP$     \\
+      $x_3$ & $A$   & $1$   & $0.5$ & $P$   & $\frac{4}{9} \times \frac{1}{4} \times 0.0155$      & $\frac{5}{9} \times \frac{1}{5} \times 0.564$      & $P$             & $TP$     \\
+      $x_4$ & $A$   & $0$   & $0.9$ & $P$   & $0$                                    & $\frac{5}{9} \times \frac{2}{5} \times 1.714$      & $P$             & $TP$     \\
+      $x_5$ & $B$   & $0$   & $1$   & $N$   & $\frac{4}{9} \times \frac{1}{2} \times 2.659$      & $\frac{5}{9} \times \frac{1}{5} \times 1.378$      & $N$             & $TN$     \\
+      $x_6$ & $A$   & $0$   & $0.9$ & $N$   & $\frac{4}{9} \times \frac{1}{2} \times 2.3719$      & $\frac{5}{9} \times \frac{1}{5} \times 1.714$      & $N$             & $TN$     \\
+      $x_7$ & $B$   & $1$   & $1.2$ & $N$   & $\frac{4}{9} \times \frac{1}{4} \times 0.848$       & $\frac{5}{9} \times \frac{1}{5} \times 0.4913$      & $N$             & $TN$     \\
+      $x_8$ & $B$   & $1$   & $0.8$ & $N$   & $\frac{4}{9} \times \frac{1}{4} \times 1.339$      & $\frac{5}{9} \times \frac{1}{5} \times 1.749$      & $P$             & $FP$     \\
+      $x_9$ & $B$   & $0$   & $0.8$ & $P$   & $\frac{4}{9} \times \frac{1}{2} \times 1.339$      & $\frac{5}{9} \times \frac{1}{5} \times 1.749$      & $P$             & $TP$    
     \end{tabular}%
     }
     \caption{Classification vs Real results}
@@ -326,6 +326,17 @@
     \sigma_{y_3, Positive}^2 = 0.063, \quad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
   \end{align}
 
+  With $y_3$ being normally distributed, we can calculate both $P(y_3| Positive)$ and $P(y_3)$
+  using the following formulas:
+
+  $$
+  P(y_3| Positive) = \frac{1}{\sqrt{2 \pi \sigma_{y_3, Positive}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3, Positive})^2}{2 \sigma_{y_3, Positive}^2} \right)
+  $$
+
+  $$
+  P(y_3) = \frac{1}{\sqrt{2 \pi \sigma_{y_3}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3})^2}{2 \sigma_{y_3}^2} \right)
+  $$
+
   \begin{multicols}{3}
     \setlength{\columnseprule}{1pt}
     \def\columnseprulecolor{\color{black}}
@@ -335,8 +346,8 @@
 
     $$
     \begin{aligned}
-      &P(y_3 = 0.8 | P) = 0.43669, \\
-      &P(y_3 = 0.8) = 0.32314
+      &P(y_3 = 0.8 | P) \approx 1.569, \\
+      &P(y_3 = 0.8) \approx 1.6476
     \end{aligned}
     $$
 
@@ -346,8 +357,8 @@
 
     $$
     \begin{aligned}
-      &P(y_3 = 1 | P) = 0.73809, \\
-      &P(y_3 = 1) = 0.67686
+      &P(y_3 = 1 | P) = 1.2972, \\
+      &P(y_3 = 1) = 1.6476
     \end{aligned}
     $$
 
@@ -357,8 +368,8 @@
 
     $$
     \begin{aligned}
-      &P(y_3 = 0.9 | P) = 0.59446, \\
-      &P(y_3 = 0.9) = 0.5
+      &P(y_3 = 0.9 | P) = 1.8305, \\
+      &P(y_3 = 0.9) = 1.5447
     \end{aligned}
     $$
 
@@ -367,9 +378,9 @@
   We can, therefore, assert that:
 
   \begin{align*}
-    P(Positive | x_1') &= \frac{\nicefrac{1}{5} \times 0.43669 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 0.32314} = 0.6756978 \\
-    P(Positive | x_2') &= \frac{\nicefrac{1}{5} \times 0.73809 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 0.67686} = 0.5452309 \\
-    P(Positive | x_3') &= \frac{\nicefrac{1}{5} \times 0.59446 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 0.5} = 0.3963067
+    P(Positive | x_1') &= \frac{\nicefrac{1}{5} \times 1.569 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} = 0.4763 \\
+    P(Positive | x_2') &= \frac{\nicefrac{1}{5} \times 1.2972 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} = 0.3937 \\
+    P(Positive | x_3') &= \frac{\nicefrac{1}{5} \times 1.5447 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 1.8305} = 0.2813
   \end{align*}
 
   \pagebreak
@@ -394,9 +405,9 @@
     \begin{tabular}{l|l|l|l|l|l}
     \hline
            & Class      & $P(Positive | x)$ & $\theta = 0.3$ & $\theta = 0.5$ & $\theta = 0.7$ \\ \hline
-    $x_1'$ & $Positive$ & $0.6756978$           & $Positive$     & $Positive$     & $Negative$     \\ \hline
-    $x_2'$ & $Positive$ & $0.5452309$           & $Positive$     & $Positve$     & $Negative$     \\ \hline
-    $x_3'$ & $Negative$ & $0.3963067$         & $Positive$     & $Negative$     & $Negative$     \\ \hline
+    $x_1'$ & $Positive$ & $0.4763$           & $Positive$     & $Negative$     & $Negative$     \\ \hline
+    $x_2'$ & $Positive$ & $0.3937$           & $Positive$     & $Negative$     & $Negative$     \\ \hline
+    $x_3'$ & $Negative$ & $0.2813$         & $Negative$     & $Negative$     & $Negative$     \\ \hline
     \end{tabular}
     \caption{$f(x | \theta)$ for varying thresholds, given three testing samples}
     \label{tab:thresholds}
@@ -405,13 +416,13 @@
   Here, the classifier's accuracy, considering the table above, amounts to:
 
   \begin{align*}
-    \text{Accuracy}(\theta = 0.3) &= \nicefrac{2}{3} \\
-    \text{Accuracy}(\theta = 0.5) &= 1 \\
+    \text{Accuracy}(\theta = 0.3) &= 1 \\
+    \text{Accuracy}(\theta = 0.5) &= \nicefrac{1}{3} \\
     \text{Accuracy}(\theta = 0.7) &= \nicefrac{1}{3}
   \end{align*}
 
-  As can be seen above, a threshold of $\theta = 0.5$ yields a higher accuracy than
-  both $0.3$ and $0.7$, hence it should be chosen in order to optimize testing accuracy.
+  As can be seen above, a threshold of $\theta = 0.3$ yields a higher accuracy than
+  both $0.5$ and $0.7$, hence it should be chosen in order to optimize testing accuracy.
 
 \end{enumerate}
 
@@ -442,7 +453,8 @@ while the second to test the given hypothesis.
 
   As a relevant note, we opted to \textbf{normalize} our data, utilizing \texttt{sklearn}'s
   \texttt{StandardScaler}, in order to avoid overfitting the data (even more so while
-  having relatively small training and testing sample subsets).
+  having relatively small training and testing sample subsets). As such, both this
+  question's answer \textbf{and the following ones} will be based on normalized data.
 
   \pagebreak
 
