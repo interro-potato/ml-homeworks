@@ -145,25 +145,25 @@
         it'll make sense to train a Naïve Bayes classifier here, such that (and utilizing
         Bayes' theorem):
 
-        $$
+        \begin{equation} \label{eq:classifier}
           P(C = ^N_P | y_1, y_2, y_3) = \frac{P(y_1, y_2, y_3 | C = ^N_P) P(C = ^N_P)}{P(y_1, y_2, y_3)}
-        $$
+        \end{equation}
 
         More so, since $\{y_1, y_2\}$ and $\{y_3\}$ are independent (and $y_1$ and $y_2$ are dependent),
         we can rewrite the above as:
 
-        $$
+        \begin{equation} \label{eq:classifier-expanded}
           P(C = ^N_P | y_1, y_2, y_3) = \frac{P(y_1, y_2 | C = ^N_P) P(y_3 | C = ^N_P) P(C = ^N_P)}{P(y_1, y_2) P(y_3)}
-        $$
+        \end{equation}
 
         A Bayesian classifier's goal here will be to maximize the numerator of the above equation,
         since we'll want to find the "maximum posterior hypothesis" (i.e., $P(C = ^N_P)$, here), and
         such a maximization will be independent of $P(y_1, y_2, y_3)$. As such, we know that
         we'll be looking for the following:
 
-        $$
+        \begin{equation} \label{eq:argmax}
           \operatorname{argmax}_{c \in \{N, P\}} P(y_1, y_2 | C = c) P(y_3 | C = c) P(C = c)
-        $$
+        \end{equation}
 
         For starters, we can note that, from the given training set:
 
@@ -195,6 +195,8 @@
           \end{itemize}
           Regarding $y_3$ and $\textcolor{purple}{N}$ labeled observations, we'll have the following parameters:
 
+          \vspace{-0.6cm}
+
           $$
             \mu = \frac{1 + 0.9 + 1.2 + 0.8}{4} = 0.975
           $$
@@ -204,11 +206,12 @@
 
           Therefore:
 
-          \vspace{-0.6cm}
+          \vspace{-1cm}
 
-          $$
-            P(y_3 | \textcolor{purple}{C = N}) \sim \mathcal{N}(x | 0.975, 0.029)
-          $$
+          \begin{align*}
+            P(y_3 | \textcolor{purple}{C = N}) \sim \mathcal{N}(x | 0.975, 0.029) \\
+            = \frac{1}{\sqrt{2 \pi \cdot 0.029}} \exp \left( - \frac{(y_3 - 0.975)^2}{2 \cdot 0.029} \right)
+          \end{align*}
 
           \columnbreak
           $\textcolor{teal}{C = P}: P(\textcolor{teal}{C = P}) = \frac{5}{9}$
@@ -220,8 +223,10 @@
           \end{itemize}
           Regarding $y_3$ and $\textcolor{teal}{P}$ labeled observations, we'll have the following parameters:
 
+          \vspace{-0.6cm}
+
           $$
-            \mu = \frac{1.2 + 0.8 + 0.5 + 0.9 + 0.8}{5} = 0.84
+            \mu = \frac{1.2 + 0.8 + 0.5 + 0.9 + 0.8}{5} = 0.840
           $$
           $$
             \sigma^2 = \frac{1}{5 - 1} \sum_{i = 1}^5 (y_{3, i} - \mu)^2 = 0.063
@@ -229,13 +234,51 @@
 
           Therefore:
 
-          \vspace{-0.6cm}
+          \vspace{-1cm}
 
-          $$
-            P(y_3 | \textcolor{teal}{C = P}) \sim \mathcal{N}(x | 0.84, 0.063)
-          $$
+          \begin{align*}
+            P(y_3 | \textcolor{teal}{C = P}) \sim \mathcal{N}(x | 0.840, 0.063) \\
+            = \frac{1}{\sqrt{2 \pi \cdot 0.063}} \exp \left( - \frac{(y_3 - 0.840)^2}{2 \cdot 0.063} \right)
+          \end{align*}
 
         \end{multicols}
+
+        Although not necessary for classifying samples (since Expression \ref{eq:argmax} does not
+        depend on Expression \ref{eq:classifier-expanded}'s denominator), we include the following
+        below for completeness's sake:
+
+        \begin{multicols}{2}
+          \setlength{\columnseprule}{1pt}
+          \def\columnseprulecolor{\color{black}}
+
+          \centering
+
+        \begin{itemize}
+          \item $P(y_1 = A, y_2 = 0) = \nicefrac{2}{9}$
+          \item $P(y_1 = A, y_2 = 1) = \nicefrac{2}{9}$
+          \item $P(y_1 = B, y_2 = 0) = \nicefrac{3}{9}$
+          \item $P(y_1 = B, y_2 = 1) = \nicefrac{2}{9}$
+        \end{itemize}
+
+        \columnbreak
+
+        $$
+        \mu_{y_3} = \frac{1.2 + 0.8 + \cdots + 1.2 + 0.8}{9} = 0.9000
+        $$
+        $$
+        \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
+        $$
+
+        Therefore:
+
+        \vspace{-1cm}
+
+        \begin{align*}
+          P(y_3) & \sim \mathcal{N}(x | 0.9000, 0.0475) \\
+          & = \frac{1}{\sqrt{2 \pi \cdot 0.0475}} \exp \left( - \frac{(y_3 - 0.9000)^2}{2 \cdot 0.0475} \right)
+        \end{align*}
+
+      \end{multicols}
 
         The model is now ready to be used to classify new observations.
 
@@ -353,15 +396,15 @@
         \end{multicols}
 
         The same cannot be said, for $y_3$, however, with it being normally distributed:
-        we'll need to calculate the parameters for it (note that Positive parameters were computed in the
-        previous question), and only then will we be able to calculate the needed probabilities regarding
+        we'll need to recall its parameters (which were computed in the previous question),
+        and then will we be able to calculate the needed probabilities regarding
         these samples' $y_3$ values:
 
         $$
-          \begin{aligned}
-             & \mu_{y_3, Positive} = 0.84       &  & \mu_{y_3, Negative} = 0.975      &  & \qquad \mu_{y_3} = \frac{1.2 + 0.8 + \cdots + 1.2 + 0.8}{9} = 0.9                  \\
-             & \sigma_{y_3, Positive}^2 = 0.063 &  & \sigma_{y_3, Negative}^2 = 0.029 &  & \qquad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
-          \end{aligned}
+        \begin{aligned}
+          &\mu_{y_3, Positive} = 0.840 & \qquad & \mu_{y_3, Negative} = 0.975 & \qquad & \mu_{y_3} = 0.9000 \\
+          &\sigma_{y_3, Positive}^2 = 0.063 & \qquad & \sigma_{y_3, Negative}^2 = 0.029 & \qquad & \sigma_{y_3}^2 = 0.0475
+        \end{aligned}
         $$
 
         With $y_3$ being normally distributed, we can calculate both $P(y_3 | Positive)$, $P(y_3 | Positive)$, $P(y_3)$:
