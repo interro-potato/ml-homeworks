@@ -492,23 +492,35 @@ while the second to test the given hypothesis.
         scores are inherently related, since we're working with the same dataset on both
         classifiers, hence we can use this function to test the hypothesis.
 
-        We opted to utilize it with a \texttt{alternative = 'greater'} parameter, since
+        We opted to utilize it with a \texttt{alternative = 'less'} parameter, since
         we're interested in testing whether $kNN$'s accuracy is statistically superior
-        to Naïve Bayes' accuracy, and not the other way around - as such, a "right-tailed"
-        test is more appropriate.
+        to Naïve Bayes' accuracy, and not the other way around is more appropriate.
         The considered hypotheses are, therefore:
 
         \begin{itemize}
-          \item $H_0$: $kNN$'s accuracy is statistically equal to Naïve Bayes'
-          \item $H_1$: $kNN$'s accuracy is statistically superior to Naïve Bayes'
+          \item $H_0$: $kNN$'s accuracy is statistically superior to Naïve Bayes'
+          \item $H_1$: $kNN$'s accuracy is statistically inferior (or equal) to Naïve Bayes'
         \end{itemize}
 
         As a side-note, we've considered, in absence of a given confidence level in the
         question's statement, a confidence level of $1 - \alpha = 0.95$.
-        After performing the test, we obtained a \textit{p-value} of $\approx 0.0013168$ and
+
+        After performing the test, we obtained a \textit{p-value} of $\approx 0.9987$ and
         a \textit{t-statistic} of $\approx 4.1109$, which leads us to assert that, given
-        $\alpha = 0.05$, we should reject the null hypothesis and accept the alternative
-        one - $kNN$'s accuracy is statistically superior to Naïve Bayes' accuracy.
+        $\alpha = 0.05$, we must not reject the null hypothesis.
+        Moreover, switching the hypotheses around and performing another
+        \texttt{ttest\_rel}, this time with an \texttt{alternative = 'greater'} parameter,
+        we get a p-value of $1 - 0.9987 = 0.0013$ (and the same t-statistic):
+        we can, therefore, reject the null hypothesis this time around, and say that
+        $kNN$ will be either statistically superior or equal to Naïve Bayes regarding accuracy.
+
+        Finally, performing a two-sided test (with \texttt{alternative = 'two-sided'}),
+        we get a p-value of $\approx 0.0026$, which leads us to reject this new null hypothesis -
+        $kNN$ being equal to Naïve Bayes regarding accuracy - and assert that $kNN$ is not
+        (again, given $\alpha = 0.05$) statistically equal to Naïve Bayes regarding accuracy.
+
+        After performing all these tests, we can assert that, for the proposed significance level,
+        $kNN$ is statistically superior to Naïve Bayes regarding accuracy.
 
         \pagebreak
 

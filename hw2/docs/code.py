@@ -81,7 +81,7 @@ def first():
 
 def second():
   """Used to answer the second question"""
-  return ttest_rel(knn_scores, nb_scores, alternative='greater')
+  return ttest_rel(knn_scores, nb_scores, alternative='less')
 
 # First programming question
 first()
