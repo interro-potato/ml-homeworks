@@ -81,15 +81,10 @@ def first():
 
 def second():
   """Used to answer the second question"""
-  first_test = ttest_rel(knn_scores, nb_scores, alternative='less')
-  second_test = ttest_rel(knn_scores, nb_scores, alternative='greater')
-  third_test = ttest_rel(knn_scores, nb_scores, alternative='two-sided')
-  print(f"First test: {first_test}")
-  print(f"Second test: {second_test}")
-  print(f"Third test: {third_test}")
+  return ttest_rel(knn_scores, nb_scores, alternative='greater')
 
 # First programming question
 first()
 
 # Second programming question
-second()
+print(second())
