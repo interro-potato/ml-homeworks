@@ -345,13 +345,12 @@
 
         $$
         \begin{aligned}
-          &\mu_{y_3, Positive} = 0.84 & & \qquad \mu_{y_3} = \frac{1.2 + 0.8 + \cdots + 1.2 + 0.8}{9} = 0.9 \\
-          &\sigma_{y_3, Positive}^2 = 0.063 & & \qquad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
+          &\mu_{y_3, Positive} = 0.84 & &  \mu_{y_3, Negative} = 0.975 & & \qquad \mu_{y_3} = \frac{1.2 + 0.8 + \cdots + 1.2 + 0.8}{9} = 0.9 \\
+          &\sigma_{y_3, Positive}^2 = 0.063 & & \sigma_{y_3, Negative}^2 = 0.029 & & \qquad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
         \end{aligned}
         $$
 
-        With $y_3$ being normally distributed, we can calculate both $P(y_3 | Positive)$ and $P(y_3)$
-        using the following formulas:
+        With $y_3$ being normally distributed, we can calculate both $P(y_3 | Positive)$, $P(y_3 | Positive)$, $P(y_3)$:
 
         $$
           P(y_3 | Positive) = \frac{1}{\sqrt{2 \pi \sigma_{y_3, Positive}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3, Positive})^2}{2 \sigma_{y_3, Positive}^2} \right)
@@ -371,6 +370,8 @@
           $$
             \begin{aligned}
                & P(y_3 = 0.8 | P) \approx 1.5694, \\
+              %  TODO: change
+               & P(y_3 = 0.8 | N) \approx 1.5694, \\
                & P(y_3 = 0.8) \approx 1.6476
             \end{aligned}
           $$
@@ -382,6 +383,8 @@
           $$
             \begin{aligned}
                & P(y_3 = 1 | P) \approx 1.2972, \\
+               %  TODO: change
+                & P(y_3 = 1 | N) \approx 1.2972, \\
                & P(y_3 = 1) \approx 1.6476
             \end{aligned}
           $$
@@ -393,6 +396,8 @@
           $$
             \begin{aligned}
                & P(y_3 = 0.9 | P) \approx 1.5447, \\
+               %  TODO: change
+                & P(y_3 = 0.9 | N) \approx 1.5447, \\
                & P(y_3 = 0.9) \approx 1.8305
             \end{aligned}
           $$
@@ -401,11 +406,28 @@
 
         We can, therefore, assert that:
 
-        \begin{align*}
-          P(Positive | x_1') & = \frac{\nicefrac{1}{5} \times 1.5694 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \approx 0.4763  \\
-          P(Positive | x_2') & = \frac{\nicefrac{1}{5} \times 1.2972 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \approx 0.3937 \\
-          P(Positive | x_3') & = \frac{\nicefrac{1}{5} \times 1.5447 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 1.8305} \approx 0.2813
-        \end{align*}
+        \begin{multicols*}{2}
+          \setlength{\columnseprule}{1pt}
+          \def\columnseprulecolor{\color{black}}
+          \centering
+          
+          \begin{align*}
+            P(Positive | x_1') & = \frac{\nicefrac{1}{5} \times 1.5694 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.4763  \\
+            P(Positive | x_2') & = \frac{\nicefrac{1}{5} \times 1.2972 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.3937 \\
+            P(Positive | x_3') & = \frac{\nicefrac{1}{5} \times 1.5447 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 1.8305} \\ &\approx 0.2813
+          \end{align*}
+
+          \columnbreak
+          % TODO: change
+          \begin{align*}
+            P(Negative | x_1') & = \frac{\nicefrac{1}{5} \times 1.5694 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.4763  \\
+            P(Negative | x_2') & = \frac{\nicefrac{1}{5} \times 1.2972 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.3937 \\
+            P(Negative | x_3') & = \frac{\nicefrac{1}{5} \times 1.5447 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 1.8305} \\ &\approx 0.2813
+          \end{align*}
+          
+        \end{multicols*}
+
+        % TODO: add normalization
 
         \pagebreak
 
