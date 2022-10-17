@@ -292,7 +292,7 @@
           P(Positive | x) = \frac{P(x | Positive) P(Positive)}{P(x)}
         $$
 
-        Since $x$ has two independent variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, we'll be
+        Since $x$ has two independent variable sets, $\{y_1, y_2\}$ and $\{y_3\}$, we are
         able to write the above expression as follows (note that $x$'s $y_1$ value will
         be written as $y_1$, and so on, for simplicity's sake):
 
@@ -339,7 +339,7 @@
           Among all (five) \textcolor{teal}{positive} training samples, there is \textbf{1} with features $y_1 = A \wedge y_2 = 1$ and
           \textbf{2} with feature $y_3 = 0.8$.
 
-          Among all (nine) training samples, there are \textbf{2} with features $y_1 = A \wedge y_2 = 1$, and
+          Among \underline{all} (nine) training samples, there are \textbf{2} with features $y_1 = A \wedge y_2 = 1$, and
           \textbf{3} with feature $y_3 = 0.8$.
 
           \columnbreak
@@ -352,7 +352,7 @@
           Among all (five) \textcolor{teal}{positive} training samples, there is \textbf{1} with features $y_1 = B \wedge y_2 = 1$ and
           \textbf{0} with feature $y_3 = 1$.
 
-          Among all (nine) training samples, there are \textbf{2} with features $y_1 = B \wedge y_2 = 1$ and
+          Among \underline{all} (nine) training samples, there are \textbf{2} with features $y_1 = B \wedge y_2 = 1$ and
           \textbf{1} with feature $y_3 = 1$.
 
           \columnbreak
@@ -365,7 +365,7 @@
           Among all (five) \textcolor{teal}{positive} training samples there is \textbf{1} with features $y_1 = B \wedge y_2 = 0$ and
           \textbf{1} with feature $y_3 = 0.9$.
 
-          Among all (nine) training samples, there are \textbf{3} with features $y_1 = B \wedge y_2 = 0$ and
+          Among \underline{all} (nine) training samples, there are \textbf{3} with features $y_1 = B \wedge y_2 = 0$ and
           \textbf{2} with feature $y_3 = 0.9$.
 
         \end{multicols}
@@ -377,17 +377,29 @@
           \setlength{\columnseprule}{1pt}
           \def\columnseprulecolor{\color{black}}
 
+          \begin{center}
+            $\mathbf{x_1'}$
+          \end{center}
+
           $P(y_1 = A, y_2 = 1 | \textcolor{purple}{N}) = \nicefrac{1}{4}$ \\
           $P(y_1 = A, y_2 = 1 | \textcolor{teal}{P}) = \nicefrac{1}{5}$ \\
           $P(y_1 = A, y_2 = 1) = \nicefrac{2}{9}$
 
           \columnbreak
 
+          \begin{center}
+            $\mathbf{x_2'}$
+          \end{center}
+
           $P(y_1 = B, y_2 = 1 | \textcolor{purple}{N}) = \nicefrac{1}{4}$ \\
           $P(y_1 = B, y_2 = 1 | \textcolor{teal}{P}) = \nicefrac{1}{5}$ \\
           $P(y_1 = B, y_2 = 1) = \nicefrac{2}{9}$
 
           \columnbreak
+
+          \begin{center}
+            $\mathbf{x_3'}$
+          \end{center}
 
           $P(y_1 = B, y_2 = 0 | \textcolor{purple}{N}) = \nicefrac{2}{4}$ \\
           $P(y_1 = B, y_2 = 0 | \textcolor{teal}{P}) = \nicefrac{1}{5}$ \\
@@ -490,9 +502,9 @@
         (note that only $P(Positive | x)$ will be calculated, for the sake of conciseness):
 
         \begin{align*}
-          P(Positive | x_1') = \frac{0.4763}{0.4763 + 0.4193} \approx 0.5318 \\
-          P(Positive | x_2') = \frac{0.3937}{0.3937 + 0.7033} \approx 0.3589 \\
-          P(Positive | x_3') = \frac{0.2813}{0.2813 + 0.7743} \approx 0.2665
+          P(Positive | x_1') & = \frac{0.4763}{0.4763 + 0.4193} \approx 0.5318 \\
+          P(Positive | x_2') & = \frac{0.3937}{0.3937 + 0.7033} \approx 0.3589 \\
+          P(Positive | x_3') & = \frac{0.2813}{0.2813 + 0.7743} \approx 0.2665
         \end{align*}
 
         \pagebreak
@@ -533,7 +545,7 @@
           \text{Accuracy}(\theta = 0.7) & = \nicefrac{1}{3}
         \end{align*}
 
-        As can be seen above, a threshold of $\theta = 0.3$ yields a higher accuracy than
+        As it can be seen above, a threshold of $\theta = 0.3$ yields a higher accuracy than
         both $0.5$ and $0.7$, hence it should be chosen in order to optimize testing accuracy.
 
 \end{enumerate}
@@ -582,15 +594,15 @@
           considering $k = 5$.}
 
         \texttt{scipy.stats} provides the \texttt{ttest\_rel} function, which can be utilized
-        to test a hypothesis given two related samples - here, both $kNN$'s and Naïve Bayes'
+        to test a hypothesis given two related samples - here, both $k$NN's and Naïve Bayes'
         scores are inherently related, since we're working with the same dataset on both
         classifiers, hence we can use this function to test the hypothesis.
 
         The considered hypotheses were, considering the problem in hands:
 
         \begin{itemize}
-          \item $H_0$: $kNN$'s accuracy is statistically inferior (or equal) to Naïve Bayes'
-          \item $H_1$: $kNN$'s accuracy is statistically superior to Naïve Bayes'
+          \item $H_0$: $k$NN's accuracy is statistically inferior (or equal) to Naïve Bayes'
+          \item $H_1$: $k$NN's accuracy is statistically superior to Naïve Bayes'
         \end{itemize}
 
         As a side-note, we've considered, in absence of a given confidence level in the
@@ -601,7 +613,7 @@
         a \textit{t-statistic} of $\approx 4.1109$, which leads us to assert that, given
         $\alpha = 0.05$, we must reject the null hypothesis.
         As such, considering $\alpha = 0.05$ and normalized data, we can affirm that
-        $kNN$'s accuracy is statistically superior to Naïve Bayes' accuracy.
+        $k$NN's accuracy is statistically superior to Naïve Bayes' accuracy.
 
         \pagebreak
 
@@ -615,7 +627,7 @@
 
         \vspace*{0.5cm}
 
-        In the previous question, we were able to assert that, regarding accuracy, $kNN$ is
+        In the previous question, we were able to assert that, regarding accuracy, $k$NN is
         indeed statistically superior to Naïve Bayes (considering a significance level of
         5\%, of course, and for $k = 5$). There are a couple of reasons that could underlie this observation:
 
