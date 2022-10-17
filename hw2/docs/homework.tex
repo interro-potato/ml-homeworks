@@ -577,15 +577,16 @@
   \item \textbf{Using \texttt{scipy}, test the hypothesis “$k$NN is statistically superior to Naïve Bayes regarding
           accuracy”, asserting whether it is true.}
 
+        \textit{All the comments written below are obviously regarding a $k$NN implementation
+          such as the one suggested in the previous question's statement - that is,
+          considering $k = 5$.}
+
         \texttt{scipy.stats} provides the \texttt{ttest\_rel} function, which can be utilized
         to test a hypothesis given two related samples - here, both $kNN$'s and Naïve Bayes'
         scores are inherently related, since we're working with the same dataset on both
         classifiers, hence we can use this function to test the hypothesis.
 
-        We opted to utilize it with a \texttt{alternative = 'greater'} parameter, since
-        we're interested in testing whether $kNN$'s accuracy is statistically superior
-        to Naïve Bayes' accuracy, and not the other way around is more appropriate.
-        The considered hypotheses are, therefore:
+        The considered hypotheses were, considering the problem in hands:
 
         \begin{itemize}
           \item $H_0$: $kNN$'s accuracy is statistically inferior (or equal) to Naïve Bayes'
@@ -595,7 +596,8 @@
         As a side-note, we've considered, in absence of a given confidence level in the
         question's statement, a confidence level of $1 - \alpha = 0.95$.
 
-        After performing the test, we obtained a \textit{p-value} of $\approx 0.0013$ and
+        After performing the test (utilizing the \texttt{alternative = 'greater'} parameter,
+        in order to test the afore-mentioned hypotheses), we obtained a \textit{p-value} of $\approx 0.0013$ and
         a \textit{t-statistic} of $\approx 4.1109$, which leads us to assert that, given
         $\alpha = 0.05$, we must reject the null hypothesis.
         As such, considering $\alpha = 0.05$ and normalized data, we can affirm that
@@ -615,14 +617,13 @@
 
         In the previous question, we were able to assert that, regarding accuracy, $kNN$ is
         indeed statistically superior to Naïve Bayes (considering a significance level of
-        5\%, of course). There are a couple of reasons that could underlie this observation:
+        5\%, of course, and for $k = 5$). There are a couple of reasons that could underlie this observation:
 
         \begin{itemize}
           \item \textbf{Naïve Bayes' assumption of independence between features.}
 
                 Naïve Bayes' assumption of independence between features is, in fact, a very
-                strong assumption, which is not always true - more so in a relatively small dataset
-                with a relatively large amount of features, such as the one we're working with.
+                strong assumption, which is obviously not always true.
                 As such, Naïve Bayes' assumption of independence between features could be
                 detrimental to its accuracy, since it could lead to a loss of information
                 regarding the dataset's features.
@@ -630,11 +631,12 @@
           \item \textbf{Unknown distribution of the dataset's features.}
 
                 Naïve Bayes' assumption of Gaussian distribution of the dataset's features
-                is, again, a very strong assumption, which is not always true - once again,
+                is, again, a very strong assumption, which is not always true,
                 even more prevalent in a relatively small dataset with a relatively large
                 amount of features, such as this one. As such, by assuming a Gaussian distribution
                 for \textbf{all} of the dataset's features, Naïve Bayes is very likely to
-                underfit the dataset, since it is not taking into account the dataset's
+                underfit the dataset (that is, "not only won't it perform well on the training data,
+                nor will it be able to generalize to new data"), since it is not taking into account the dataset's
                 features' distributions, which could be very different from a Gaussian one.
         \end{itemize}
 
