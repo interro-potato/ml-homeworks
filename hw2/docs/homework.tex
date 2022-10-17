@@ -253,32 +253,32 @@
 
           \centering
 
-        \begin{itemize}
-          \item $P(y_1 = A, y_2 = 0) = \nicefrac{2}{9}$
-          \item $P(y_1 = A, y_2 = 1) = \nicefrac{2}{9}$
-          \item $P(y_1 = B, y_2 = 0) = \nicefrac{3}{9}$
-          \item $P(y_1 = B, y_2 = 1) = \nicefrac{2}{9}$
-        \end{itemize}
+          \begin{itemize}
+            \item $P(y_1 = A, y_2 = 0) = \nicefrac{2}{9}$
+            \item $P(y_1 = A, y_2 = 1) = \nicefrac{2}{9}$
+            \item $P(y_1 = B, y_2 = 0) = \nicefrac{3}{9}$
+            \item $P(y_1 = B, y_2 = 1) = \nicefrac{2}{9}$
+          \end{itemize}
 
-        \columnbreak
+          \columnbreak
 
-        $$
-        \mu_{y_3} = \frac{1.2 + 0.8 + \cdots + 1.2 + 0.8}{9} = 0.9000
-        $$
-        $$
-        \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
-        $$
+          $$
+            \mu_{y_3} = \frac{1.2 + 0.8 + \cdots + 1.2 + 0.8}{9} = 0.9000
+          $$
+          $$
+            \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
+          $$
 
-        Therefore:
+          Therefore:
 
-        \vspace{-1cm}
+          \vspace{-1cm}
 
-        \begin{align*}
-          P(y_3) & \sim \mathcal{N}(x | 0.9000, 0.0475) \\
-          & = \frac{1}{\sqrt{2 \pi \cdot 0.0475}} \exp \left( - \frac{(y_3 - 0.9000)^2}{2 \cdot 0.0475} \right)
-        \end{align*}
+          \begin{align*}
+            P(y_3) & \sim \mathcal{N}(x | 0.9000, 0.0475)                                                                \\
+                   & = \frac{1}{\sqrt{2 \pi \cdot 0.0475}} \exp \left( - \frac{(y_3 - 0.9000)^2}{2 \cdot 0.0475} \right)
+          \end{align*}
 
-      \end{multicols}
+        \end{multicols}
 
         The model is now ready to be used to classify new observations.
 
@@ -401,10 +401,10 @@
         these samples' $y_3$ values:
 
         $$
-        \begin{aligned}
-          & \mu_{y_3, Negative} = 0.975 & \qquad & \mu_{y_3, Positive} = 0.840 & \qquad & \mu_{y_3} = 0.9000 \\
-          & \sigma_{y_3, Negative}^2 = 0.029 & \qquad & \sigma_{y_3, Positive}^2 = 0.063 & \qquad & \sigma_{y_3}^2 = 0.0475
-        \end{aligned}
+          \begin{aligned}
+             & \mu_{y_3, Negative} = 0.975      & \qquad & \mu_{y_3, Positive} = 0.840      & \qquad & \mu_{y_3} = 0.9000      \\
+             & \sigma_{y_3, Negative}^2 = 0.029 & \qquad & \sigma_{y_3, Positive}^2 = 0.063 & \qquad & \sigma_{y_3}^2 = 0.0475
+          \end{aligned}
         $$
 
         With $y_3$ being normally distributed, we can calculate $P(y_3 | Negative)$, $P(y_3 | Positive)$ and $P(y_3)$:
@@ -451,7 +451,7 @@
           $$
             \begin{aligned}
                & P(y_3 = 0.9 | \textcolor{purple}{N}) \approx 2.1261, \\
-               & P(y_3 = 0.9 | \textcolor{teal}{P}) \approx 1.5447,  \\
+               & P(y_3 = 0.9 | \textcolor{teal}{P}) \approx 1.5447,   \\
                & P(y_3 = 0.9) \approx 1.8305
             \end{aligned}
           $$
@@ -477,7 +477,7 @@
           \begin{align*}
             P(Negative | x_1') & = \frac{\nicefrac{1}{4} \times 1.3816 \times \nicefrac{4}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.4193 \\
             P(Negative | x_2') & = \frac{\nicefrac{1}{4} \times 2.3176 \times \nicefrac{4}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.7033 \\
-            P(Negative | x_3') & = \frac{\nicefrac{2}{4} \times 2.1261 \times \nicefrac{4}{9}}{\nicefrac{3}{9} \times 1.8305}  \\ &\approx 0.7743
+            P(Negative | x_3') & = \frac{\nicefrac{2}{4} \times 2.1261 \times \nicefrac{4}{9}}{\nicefrac{3}{9} \times 1.8305} \\ &\approx 0.7743
           \end{align*}
 
         \end{multicols}
@@ -566,10 +566,10 @@
         \end{figure}
 
         \begin{sloppypar}
-        As a relevant note, we opted to \textbf{normalize} our data, utilizing \texttt{sklearn}'s
-        \texttt{StandardScaler}, in order to avoid overfitting the data (even more so while
-        having relatively small training and testing sample subsets). As such, both this
-        question's answer \textbf{and the following ones} will be based on normalized data.
+          As a relevant note, we opted to \textbf{normalize} our data, utilizing \texttt{sklearn}'s
+          \texttt{StandardScaler}, in order to avoid overfitting the data (even more so while
+          having relatively small training and testing sample subsets). As such, both this
+          question's answer \textbf{and the following ones} will be based on normalized data.
         \end{sloppypar}
 
         \pagebreak
