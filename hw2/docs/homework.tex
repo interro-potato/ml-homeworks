@@ -402,12 +402,12 @@
 
         $$
         \begin{aligned}
-          &\mu_{y_3, Positive} = 0.840 & \qquad & \mu_{y_3, Negative} = 0.975 & \qquad & \mu_{y_3} = 0.9000 \\
-          &\sigma_{y_3, Positive}^2 = 0.063 & \qquad & \sigma_{y_3, Negative}^2 = 0.029 & \qquad & \sigma_{y_3}^2 = 0.0475
+          & \mu_{y_3, Negative} = 0.975 & \qquad & \mu_{y_3, Positive} = 0.840 & \qquad & \mu_{y_3} = 0.9000 \\
+          & \sigma_{y_3, Negative}^2 = 0.029 & \qquad & \sigma_{y_3, Positive}^2 = 0.063 & \qquad & \sigma_{y_3}^2 = 0.0475
         \end{aligned}
         $$
 
-        With $y_3$ being normally distributed, we can calculate both $P(y_3 | Positive)$, $P(y_3 | Positive)$, $P(y_3)$:
+        With $y_3$ being normally distributed, we can calculate $P(y_3 | Negative)$, $P(y_3 | Positive)$ and $P(y_3)$:
 
         $$
           P(y_3 | Positive) = \frac{1}{\sqrt{2 \pi \sigma_{y_3, Positive}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3, Positive})^2}{2 \sigma_{y_3, Positive}^2} \right)
