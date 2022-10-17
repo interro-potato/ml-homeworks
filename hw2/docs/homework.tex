@@ -146,18 +146,18 @@
         Bayes' theorem):
 
         \begin{equation} \label{eq:classifier}
-          P(C = ^N_P | y_1, y_2, y_3) = \frac{P(y_1, y_2, y_3 | C = ^N_P) P(C = ^N_P)}{P(y_1, y_2, y_3)}
+          \forall_{c \in \{N, P\}},\quad P(C = c | y_1, y_2, y_3) = \frac{P(y_1, y_2, y_3 | C = c) P(C = c)}{P(y_1, y_2, y_3)}
         \end{equation}
 
         More so, since $\{y_1, y_2\}$ and $\{y_3\}$ are independent (and $y_1$ and $y_2$ are dependent),
         we can rewrite the above as:
 
         \begin{equation} \label{eq:classifier-expanded}
-          P(C = ^N_P | y_1, y_2, y_3) = \frac{P(y_1, y_2 | C = ^N_P) P(y_3 | C = ^N_P) P(C = ^N_P)}{P(y_1, y_2) P(y_3)}
+          \forall_{c \in \{N, P\}},\quad P(C = c | y_1, y_2, y_3) = \frac{P(y_1, y_2 | C = c) P(y_3 | C = c) P(C = c)}{P(y_1, y_2) P(y_3)}
         \end{equation}
 
         A Bayesian classifier's goal here will be to maximize the numerator of the above equation,
-        since we'll want to find the "maximum posterior hypothesis" (i.e., $P(C = ^N_P)$, here), and
+        since we'll want to find the "maximum posterior hypothesis" (i.e., $P(C = c)$, here), and
         such a maximization will be independent of $P(y_1, y_2, y_3)$. As such, we know that
         we'll be looking for the following:
 
@@ -174,7 +174,7 @@
         We also know that $y_3$ is normally distributed, meaning we'll have:
 
         $$
-          P(y_3 | C = ^N_P) \sim \mathcal{N}(x | \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( - \frac{(x - \mu)^2}{2 \sigma^2} \right)
+          \forall_{c \in \{N, P\}},\quad P(y_3 | C = c) \sim \mathcal{N}(x | \mu, \sigma^2) = \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( - \frac{(x - \mu)^2}{2 \sigma^2} \right)
         $$
 
         By also looking at the given training set (which includes the new, ninth sample), we'll be able
@@ -410,7 +410,7 @@
         With $y_3$ being normally distributed, we can calculate $P(y_3 | Negative)$, $P(y_3 | Positive)$ and $P(y_3)$:
 
         $$
-          P(y_3 | Positive) = \frac{1}{\sqrt{2 \pi \sigma_{y_3, Positive}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3, Positive})^2}{2 \sigma_{y_3, Positive}^2} \right)
+          \forall_{c \in \{Negative, Positive\}},\quad P(y_3 | c) = \frac{1}{\sqrt{2 \pi \sigma_{y_3, c}^2}} \exp \left( - \frac{(y_3 - \mu_{y_3, c})^2}{2 \sigma_{y_3, c}^2} \right)
         $$
 
         $$
@@ -450,7 +450,7 @@
 
           $$
             \begin{aligned}
-               & P(y_3 = 0.9 | \textcolor{purple}{N}) \approx 2.126, \\
+               & P(y_3 = 0.9 | \textcolor{purple}{N}) \approx 2.1261, \\
                & P(y_3 = 0.9 | \textcolor{teal}{P}) \approx 1.5447,  \\
                & P(y_3 = 0.9) \approx 1.8305
             \end{aligned}
@@ -468,26 +468,26 @@
           \centering
 
           \begin{align*}
-            P(Positive | x_1') & = \frac{\nicefrac{1}{5} \times 1.5694 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.4763  \\
+            P(Positive | x_1') & = \frac{\nicefrac{1}{5} \times 1.5694 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.4763 \\
             P(Positive | x_2') & = \frac{\nicefrac{1}{5} \times 1.2972 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.3937 \\
             P(Positive | x_3') & = \frac{\nicefrac{1}{5} \times 1.5447 \times \nicefrac{5}{9}}{\nicefrac{3}{9} \times 1.8305} \\ &\approx 0.2813
           \end{align*}
 
           \columnbreak
           \begin{align*}
-            P(Negative | x_1') & = \frac{\nicefrac{1}{4} \times 1.3816 \times \nicefrac{4}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.4193  \\
+            P(Negative | x_1') & = \frac{\nicefrac{1}{4} \times 1.3816 \times \nicefrac{4}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.4193 \\
             P(Negative | x_2') & = \frac{\nicefrac{1}{4} \times 2.3176 \times \nicefrac{4}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.7033 \\
-            P(Negative | x_3') & = \frac{\nicefrac{2}{4} \times 2.126 \times \nicefrac{4}{9}}{\nicefrac{3}{9} \times 1.8305}  \\ &\approx 0.7743
+            P(Negative | x_3') & = \frac{\nicefrac{2}{4} \times 2.1261 \times \nicefrac{4}{9}}{\nicefrac{3}{9} \times 1.8305}  \\ &\approx 0.7743
           \end{align*}
 
         \end{multicols}
 
-        As can be easily noted, the probabilities above (for the same sample) don't seem to add to $1$,
+        As can be easily noted, the probabilities above (for each sample) do not add up to $1$,
         even though intuitively they should: that happens because the values being
         calculated above are, in fact, \textbf{likelihoods}, not probabilities!
         To calculate the actual probabilities, we need to normalize the likelihoods
         by dividing them by the sum of all the likelihoods, as will be shown below
-        (note that only $P(Positive | x)$ will be calculated, for conciseness's sake):
+        (note that only $P(Positive | x)$ will be calculated, for the sake of conciseness):
 
         \begin{align*}
           P(Positive | x_1') = \frac{0.4763}{0.4763 + 0.4193} \approx 0.5318 \\
