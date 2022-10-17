@@ -81,11 +81,15 @@ def first():
 
 def second():
   """Used to answer the second question"""
-  return ttest_rel(knn_scores, nb_scores, alternative='less')
+  first_test = ttest_rel(knn_scores, nb_scores, alternative='less')
+  second_test = ttest_rel(knn_scores, nb_scores, alternative='greater')
+  third_test = ttest_rel(knn_scores, nb_scores, alternative='two-sided')
+  print(f"First test: {first_test}")
+  print(f"Second test: {second_test}")
+  print(f"Third test: {third_test}")
 
 # First programming question
 first()
 
 # Second programming question
-results = second()
-print("KNN better than NB?\np-value = {}\nt-statistic = {}".format(results.pvalue, results.statistic))
+second()
