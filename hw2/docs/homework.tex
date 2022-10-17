@@ -329,7 +329,7 @@
         \begin{multicols}{3}
           \setlength{\columnseprule}{1pt}
           \def\columnseprulecolor{\color{black}}
-          
+
           $P(y_1 = A, y_2 = 1 | \textcolor{purple}{N}) = \nicefrac{1}{4}$ \\
           $P(y_1 = A, y_2 = 1 | \textcolor{teal}{P}) = \nicefrac{1}{5}$ \\
           $P(y_1 = A, y_2 = 1) = \nicefrac{2}{9}$
@@ -354,10 +354,10 @@
         these samples' $y_3$ values:
 
         $$
-        \begin{aligned}
-          &\mu_{y_3, Positive} = 0.84 & &  \mu_{y_3, Negative} = 0.975 & & \qquad \mu_{y_3} = \frac{1.2 + 0.8 + \cdots + 1.2 + 0.8}{9} = 0.9 \\
-          &\sigma_{y_3, Positive}^2 = 0.063 & & \sigma_{y_3, Negative}^2 = 0.029 & & \qquad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
-        \end{aligned}
+          \begin{aligned}
+             & \mu_{y_3, Positive} = 0.84       &  & \mu_{y_3, Negative} = 0.975      &  & \qquad \mu_{y_3} = \frac{1.2 + 0.8 + \cdots + 1.2 + 0.8}{9} = 0.9                  \\
+             & \sigma_{y_3, Positive}^2 = 0.063 &  & \sigma_{y_3, Negative}^2 = 0.029 &  & \qquad \sigma_{y_3}^2 = \frac{1}{9 - 1} \sum_{i=1}^{9} (y_{3, i} - \mu)^2 = 0.0475
+          \end{aligned}
         $$
 
         With $y_3$ being normally distributed, we can calculate both $P(y_3 | Positive)$, $P(y_3 | Positive)$, $P(y_3)$:
@@ -379,8 +379,8 @@
 
           $$
             \begin{aligned}
-              & P(y_3 = 0.8 | \textcolor{purple}{N}) \approx 1.3816, \\
-               & P(y_3 = 0.8 | \textcolor{teal}{P}) \approx 1.5694, \\
+               & P(y_3 = 0.8 | \textcolor{purple}{N}) \approx 1.3816, \\
+               & P(y_3 = 0.8 | \textcolor{teal}{P}) \approx 1.5694,   \\
                & P(y_3 = 0.8) \approx 1.6476
             \end{aligned}
           $$
@@ -391,8 +391,8 @@
 
           $$
             \begin{aligned}
-              & P(y_3 = 1 | \textcolor{purple}{N}) \approx 2.3176, \\
-               & P(y_3 = 1 | \textcolor{teal}{P}) \approx 1.2972, \\
+               & P(y_3 = 1 | \textcolor{purple}{N}) \approx 2.3176, \\
+               & P(y_3 = 1 | \textcolor{teal}{P}) \approx 1.2972,   \\
                & P(y_3 = 1) \approx 1.6476
             \end{aligned}
           $$
@@ -403,8 +403,8 @@
 
           $$
             \begin{aligned}
-              & P(y_3 = 0.9 | \textcolor{purple}{N}) \approx 2.126, \\
-               & P(y_3 = 0.9 | \textcolor{teal}{P}) \approx 1.5447, \\
+               & P(y_3 = 0.9 | \textcolor{purple}{N}) \approx 2.126, \\
+               & P(y_3 = 0.9 | \textcolor{teal}{P}) \approx 1.5447,  \\
                & P(y_3 = 0.9) \approx 1.8305
             \end{aligned}
           $$
@@ -419,7 +419,7 @@
           \setlength{\columnseprule}{1pt}
           \def\columnseprulecolor{\color{black}}
           \centering
-          
+
           \begin{align*}
             P(Positive | x_1') & = \frac{\nicefrac{1}{5} \times 1.5694 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.4763  \\
             P(Positive | x_2') & = \frac{\nicefrac{1}{5} \times 1.2972 \times \nicefrac{5}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.3937 \\
@@ -430,9 +430,9 @@
           \begin{align*}
             P(Negative | x_1') & = \frac{\nicefrac{1}{4} \times 1.3816 \times \nicefrac{4}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.4193  \\
             P(Negative | x_2') & = \frac{\nicefrac{1}{4} \times 2.3176 \times \nicefrac{4}{9}}{\nicefrac{2}{9} \times 1.6476} \\ &\approx 0.7033 \\
-            P(Negative | x_3') & = \frac{\nicefrac{2}{4} \times 2.126 \times \nicefrac{4}{9}}{\nicefrac{3}{9} \times 1.8305} \\ &\approx 0.7743
+            P(Negative | x_3') & = \frac{\nicefrac{2}{4} \times 2.126 \times \nicefrac{4}{9}}{\nicefrac{3}{9} \times 1.8305}  \\ &\approx 0.7743
           \end{align*}
-          
+
         \end{multicols}
 
         As can be easily noted, the probabilities above (for the same sample) don't seem to add to $1$,
@@ -496,11 +496,11 @@
 \center\large{\textbf{Part II}: Programming}
 
 \begin{justify}
-The code utilized in order to answer this section's first two questions answers
-can be found in this report's appendix. There's both a "general" code section,
-which can be found initially, and two functions, \texttt{first} and \texttt{second},
-utilized to answer the respective questions - the first to plot the confusion matrices,
-while the second to test the given hypothesis.
+  The code utilized in order to answer this section's first two questions answers
+  can be found in this report's appendix. There's both a "general" code section,
+  which can be found initially, and two functions, \texttt{first} and \texttt{second},
+  utilized to answer the respective questions - the first to plot the confusion matrices,
+  while the second to test the given hypothesis.
 \end{justify}
 
 \begin{enumerate}[leftmargin=\labelsep,resume]
