@@ -1,0 +1,111 @@
+\documentclass[12pt]{article}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{newtxtext, newtxmath}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{svg}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{nicefrac}
+\usepackage{ragged2e}
+\usepackage[autostyle]{csquotes}
+\usepackage[colorlinks=true]{hyperref}
+
+\MakeOuterQuote{"}
+\setlength{\droptitle}{-6em}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{
+        style=mystyle,
+        inputencoding=utf8,
+        extendedchars=true,
+}
+
+
+\title{\large{Aprendizagem 2022}\vskip 0.2cm Homework III -- Group 019\vskip 0.2cm Diogo Gaspar 99207, Rafael Oliveira 99311}
+\date{}
+\begin{document}
+\maketitle
+\center\large{\vskip -2.5cm\textbf{Part I}: Pen and paper}
+\begin{enumerate}[leftmargin=\labelsep]
+
+  \item \textbf{Consider the basis function, $\phi_j(x) = x^j$, for performing a 3-order polynomial regression,
+          $$
+            \hat{z}(x, w) = \sum_{j=0}^3 w_j \phi_j(x) = w_0 + w_1 x + w_2 x^2 + w_3 x^3.
+          $$
+          Learn the Ridge regression ($l_2$ regularization) on the transformed data space
+          using the closed-form solution with $\lambda = 2$.
+        }
+
+        \pagebreak
+
+  \item \textbf{Compute the training RMSE for the learnt regression model.}
+
+        \pagebreak
+
+  \item \textbf{Consider a multi-layer perceptron characterized by one hidden layer with 2 nodes.
+          Using the activation function $f(x) = e^{0.1x}$ on all units, all weights
+          initialized as 1 (including biases), and the half squared error loss, perform
+          one batch gradient descent update (with learning rate $\eta = 0.1$)
+          for the first three observations (0.8), (1) and (1.2).
+        }
+
+\end{enumerate}
+
+\pagebreak
+
+\center\large{\textbf{Part II}: Programming}
+
+\begin{justify}
+  Lorem ipsum thingies
+\end{justify}
+
+\begin{enumerate}[leftmargin=\labelsep,resume]
+  \item \textbf{Compute the MAE of the three regressors: linear regression, $MLP_1$ and $MLP_2$.}
+
+        \pagebreak
+
+  \item \textbf{Plot the residues (in absolute value) using two visualizations: boxplots and histograms.}
+
+        \pagebreak
+
+  \item \textbf{How many iterations were required for $MLP_1$ ans $MLP_2$ to converge?}
+
+        \pagebreak
+
+  \item \textbf{What can be motivating the unexpected differences on the number of iterations?
+          Hypothetize one reason underlying the observed performance differences between the MLPs.}
+\end{enumerate}
+
+\pagebreak
+
+\large{\textbf{Appendix}\vskip 0.3cm}
+
+\end{document}
