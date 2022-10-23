@@ -81,24 +81,48 @@
 
 \pagebreak
 
-\center\large{\textbf{Part II}: Programming}
+\center\large{\textbf{Part II}: Programming and critical analysis}
 
 \begin{justify}
-  Lorem ipsum thingies
+  The code utilized to answer the following questions is available in this
+  report's appendix.
 \end{justify}
 
 \begin{enumerate}[leftmargin=\labelsep,resume]
   \item \textbf{Compute the MAE of the three regressors: linear regression, $MLP_1$ and $MLP_2$.}
 
-        \pagebreak
+        We opted to utilize \texttt{sklearn}'s \texttt{mean\_absolute\_error} function to compute the MAE of the three regressors.
+        The regressors were created as shown in the appendix (using \texttt{Ridge} and
+        \texttt{MLPRegressor} with the respective parameters).
+
+        We gathered the following results:
+
+        \begin{table}[h]
+          \centering
+          \begin{tabular}{l|l}
+            Regressor                 & MAE       \\ \hline
+            Linear Regression (Ridge) & $0.16283$ \\
+            $MLP_1$                   & $0.06804$ \\
+            $MLP_2$                   & $0.09781$
+          \end{tabular}
+          \caption{Gathered Mean Absolute Errors for each specified regressor}
+          \label{tab:mean-absolute-errors}
+        \end{table}
 
   \item \textbf{Plot the residues (in absolute value) using two visualizations: boxplots and histograms.}
 
-        \pagebreak
+        Each regressor's residues, calculated as the absolute difference between
+        the predicted and actual values, were plotted using both boxplots and histograms
+        (using, respectively, \texttt{seaborn}'s \texttt{boxplot} and \texttt{histplot} functions),
+        as shown in this report's appendix (figures after the code).
 
-  \item \textbf{How many iterations were required for $MLP_1$ ans $MLP_2$ to converge?}
+  \item \textbf{How many iterations were required for $MLP_1$ and $MLP_2$ to converge?}
 
-        \pagebreak
+        Calling the \texttt{print\_regressor} method for each regressor shows us
+        not only the MAE, but also the number of iterations required for each of
+        the MLP regressors to converge. In this case, the number of iterations
+        required for $MLP_1$ ($MLP$ with early stopping) to converge was 452,
+        while $MLP_2$ ($MLP$ \textit{without} early stopping) required only 77.
 
   \item \textbf{What can be motivating the unexpected differences on the number of iterations?
           Hypothetize one reason underlying the observed performance differences between the MLPs.}
@@ -107,5 +131,30 @@
 \pagebreak
 
 \large{\textbf{Appendix}\vskip 0.3cm}
+
+\lstinputlisting[language=Python]{code.py}
+
+% TODO: figures should be presented neatly, currently aren't
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{../assets/ridge-plots.png}
+  \caption{Ridge regression's residue plotting}
+  \label{fig:ridge-plotting}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{../assets/mlp1-plots.png}
+  \caption{$MLP_1$ regression's residue plotting}
+  \label{fig:mlp1-plotting}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\textwidth]{../assets/mlp2-plots.png}
+  \caption{$MLP_2$ regression's residue plotting}
+  \label{fig:mlp2-plotting}
+\end{figure}
 
 \end{document}
