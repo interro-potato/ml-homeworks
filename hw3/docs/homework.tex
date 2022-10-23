@@ -64,6 +64,136 @@
           using the closed-form solution with $\lambda = 2$.
         }
 
+        We have in hands a \textbf{supervised learning} problem, with a given training
+        dataset as shown below:
+
+        \begin{table}[h]
+          \centering
+          \begin{tabular}{c|c|c}
+                  & $y_1$ & $z$  \\ \hline
+            $x_1$ & $0.8$ & $24$ \\
+            $x_2$ & $1$   & $20$ \\
+            $x_3$ & $1.2$ & $10$ \\
+            $x_4$ & $1.4$ & $13$ \\
+            $x_5$ & $1.6$ & $12$
+          \end{tabular}
+          \caption{Training dataset: $y_1$ as the input's (only) variable, $z$ as the target variable}
+          \label{tab:training-dataset}
+        \end{table}
+
+        We can note that in the statement's estimation function, $\hat{z}(x, w)$, $x$ is a single-element vector
+        (with its only entry being each sample's $y_1$ value). Therefore, it makes
+        sense to "expand" the table above as follows, in order to have a broader
+        representation of the values we'll end up using in the estimation function:
+
+        \begin{table}[h]
+          \centering
+          \begin{tabular}{c|ccc|c}
+                  & $y_1$ & $y_1^2$ & $y_1^3$ & $z$  \\ \hline
+            $x_1$ & $0.8$ & $0.64$  & $0.512$ & $24$ \\
+            $x_2$ & $1$   & $1$     & $1$     & $20$ \\
+            $x_3$ & $1.2$ & $1.44$  & $1.728$ & $10$ \\
+            $x_4$ & $1.4$ & $1.96$  & $2.744$ & $13$ \\
+            $x_5$ & $1.6$ & $2.56$  & $4.096$ & $12$
+          \end{tabular}
+          \caption{Training dataset with additional information}
+          \label{tab:expanded-training-dataset}
+        \end{table}
+
+        The equation below shows the closed-form solution for the Ridge regression
+        problem, with $\lambda = 2$:
+
+        \begin{equation*}
+          % account for lambda, the bias term
+          w = (\Phi^T \Phi + \lambda I)^{-1} \Phi^T z = (\Phi^T \Phi + 2 I)^{-1} \Phi^T z
+        \end{equation*}
+
+        Here, $\Phi$ is the result of applying the basis function to our training
+        dataset's inputs, such that:
+
+        \begin{equation*}
+          \Phi = \begin{bmatrix}
+            1      & \phi_1(x_1) & \phi_2(x_1) & \phi_3(x_1) \\
+            1      & \phi_1(x_2) & \phi_2(x_2) & \phi_3(x_2) \\
+            \vdots & \vdots      & \vdots      & \vdots      \\
+            1      & \phi_1(x_5) & \phi_2(x_5) & \phi_3(x_5)
+          \end{bmatrix} = \begin{bmatrix}
+            1 & 0.8 & 0.64 & 0.512 \\
+            1 & 1   & 1    & 1     \\
+            1 & 1.2 & 1.44 & 1.728 \\
+            1 & 1.4 & 1.96 & 2.744 \\
+            1 & 1.6 & 2.56 & 4.096
+          \end{bmatrix}
+        \end{equation*}
+
+        We are now able to learn the given polynomial regression model, with $\lambda = 2$:
+        $$
+          \begin{aligned}
+            (\Phi^T \Phi + \lambda I)^{-1} & = \left(
+            \begin{bmatrix}
+              1 & 0.8 & 0.64 & 0.512 \\
+              1 & 1   & 1    & 1     \\
+              1 & 1.2 & 1.44 & 1.728 \\
+              1 & 1.4 & 1.96 & 2.744 \\
+              1 & 1.6 & 2.56 & 4.096
+            \end{bmatrix}^T
+            \begin{bmatrix}
+              1 & 0.8 & 0.64 & 0.512 \\
+              1 & 1   & 1    & 1     \\
+              1 & 1.2 & 1.44 & 1.728 \\
+              1 & 1.4 & 1.96 & 2.744 \\
+              1 & 1.6 & 2.56 & 4.096
+            \end{bmatrix} +
+            \begin{bmatrix}
+              2 & 0 & 0 & 0 \\
+              0 & 2 & 0 & 0 \\
+              0 & 0 & 2 & 0 \\
+              0 & 0 & 0 & 2
+            \end{bmatrix}
+            \right)^{-1}                                                                             \\
+                                           & = \begin{bmatrix}
+                                                 0.34168753  & -0.1214259  & -0.07490231 & -0.00932537 \\
+                                                 -0.1214259  & 0.3892078   & -0.09667718 & -0.07445624 \\
+                                                 -0.07490231 & -0.09667718 & 0.37257788  & -0.17135047 \\
+                                                 -0.00932537 & -0.07445624 & -0.17135047 & 0.17998796  \\
+                                               \end{bmatrix}
+          \end{aligned}
+        $$
+
+        \begin{equation*}
+          \Phi^T z = \begin{bmatrix}
+            1 & 0.8 & 0.64 & 0.512 \\
+            1 & 1   & 1    & 1     \\
+            1 & 1.2 & 1.44 & 1.728 \\
+            1 & 1.4 & 1.96 & 2.744 \\
+            1 & 1.6 & 2.56 & 4.096
+          \end{bmatrix}^T
+          \begin{bmatrix}
+            24 \\
+            20 \\
+            10 \\
+            13 \\
+            12
+          \end{bmatrix} = \begin{bmatrix}
+            79      \\
+            88.6    \\
+            105.96  \\
+            134.392 \\
+          \end{bmatrix}
+        \end{equation*}
+
+        \begin{equation*}
+          w = (\Phi^T \Phi + \lambda I)^{-1} \Phi^T z = \begin{bmatrix}
+            7.0450759   \\
+            4.64092765  \\
+            1.96734046  \\
+            -1.30088142 \\
+          \end{bmatrix}
+        \end{equation*}
+
+        Having learned the regression model, we can now use it to predict labels $z$
+        for new samples!
+
         \pagebreak
 
   \item \textbf{Compute the training RMSE for the learnt regression model.}
