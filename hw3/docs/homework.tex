@@ -409,7 +409,24 @@
   \item \textbf{What can be motivating the unexpected differences on the number of iterations?
           Hypothetize one reason underlying the observed performance differences between the MLPs.}
 
-        % TODO: thingies
+        As has been noted in the previous question's answer, $MLP_1$ takes many more
+        iterations to converge than $MLP_2$ - almost six times as many. It's probably
+        worth emphasizing that the number of iterations in a batch gradient descent
+        algorithm matches the number of epochs ran - the amount of times the algorithm goes
+        through the entire dataset. Early stopping, however, is a technique which
+        allows us to \textbf{stop an epoch} at a given point, not the entire algorithm.
+
+        % TODO: reasons for the difference in iterations
+
+        Regarding performance, we were able to assert in the first question's answer
+        that $MLP_1$ performed better than $MLP_2$ - it had a lower MAE, which
+        effectively tells us that it was able to better approximate the function
+        we were trying to learn to the data. With $MLP_1$ utilizing early stopping,
+        it's likely that the regressor was able to avoid overfitting the data
+        a bit better than $MLP_2$ - stopping at the "right point" of an epoch, instead
+        of running the algorithm for all samples, could allow it to generalize
+        better to unseen data.
+
 
 \end{enumerate}
 
