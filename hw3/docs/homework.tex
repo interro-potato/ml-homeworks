@@ -566,7 +566,7 @@
         Each regressor's residues, calculated as the absolute difference between
         the predicted and actual values, were plotted using both boxplots and histograms
         (using, respectively, \texttt{seaborn}'s \texttt{boxplot} and \texttt{histplot} functions),
-        as shown in this report's appendix (figures after the code).
+        as shown in this report's appendix (figure after the code).
 
   \item \textbf{How many iterations were required for $MLP_1$ and $MLP_2$ to converge?}
 
@@ -608,25 +608,11 @@
 
 % TODO: figures should be presented neatly, currently aren't
 
-\begin{figure}[h]
+\begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{../assets/ridge-plots.png}
+  \includegraphics[width=\textwidth]{../assets/residues.png}
   \caption{Ridge regression's residue plotting}
-  \label{fig:ridge-plotting}
-\end{figure}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=\textwidth]{../assets/mlp1-plots.png}
-  \caption{$MLP_1$ regression's residue plotting}
-  \label{fig:mlp1-plotting}
-\end{figure}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=\textwidth]{../assets/mlp2-plots.png}
-  \caption{$MLP_2$ regression's residue plotting}
-  \label{fig:mlp2-plotting}
+  \label{fig:residue-plotting}
 \end{figure}
 
 \end{document}

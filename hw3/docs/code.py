@@ -26,19 +26,44 @@ def predict(regressor):
   regressor.fit(X_train, y_train)
   return regressor.predict(X_test)
 
-def plot_regressor_residues(regressor, description, y_pred):
+def plot_regressors_residues():
   """Utilized for answering question 2."""
-  residues = np.abs(y_test - y_pred)
+  predictions = []
+  descriptions = []
+  for description, regressor in regressors.items():
+    predictions.append(predict(regressor))
+    descriptions.append(description)
 
-  fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4))
-  sns.histplot(data=residues, ax=ax1)
-  ax1.set_title('Residues histogram')
-  ax1.set_xlabel('Residues')
-  sns.boxplot(data=residues, ax=ax2, orient='h')
-  ax2.set_title('Residues boxplot')
-  ax2.set_xlabel('Residues')
-  plt.suptitle(description)
-  plt.show()
+  fig, (ax1, ax2) = plt.subplots(2, figsize=(8, 12))
+  
+  sns.histplot(
+    data=pd.DataFrame({
+      description: np.abs(y_test - prediction)
+      for description, prediction in zip(descriptions, predictions)
+    }),
+    bins=30,
+    ax=ax1,
+    multiple='dodge',
+  )
+  ax1.set_title('Residues histogram for each regressor')
+  ax1.set_xlabel('Residue')
+  ax1.set_ylabel('Count')
+  ax1.legend(descriptions)
+
+  sns.boxplot(
+    data=pd.DataFrame({
+      description: np.abs(y_test - prediction)
+      for description, prediction in zip(descriptions, predictions)
+    }),
+    ax=ax2,
+    orient='h',
+  )
+  ax2.set_title('Residues boxplot for each regressor')
+  ax2.set_xlabel('Residue')
+  ax2.set_ylabel('Regressor')
+  ax2.legend(descriptions)
+  plt.savefig('assets/residues.png')
+
 
 def print_regressor(regressor, description, y_pred):
   """Utilized for answering questions 1. and 3."""
@@ -66,5 +91,7 @@ regressors = {
 
 for description, regressor in regressors.items():
   y_pred = predict(regressor)
+  print("---")
   print_regressor(regressor, description, y_pred)
-  plot_regressor_residues(regressor, description, y_pred)
+
+plot_regressors_residues()
