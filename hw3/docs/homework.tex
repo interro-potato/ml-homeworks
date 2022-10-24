@@ -286,16 +286,14 @@
                         \end{bmatrix}, \quad
             w^{(1)} & = \begin{bmatrix}
                           1 & 1 & 1 \\
-                          1 & 1 & 1 \\
                           1 & 1 & 1
                         \end{bmatrix}, \quad
             b^{(1)} & = \begin{bmatrix}
                           1 \\
-                          1 \\
                           1
                         \end{bmatrix}, \quad
             w^{(2)} & = \begin{bmatrix}
-                          1 & 1 & 1
+                          1 & 1
                         \end{bmatrix}, \quad
             b^{(2)} & = \begin{bmatrix}
                           1
@@ -305,23 +303,23 @@
 
         Applying the algorithm will lead us to the following results:
 
+
+        % FIXME: align second members
         \begin{equation*}
           \begin{aligned}
             z^{(1)} & = \begin{bmatrix}
                           4.00000000 \\
-                          4.00000000 \\
-                          4.00000000 \\
+                          4.00000000
                         \end{bmatrix}, \quad
             x^{(1)} = \begin{bmatrix}
                         1.4918247 \\
-                        1.4918247 \\
-                        1.4918247 \\
+                        1.4918247
                       \end{bmatrix},         \\
             z^{(2)} & = \begin{bmatrix}
-              5.47547409\\
-            \end{bmatrix}, \quad
+                          3.9836494 \\
+                        \end{bmatrix}, \quad
             x^{(2)} = \begin{bmatrix}
-                        1.7290072
+                        1.48938747
                       \end{bmatrix}
           \end{aligned}
         \end{equation*}
@@ -342,12 +340,12 @@
         \begin{align*}
           \frac{\partial E}{\partial w^{[L]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}} \circ
             \frac{\partial x^{[L]}}{\partial z^{[L]}}}
-          \frac{\partial z^{[L]^T}}{\partial w^{[L]}}                                                    \\
+          \frac{\partial z^{[L]^T}}{\partial w^{[L]}}                                                        \\
           \frac{\partial E}{\partial b^{[L]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}} \circ
             \frac{\partial x^{[L]}}{\partial z^{[L]}}}
-          \frac{\partial z^{[L]^T}}{\partial b^{[L]}}                                                    \\
+          \frac{\partial z^{[L]^T}}{\partial b^{[L]}}                                                        \\
           \delta^{[L]}                        & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}} \circ
-          \frac{\partial x^{[L]}}{\partial z^{[L]}}}                                                   \\
+          \frac{\partial x^{[L]}}{\partial z^{[L]}}}                                                         \\
           \delta^{[l]}                        & =
           \frac{\partial z^{[l + 1]^T}}{\partial x^{[l]}} \cdot \delta^{[l + 1]} \circ \frac{\partial x^{[l]}}{\partial z^{[l]}}
         \end{align*}
@@ -356,7 +354,7 @@
         derived both in class and in the curricular unit's book):
 
         % derivative of the error loss
-        
+
         \begin{equation*}
           \begin{aligned}
             \frac{\partial E}{\partial x^{[2]}} = \frac{\partial \frac{1}{4}\sum_{i=1}^N (z_i - x_i^{[2]})^2}{\partial x^{[2]}} = \frac{x^{[2]} - z_i}{2}, \quad
@@ -378,53 +376,49 @@
 
         \begin{equation*}
           \begin{aligned}
-            \textcolor{purple}{\delta^{[2]}} &= \textcolor{teal}{\frac{\partial E}{\partial x^{[2]}} \circ
-            \frac{\partial x^{[2]}}{\partial z^{[2]}}}
-            = (x^{[2]} - z_i) \circ 0.1e^{0.1z^{[2]}} \\
-            &= \left(
-              \begin{bmatrix}
-                \nicefrac{1.72900727}{2}
-              \end{bmatrix} - \begin{bmatrix}
-                1
-              \end{bmatrix}
+            \textcolor{purple}{\delta^{[2]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[2]}} \circ
+              \frac{\partial x^{[2]}}{\partial z^{[2]}}}
+            = \frac{1}{2}(x^{[2]} - z_i) \circ 0.1e^{0.1z^{[2]}}                                                     \\
+                                             & = \left(
+            \frac{\begin{bmatrix}
+                      1.48938747
+                    \end{bmatrix} - \begin{bmatrix}
+                                      1
+                                    \end{bmatrix}}{2}
             \right) \circ 0.1e^{0.1 \begin{bmatrix}
-              5.47547409
-            \end{bmatrix}} \\
-            &= \begin{bmatrix}
-              - 0.135496365
-              \end{bmatrix} \circ \begin{bmatrix} 0.1e^{0.547547409} \end{bmatrix}\\
-            &= \begin{bmatrix}
-              - 0.02342741996
-              \end{bmatrix}
+                                          3.9836494
+                                        \end{bmatrix}}                                                                   \\
+                                             & = \begin{bmatrix}
+                                                   0.244693735
+                                                 \end{bmatrix} \circ \begin{bmatrix} 0.1e^{0.39836494} \end{bmatrix} \\
+                                             & = \begin{bmatrix}
+                                                   0.03644437824
+                                                 \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
         \begin{equation*}
           \begin{aligned}
-            \textcolor{purple}{\delta^{[1]}} &= \frac{\partial z^{[2]^T}}{\partial x^{[1]}} \cdot \delta^{[2]} \circ \frac{\partial x^{[1]}}{\partial z^{[1]}} \\
-            &= \begin{bmatrix}
-                1 \\
-                1 \\
-                1
-              \end{bmatrix} \cdot \begin{bmatrix}
-                - 0.02342741996
-              \end{bmatrix} \circ \begin{bmatrix}
-                0.1e^{0.1z^{[1]}}
-              \end{bmatrix} \\
-            &= \begin{bmatrix}
-                - 0.02342741996 \\
-                - 0.02342741996 \\
-                - 0.02342741996
-              \end{bmatrix} \circ \begin{bmatrix}
-                0.1 e^{0.4} \\
-                0.1 e^{0.4} \\
-                0.1 e^{0.4}
-              \end{bmatrix} \\
-            &= \begin{bmatrix}
-                - 0.003494960370 \\
-                - 0.003494960370 \\
-                - 0.003494960370
-              \end{bmatrix}
+            \textcolor{purple}{\delta^{[1]}} & = \frac{\partial z^{[2]^T}}{\partial x^{[1]}} \cdot \delta^{[2]} \circ \frac{\partial x^{[1]}}{\partial z^{[1]}} \\
+                                             & = \begin{bmatrix}
+                                                   1 \\
+                                                   1
+                                                 \end{bmatrix} \cdot \begin{bmatrix}
+                                                                       0.03644437824
+                                                                     \end{bmatrix} \circ \begin{bmatrix}
+                                                                                           0.1e^{0.1z^{[1]}}
+                                                                                         \end{bmatrix}                   \\
+                                             & = \begin{bmatrix}
+                                                   0.03644437824 \\
+                                                   0.03644437824
+                                                 \end{bmatrix} \circ \begin{bmatrix}
+                                                                       0.1 e^{0.4} \\
+                                                                       0.1 e^{0.4}
+                                                                     \end{bmatrix}                                                                             \\
+                                             & = \begin{bmatrix}
+                                                   0.005436862355 \\
+                                                   0.005436862355
+                                                 \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
@@ -433,118 +427,111 @@
 
         Starting with weight matrices:
 
-          \begin{equation*}
-              \frac{\partial E}{\partial w^{[1]}} = \delta^{[1]} \cdot
-              \frac{\partial z^{[1]^T}}{\partial w^{[1]}}
-              = \delta^{[1]} \cdot x^{[0]^T}
-              = \begin{bmatrix}
-                -0.00279597 & -0.00349496 & -0.00419395\\
-                -0.00279597 & -0.00349496 & -0.00419395\\
-                -0.00279597 & -0.00349496 & -0.00419395\\
-              \end{bmatrix}
-          \end{equation*}
+        \begin{equation*}
+          \frac{\partial E}{\partial w^{[1]}} = \delta^{[1]} \cdot
+          \frac{\partial z^{[1]^T}}{\partial w^{[1]}}
+          = \delta^{[1]} \cdot x^{[0]^T}
+          = \begin{bmatrix}
+            0.00434949 & 0.00543686 & 0.00652423 \\
+            0.00434949 & 0.00543686 & 0.00652423 \\
+          \end{bmatrix}
+        \end{equation*}
 
-          \begin{equation*}
-              \frac{\partial E}{\partial w^{[2]}} = \delta^{[2]} \cdot
-              \frac{\partial z^{[2]^T}}{\partial w^{[2]}}
-              = \delta^{[2]} 
-               \cdot x^{[1]^T}
-              = \begin{bmatrix}
-                -0.0349496 & -0.0349496 & -0.0349496\\
-              \end{bmatrix}
-          \end{equation*}
+        \begin{equation*}
+          \frac{\partial E}{\partial w^{[2]}} = \delta^{[2]} \cdot
+          \frac{\partial z^{[2]^T}}{\partial w^{[2]}}
+          = \delta^{[2]}
+          \cdot x^{[1]^T}
+          = \begin{bmatrix}
+            0.05436862 & 0.05436862 \\
+          \end{bmatrix}
+        \end{equation*}
 
-          \begin{equation*}
-            \begin{aligned}
-              w^{[1]} = w^{[1]} - \eta \cdot \frac{\partial E}{\partial w^{[1]}}
-              &= \begin{bmatrix}
-                  1 & 1 & 1 \\
-                  1 & 1 & 1 \\
-                  1 & 1 & 1
-                \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                  - 0.00279597 & - 0.00349496 & - 0.00419395 \\
-                  - 0.00279597 & - 0.00349496 & - 0.00419395 \\
-                  - 0.00279597 & - 0.00349496 & - 0.00419395
-                \end{bmatrix} \\
-              &= \begin{bmatrix}
-                1.000279597 & 1.000349496 & 1.000419395 \\
-                1.000279597 & 1.000349496 & 1.000419395 \\
-                1.000279597 & 1.000349496 & 1.000419395
-                \end{bmatrix}
-            \end{aligned}
-          \end{equation*}
+        \begin{equation*}
+          \begin{aligned}
+            w^{[1]} = w^{[1]} - \eta \cdot \frac{\partial E}{\partial w^{[1]}}
+             & = \begin{bmatrix}
+                   1 & 1 & 1 \\
+                   1 & 1 & 1
+                 \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
+                                             0.00434949 & 0.00543686 & 0.00652423 \\
+                                             0.00434949 & 0.00543686 & 0.00652423 \\
+                                           \end{bmatrix} \\
+             & = \begin{bmatrix}
+                   0.999565051 & 0.999456314 & 0.999347577 \\
+                   0.999565051 & 0.999456314 & 0.999347577 \\
+                   0.999565051 & 0.999456314 & 0.999347577
+                 \end{bmatrix}
+          \end{aligned}
+        \end{equation*}
 
-          \begin{equation*}
-            \begin{aligned}
-              w^{[2]} = w^{[2]} - \eta \cdot \frac{\partial E}{\partial w^{[2]}}
-              &= \begin{bmatrix}
-                  1 & 1 & 1
-                \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                  - 0.0349496 & - 0.0349496 & - 0.0349496
-                \end{bmatrix} \\
-              &= \begin{bmatrix}
-                1.00349496 & 1.00349496 & 1.00349496
-                \end{bmatrix}
-            \end{aligned}
-          \end{equation*}
+        \begin{equation*}
+          \begin{aligned}
+            w^{[2]} = w^{[2]} - \eta \cdot \frac{\partial E}{\partial w^{[2]}}
+             & = \begin{bmatrix}
+                   1 & 1
+                 \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
+                                             0.05436862 & 0.05436862 \\
+                                           \end{bmatrix} \\
+             & = \begin{bmatrix}
+                   0.994563138 & 0.994563138
+                 \end{bmatrix}
+          \end{aligned}
+        \end{equation*}
 
-          After updating weights, we'll update biases:
-          
-          \begin{equation*}
-            \frac{\partial E}{\partial b^{[1]}} = \delta^{[1]} \cdot
-            \frac{\partial z^{[1]^T}}{\partial b^{[1]}}
-            = \delta^{[1]} \cdot 1
-            = \delta^{[1]}
-            = \begin{bmatrix}
-                - 0.003494960370 \\
-                - 0.003494960370 \\
-                - 0.003494960370
-              \end{bmatrix}
-          \end{equation*}
+        After updating weights, we'll update biases:
 
-          \begin{equation*}
-            \frac{\partial E}{\partial b^{[2]}} = \delta^{[2]} \cdot
-            \frac{\partial z^{[2]^T}}{\partial b^{[2]}}
-            = \delta^{[2]} \cdot 1
-            = \delta^{[2]}
-            = \begin{bmatrix}
-                - 0.02342741996
-              \end{bmatrix}
-          \end{equation*}
+        \begin{equation*}
+          \frac{\partial E}{\partial b^{[1]}} = \delta^{[1]} \cdot
+          \frac{\partial z^{[1]^T}}{\partial b^{[1]}}
+          = \delta^{[1]} \cdot 1
+          = \delta^{[1]}
+          = \begin{bmatrix}
+            0.00543686 \\
+            0.00543686 \\
+          \end{bmatrix}
+        \end{equation*}
 
-          \begin{equation*}
-            \begin{aligned}
-              b^{[1]} = b^{[1]} - \eta \cdot \frac{\partial E}{\partial b^{[1]}}
-              &= \begin{bmatrix}
-                  1 \\
-                  1 \\
-                  1
-                \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                  - 0.003494960370 \\
-                  - 0.003494960370 \\
-                  - 0.003494960370
-                \end{bmatrix} \\
-              &= \begin{bmatrix}
-                1.000349496037 \\
-                1.000349496037 \\
-                1.000349496037
-                \end{bmatrix}
-            \end{aligned}
-          \end{equation*}
+        \begin{equation*}
+          \frac{\partial E}{\partial b^{[2]}} = \delta^{[2]} \cdot
+          \frac{\partial z^{[2]^T}}{\partial b^{[2]}}
+          = \delta^{[2]} \cdot 1
+          = \delta^{[2]}
+          = \begin{bmatrix}
+            0.03644438 \\
+          \end{bmatrix}
+        \end{equation*}
 
-          \begin{equation*}
-            \begin{aligned}
-              b^{[2]} = b^{[2]} - \eta \cdot \frac{\partial E}{\partial b^{[2]}}
-              &= \begin{bmatrix}
-                  1
-                \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                  - 0.02342741996
-                \end{bmatrix} \\
-              &= \begin{bmatrix}
-                1.002342741996
-                \end{bmatrix}
-            \end{aligned}
-          \end{equation*}
+        \begin{equation*}
+          \begin{aligned}
+            b^{[1]} = b^{[1]} - \eta \cdot \frac{\partial E}{\partial b^{[1]}}
+             & = \begin{bmatrix}
+                   1 \\
+                   1
+                 \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
+                                             0.00543686 \\
+                                             0.00543686 \\
+                                           \end{bmatrix} \\
+             & = \begin{bmatrix}
+                   0.99945631 \\
+                   0.99945631 \\
+                 \end{bmatrix}
+          \end{aligned}
+        \end{equation*}
+
+        \begin{equation*}
+          \begin{aligned}
+            b^{[2]} = b^{[2]} - \eta \cdot \frac{\partial E}{\partial b^{[2]}}
+             & = \begin{bmatrix}
+                   1
+                 \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
+                                             0.03644438 \\
+                                           \end{bmatrix} \\
+             & = \begin{bmatrix}
+                   0.99635556 \\
+                 \end{bmatrix}
+          \end{aligned}
+        \end{equation*}
 
         % TODO: thingies
 
