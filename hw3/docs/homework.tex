@@ -570,11 +570,22 @@
 
   \item \textbf{How many iterations were required for $MLP_1$ and $MLP_2$ to converge?}
 
-        Calling the \texttt{print\_regressor} method for each regressor shows us
-        not only the MAE, but also the number of iterations required for each of
-        the MLP regressors to converge. In this case, the number of iterations
-        required for $MLP_1$ ($MLP$ with early stopping) to converge was 452,
-        while $MLP_2$ ($MLP$ \textit{without} early stopping) required only 77.
+        By definition, we know that $MLP$s converge when their
+        parameters are no longer updated between epochs. With early stopping, however,
+        we may actually stop training before the network has converged: using
+        \texttt{sklearn}'s \texttt{MLPRegressor} implementation, it stops
+        when the validation score has not improved in a given number of epochs
+        by at least a given tolerance. \textbf{As such, given that $MLP_1$ utilizes
+          early stopping, we're not able to know with certainty whether $MLP_1$ actually
+          converged or not.} We can, however, assert that it effectively stopped training after 452 epochs.
+
+        Regarding $MLP_2$, we can safely say that it converged after 77 epochs:
+        it does not utilize early stopping, and as such should only stop after either
+        a maximum number of epochs were reached (500 here, which isn't the case),
+        or upon converging.
+
+        As a side note, both iteration amounts were gathered by using the \texttt{print\_regressor}
+        method present in this code's appendix.
 
   \item \textbf{What can be motivating the unexpected differences on the number of iterations?
           Hypothetize one reason underlying the observed performance differences between the MLPs.}
