@@ -262,7 +262,7 @@
         logic associated to biases), with $\eta = 0.1$ and $E$ being the half squared error loss.
 
         \begin{equation*}
-          E = \frac{1}{2 * 2} \sum_{i=1}^N (z_i - \hat{z}_i)^2
+          E = \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}_i)^2
         \end{equation*}
 
         A gradient descent update will require us to go through 3 phases: forward
@@ -363,7 +363,7 @@
 
         \begin{equation*}
           \begin{aligned}
-            \frac{\partial E}{\partial x^{[2]}} = \frac{\partial \frac{1}{4}\sum_{i=1}^N (z_i - x_i^{[2]})^2}{\partial x^{[2]}} = \frac{x^{[2]} - z_i}{2}, \quad
+            \frac{\partial E}{\partial x^{[2]}} = \frac{\partial \frac{1}{2}\sum_{i=1}^N (z_i - x^{[2]})^2}{\partial x^{[2]}} = \sum_{i=1}^N (x^{[2]} - z_i), \quad
             \frac{\partial x^{[l]}}{\partial z^{[l]}} = \frac{\partial e^{0.1z^{[l]}}}{\partial z^{[l]}} = 0.1e^{0.1z^{[l]}}
           \end{aligned}
         \end{equation*}
@@ -385,12 +385,12 @@
             \begin{aligned}
               \textcolor{purple}{\delta^{[2]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[2]}} \circ
               \frac{\partial x^{[2]}}{\partial z^{[2]}}}                                                               \\
-                                               & = \frac{(x^{[2]} - z_i)}{2} \circ 0.1e^{0.1z^{[2]}}                   \\
+                                               & = \left[\sum_{i=1}^N(x^{[2]} - z_i)\right] \circ 0.1e^{0.1z^{[2]}}    \\
                                                & = \begin{bmatrix}
-                                                     0.244693735
+                                                     - 49.53183759
                                                    \end{bmatrix} \circ \begin{bmatrix} 0.1e^{0.39836494} \end{bmatrix} \\
                                                & = \begin{bmatrix}
-                                                     0.03644437824
+                                                     - 7.377209816
                                                    \end{bmatrix}
             \end{aligned}
           \end{equation*}
@@ -401,15 +401,15 @@
             \begin{aligned}
               \textcolor{purple}{\delta^{[1]}} & = \frac{\partial z^{[2]^T}}{\partial x^{[1]}} \cdot \delta^{[2]} \circ \frac{\partial x^{[1]}}{\partial z^{[1]}} \\
                                                & = \begin{bmatrix}
-                                                     0.03644437824 \\
-                                                     0.03644437824
+                                                     -7.37720981 \\
+                                                     -7.37720981 \\
                                                    \end{bmatrix} \circ \begin{bmatrix}
                                                                          0.1 e^{0.4} \\
                                                                          0.1 e^{0.4}
                                                                        \end{bmatrix}                                                                             \\
                                                & = \begin{bmatrix}
-                                                     0.005436862355 \\
-                                                     0.005436862355
+                                                     -1.10055038 \\
+                                                     -1.10055038 \\
                                                    \end{bmatrix}
             \end{aligned}
           \end{equation*}
@@ -426,8 +426,8 @@
           \frac{\partial z^{[1]^T}}{\partial w^{[1]}}
           = \delta^{[1]} \cdot x^{[0]^T}
           = \begin{bmatrix}
-            0.00434949 & 0.00543686 & 0.00652423 \\
-            0.00434949 & 0.00543686 & 0.00652423 \\
+            -0.8804403 & -1.10055038 & -1.32066046 \\
+            -0.8804403 & -1.10055038 & -1.32066046 \\
           \end{bmatrix}
         \end{equation*}
 
@@ -437,7 +437,7 @@
           = \delta^{[2]}
           \cdot x^{[1]^T}
           = \begin{bmatrix}
-            0.05436862 & 0.05436862 \\
+            -11.0055038 & -11.0055038 \\
           \end{bmatrix}
         \end{equation*}
 
@@ -448,13 +448,12 @@
                    1 & 1 & 1 \\
                    1 & 1 & 1
                  \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                                             0.00434949 & 0.00543686 & 0.00652423 \\
-                                             0.00434949 & 0.00543686 & 0.00652423 \\
+                                             -0.8804403 & -1.10055038 & -1.32066046 \\
+                                             -0.8804403 & -1.10055038 & -1.32066046 \\
                                            \end{bmatrix} \\
              & = \begin{bmatrix}
-                   0.999565051 & 0.999456314 & 0.999347577 \\
-                   0.999565051 & 0.999456314 & 0.999347577 \\
-                   0.999565051 & 0.999456314 & 0.999347577
+                   1.08804403 & 1.11005504 & 1.13206605 \\
+                   1.08804403 & 1.11005504 & 1.13206605 \\
                  \end{bmatrix}
           \end{aligned}
         \end{equation*}
@@ -464,11 +463,11 @@
             w^{[2]} = w^{[2]} - \eta \cdot \frac{\partial E}{\partial w^{[2]}}
              & = \begin{bmatrix}
                    1 & 1
-                 \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                                             0.05436862 & 0.05436862 \\
-                                           \end{bmatrix} \\
+                 \end{bmatrix} - 0.1 \cdot\begin{bmatrix}
+                                            -11.0055038 & -11.0055038 \\
+                                          \end{bmatrix} \\
              & = \begin{bmatrix}
-                   0.994563138 & 0.994563138
+                   2.10055038 & 2.10055038 \\
                  \end{bmatrix}
           \end{aligned}
         \end{equation*}
@@ -481,8 +480,8 @@
           = \delta^{[1]} \cdot 1
           = \delta^{[1]}
           = \begin{bmatrix}
-            0.00543686 \\
-            0.00543686 \\
+            -1.10055038 \\
+            -1.10055038 \\
           \end{bmatrix}
         \end{equation*}
 
@@ -492,7 +491,7 @@
           = \delta^{[2]} \cdot 1
           = \delta^{[2]}
           = \begin{bmatrix}
-            0.03644438 \\
+            -7.37720981 \\
           \end{bmatrix}
         \end{equation*}
 
@@ -503,12 +502,12 @@
                    1 \\
                    1
                  \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                                             0.00543686 \\
-                                             0.00543686 \\
+                                             -1.10055038 \\
+                                             -1.10055038 \\
                                            \end{bmatrix} \\
              & = \begin{bmatrix}
-                   0.99945631 \\
-                   0.99945631 \\
+                   1.11005504 \\
+                   1.11005504 \\
                  \end{bmatrix}
           \end{aligned}
         \end{equation*}
@@ -519,15 +518,13 @@
              & = \begin{bmatrix}
                    1
                  \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                                             0.03644438 \\
+                                             -7.37720981 \\
                                            \end{bmatrix} \\
              & = \begin{bmatrix}
-                   0.99635556 \\
+                   1.73772098 \\
                  \end{bmatrix}
           \end{aligned}
         \end{equation*}
-
-        % TODO: thingies
 
 \end{enumerate}
 
@@ -570,22 +567,11 @@
 
   \item \textbf{How many iterations were required for $MLP_1$ and $MLP_2$ to converge?}
 
-        By definition, we know that $MLP$s converge when their
-        parameters are no longer updated between epochs. With early stopping, however,
-        we may actually stop training before the network has converged: using
-        \texttt{sklearn}'s \texttt{MLPRegressor} implementation, it stops
-        when the validation score has not improved in a given number of epochs
-        by at least a given tolerance. \textbf{As such, given that $MLP_1$ utilizes
-          early stopping, we're not able to know with certainty whether $MLP_1$ actually
-          converged or not.} We can, however, assert that it effectively stopped training after 452 epochs.
-
-        Regarding $MLP_2$, we can safely say that it converged after 77 epochs:
-        it does not utilize early stopping, and as such should only stop after either
-        a maximum number of epochs were reached (500 here, which isn't the case),
-        or upon converging.
-
-        As a side note, both iteration amounts were gathered by using the \texttt{print\_regressor}
-        method present in this code's appendix.
+        Calling the \texttt{print\_regressor} method for each regressor shows us
+        not only the MAE, but also the number of iterations required for each of
+        the MLP regressors to converge. In this case, the number of iterations
+        required for $MLP_1$ ($MLP$ with early stopping) to converge was 452,
+        while $MLP_2$ ($MLP$ \textit{without} early stopping) required only 77.
 
   \item \textbf{What can be motivating the unexpected differences on the number of iterations?
           Hypothetize one reason underlying the observed performance differences between the MLPs.}
@@ -594,19 +580,33 @@
         iterations to converge than $MLP_2$ - almost six times as many. It's probably
         worth emphasizing that the number of iterations in a batch gradient descent
         algorithm matches the number of epochs ran - the amount of times the algorithm goes
-        through the entire dataset. Early stopping, however, is a technique which
-        allows us to \textbf{stop an epoch} at a given point, not the entire algorithm.
+        through the entire dataset.
 
-        % TODO: reasons for the difference in iterations
+        With \texttt{MLPRegressor}'s early stopping implementation, the training stops
+        after a given number of epochs have passed without the validation score
+        improving by at least a given tolerance (in order to avoid overfitting).
+        The validation set, with \texttt{MLPRegressor}'s \texttt{shuffle} parameter
+        set by default to True, may contain samples from both the training and test sets:
+        with differing training sets (which forcefully seems like the case here),
+        the training process may converge at a different amount of epochs; it's
+        also likely that a training set with a lesser amount of samples may
+        take more epochs to converge, as the algorithm will have to go through
+        the entire dataset more times to reach the "same amount of samples seen"
+        in order to better fit the data.
 
-        Regarding performance, we were able to assert in the first question's answer
-        that $MLP_1$ performed better than $MLP_2$ - it had a lower MAE, which
-        effectively tells us that it was able to better approximate the function
-        we were trying to learn to the data. With $MLP_1$ utilizing early stopping,
-        it's likely that the regressor was able to avoid overfitting the data
-        a bit better than $MLP_2$ - stopping at the "right point" of an epoch, instead
-        of running the algorithm for all samples, could allow it to generalize
-        better to unseen data.
+        The \textbf{different number of iterations} could, then, be associated
+        with the differing training sets used to train each regressor.
+
+        Regarding performance, $MLP_1$ seems to perform better than $MLP_2$,
+        with a lower (and thus better) MAE, as stated in question 4.'s answer.
+        Although both regressors end up converging in training, $MLP_1$ has
+        the advantage of stopping right where the validation score starts to
+        stagnate/decrease: this means that the regressor ends up not overfitting
+        the data, as it would if it kept training for more epochs until reaching
+        "regular" convergence, like $MLP_2$ (which appears to be a bit more overfitted,
+        in comparison to $MLP_1$).
+
+        % TODO: continue this paragraph
 
 
 \end{enumerate}
