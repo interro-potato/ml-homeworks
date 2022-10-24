@@ -246,7 +246,9 @@
           for the first three observations (0.8), (1) and (1.2).
         }
 
-        Our multi-layer perceptron, considering the parameters stated above, is as follows:
+        Our multi-layer perceptron, considering the parameters stated above, should only
+        have one output-node, since we're considering a regression problem aiming to
+        predict a single output variable. As such, we can represent the network as follows:
 
         \begin{figure}[H]
           \centering
@@ -256,11 +258,10 @@
 
         Each node in the hidden layer has an activation function $f(x) = e^{0.1x}$.
         Moreover, we know that the learning rule for the weights of the hidden layer
-        is given by $\Delta w = - \eta \frac{\partial E}{\partial w}$, with $\eta = 0.1$
-        and $E$ being the half squared error loss.
+        is given by $\Delta w = - \eta \frac{\partial E}{\partial w}$ (with an analogous
+        logic associated to biases), with $\eta = 0.1$ and $E$ being the half squared error loss.
 
         \begin{equation*}
-          % E is the half squared error loss
           E = \frac{1}{2 * 2} \sum_{i=1}^N (z_i - \hat{z}_i)^2
         \end{equation*}
 
@@ -275,7 +276,10 @@
           z^{(l)} = w^{(l)} x^{(l - 1)} + b^{(l)}, \quad x^{(l)} = f(z^{(l)})
         \end{equation*}
 
-        From the question's statement, we're able to gather the following:
+        \pagebreak
+
+        We also know, from the question's statement, both the input nodes' values
+        and weight/bias matrices:
 
         \begin{equation*}
           \begin{aligned}
@@ -301,7 +305,7 @@
           \end{aligned}
         \end{equation*}
 
-        Applying the algorithm will lead us to the following results:
+        Applying the afore-mentioned equations in succession will lead us to the following results:
 
 
         % FIXME: align second members
@@ -311,16 +315,16 @@
                           4.00000000 \\
                           4.00000000
                         \end{bmatrix}, \quad
-            x^{(1)} = \begin{bmatrix}
-                        1.4918247 \\
-                        1.4918247
-                      \end{bmatrix},         \\
+                    &                      & x^{(1)} = \begin{bmatrix}
+                                                         1.4918247 \\
+                                                         1.4918247
+                                                       \end{bmatrix} \\
             z^{(2)} & = \begin{bmatrix}
                           3.9836494 \\
                         \end{bmatrix}, \quad
-            x^{(2)} = \begin{bmatrix}
-                        1.48938747
-                      \end{bmatrix}
+                    &                      & x^{(2)} = \begin{bmatrix}
+                                                         1.48938747
+                                                       \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
@@ -335,7 +339,7 @@
         We'll want to propagate information backwards; for that, we'll need to use
         the chain rule, multiplying successive derivatives as we go backwards.
         With $L$ being the \textbf{last layer} - will be useful for reusing previously
-        calculated $\delta$'s - we have the following:
+        calculated $\delta$'s - we have the following equalities:
 
         \begin{align*}
           \frac{\partial E}{\partial w^{[L]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}} \circ
@@ -350,7 +354,9 @@
           \frac{\partial z^{[l + 1]^T}}{\partial x^{[l]}} \cdot \delta^{[l + 1]} \circ \frac{\partial x^{[l]}}{\partial z^{[l]}}
         \end{align*}
 
-        We'll now be able to start propagating (considering the following equalities,
+        \pagebreak
+
+        We'll now be able to start propagating backwards (considering the following equalities,
         derived both in class and in the curricular unit's book):
 
         % derivative of the error loss
@@ -370,57 +376,45 @@
           \end{aligned}
         \end{equation*}
 
-        \pagebreak
+        \begin{multicols}{2}
+          \setlength{\columnseprule}{1pt}
+          \def\columnseprulecolor{\color{black}}
+          \centering
 
-        % FIXME: align the equations below better
+          \begin{equation*}
+            \begin{aligned}
+              \textcolor{purple}{\delta^{[2]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[2]}} \circ
+              \frac{\partial x^{[2]}}{\partial z^{[2]}}}                                                               \\
+                                               & = \frac{(x^{[2]} - z_i)}{2} \circ 0.1e^{0.1z^{[2]}}                   \\
+                                               & = \begin{bmatrix}
+                                                     0.244693735
+                                                   \end{bmatrix} \circ \begin{bmatrix} 0.1e^{0.39836494} \end{bmatrix} \\
+                                               & = \begin{bmatrix}
+                                                     0.03644437824
+                                                   \end{bmatrix}
+            \end{aligned}
+          \end{equation*}
 
-        \begin{equation*}
-          \begin{aligned}
-            \textcolor{purple}{\delta^{[2]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[2]}} \circ
-              \frac{\partial x^{[2]}}{\partial z^{[2]}}}
-            = \frac{1}{2}(x^{[2]} - z_i) \circ 0.1e^{0.1z^{[2]}}                                                     \\
-                                             & = \left(
-            \frac{\begin{bmatrix}
-                      1.48938747
-                    \end{bmatrix} - \begin{bmatrix}
-                                      1
-                                    \end{bmatrix}}{2}
-            \right) \circ 0.1e^{0.1 \begin{bmatrix}
-                                          3.9836494
-                                        \end{bmatrix}}                                                                   \\
-                                             & = \begin{bmatrix}
-                                                   0.244693735
-                                                 \end{bmatrix} \circ \begin{bmatrix} 0.1e^{0.39836494} \end{bmatrix} \\
-                                             & = \begin{bmatrix}
-                                                   0.03644437824
-                                                 \end{bmatrix}
-          \end{aligned}
-        \end{equation*}
+          \columnbreak
 
-        \begin{equation*}
-          \begin{aligned}
-            \textcolor{purple}{\delta^{[1]}} & = \frac{\partial z^{[2]^T}}{\partial x^{[1]}} \cdot \delta^{[2]} \circ \frac{\partial x^{[1]}}{\partial z^{[1]}} \\
-                                             & = \begin{bmatrix}
-                                                   1 \\
-                                                   1
-                                                 \end{bmatrix} \cdot \begin{bmatrix}
-                                                                       0.03644437824
-                                                                     \end{bmatrix} \circ \begin{bmatrix}
-                                                                                           0.1e^{0.1z^{[1]}}
-                                                                                         \end{bmatrix}                   \\
-                                             & = \begin{bmatrix}
-                                                   0.03644437824 \\
-                                                   0.03644437824
-                                                 \end{bmatrix} \circ \begin{bmatrix}
-                                                                       0.1 e^{0.4} \\
-                                                                       0.1 e^{0.4}
-                                                                     \end{bmatrix}                                                                             \\
-                                             & = \begin{bmatrix}
-                                                   0.005436862355 \\
-                                                   0.005436862355
-                                                 \end{bmatrix}
-          \end{aligned}
-        \end{equation*}
+          \begin{equation*}
+            \begin{aligned}
+              \textcolor{purple}{\delta^{[1]}} & = \frac{\partial z^{[2]^T}}{\partial x^{[1]}} \cdot \delta^{[2]} \circ \frac{\partial x^{[1]}}{\partial z^{[1]}} \\
+                                               & = \begin{bmatrix}
+                                                     0.03644437824 \\
+                                                     0.03644437824
+                                                   \end{bmatrix} \circ \begin{bmatrix}
+                                                                         0.1 e^{0.4} \\
+                                                                         0.1 e^{0.4}
+                                                                       \end{bmatrix}                                                                             \\
+                                               & = \begin{bmatrix}
+                                                     0.005436862355 \\
+                                                     0.005436862355
+                                                   \end{bmatrix}
+            \end{aligned}
+          \end{equation*}
+
+        \end{multicols}
 
         In the last phase, we'll be updating our model: after computing the gradients,
         we'll be able to update weights and biases!
