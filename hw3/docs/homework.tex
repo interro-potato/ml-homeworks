@@ -261,11 +261,12 @@
 
         \begin{equation*}
           % E is the half squared error loss
-          E = \frac{1}{2} \sum_{i=1}^N (z_i - \hat{z}_i)^2
+          E = \frac{1}{2 * 2} \sum_{i=1}^N (z_i - \hat{z}_i)^2
         \end{equation*}
 
         A gradient descent update will require us to go through 3 phases: forward
-        propagation, back propagation and weight update.
+        propagation, back propagation and updates (via gradient updates, updating
+        biases and weights).
 
         Starting by the forward propagation, and considering $l$ as a given layer,
         we have that:
@@ -294,11 +295,9 @@
                           1
                         \end{bmatrix}, \quad
             w^{(2)} & = \begin{bmatrix}
-                          1 & 1 & 1 \\
-                          1 & 1 & 1 \\
+                          1 & 1 & 1
                         \end{bmatrix}, \quad
             b^{(2)} & = \begin{bmatrix}
-                          1 \\
                           1
                         \end{bmatrix}
           \end{aligned}
@@ -319,12 +318,10 @@
                         1.4918247 \\
                       \end{bmatrix},         \\
             z^{(2)} & = \begin{bmatrix}
-                          5.47547409 \\
-                          5.47547409 \\
-                        \end{bmatrix}, \quad
+              5.47547409\\
+            \end{bmatrix}, \quad
             x^{(2)} = \begin{bmatrix}
-                        1.72900727 \\
-                        1.72900727 \\
+                        1.7290072
                       \end{bmatrix}
           \end{aligned}
         \end{equation*}
@@ -343,19 +340,211 @@
         calculated $\delta$'s - we have the following:
 
         \begin{align*}
-          \frac{\partial E}{\partial w^{[l]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[l]}}
-            \frac{\partial x^{[l]}}{\partial z^{[l]}}}
-          \frac{\partial z^{[l]}}{\partial w^{[l]}}                                                    \\
-          \frac{\partial E}{\partial b^{[l]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[l]}}
-            \frac{\partial x^{[l]}}{\partial z^{[l]}}}
-          \frac{\partial z^{[l]}}{\partial b^{[l]}}                                                    \\
-          \delta^{[L]}                        & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}}
+          \frac{\partial E}{\partial w^{[L]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}} \circ
+            \frac{\partial x^{[L]}}{\partial z^{[L]}}}
+          \frac{\partial z^{[L]^T}}{\partial w^{[L]}}                                                    \\
+          \frac{\partial E}{\partial b^{[L]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}} \circ
+            \frac{\partial x^{[L]}}{\partial z^{[L]}}}
+          \frac{\partial z^{[L]^T}}{\partial b^{[L]}}                                                    \\
+          \delta^{[L]}                        & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}} \circ
           \frac{\partial x^{[L]}}{\partial z^{[L]}}}                                                   \\
           \delta^{[l]}                        & =
           \frac{\partial z^{[l + 1]^T}}{\partial x^{[l]}} \cdot \delta^{[l + 1]} \circ \frac{\partial x^{[l]}}{\partial z^{[l]}}
         \end{align*}
 
-        We'll now be able to start propagating:
+        We'll now be able to start propagating (considering the following equalities,
+        derived both in class and in the curricular unit's book):
+
+        % derivative of the error loss
+        
+        \begin{equation*}
+          \begin{aligned}
+            \frac{\partial E}{\partial x^{[2]}} = \frac{\partial \frac{1}{4}\sum_{i=1}^N (z_i - x_i^{[2]})^2}{\partial x^{[2]}} = \frac{x^{[2]} - z_i}{2}, \quad
+            \frac{\partial x^{[l]}}{\partial z^{[l]}} = \frac{\partial e^{0.1z^{[l]}}}{\partial z^{[l]}} = 0.1e^{0.1z^{[l]}}
+          \end{aligned}
+        \end{equation*}
+
+        \begin{equation*}
+          \begin{aligned}
+            \frac{\partial z^{[l]}}{\partial x^{[l - 1]}} = w^{[l]}, \quad
+            \frac{\partial z^{[l]}}{\partial b^{[l]}} = 1, \quad
+            \frac{\partial z^{[l]}}{\partial w^{[l]}} = x^{[l - 1]}
+          \end{aligned}
+        \end{equation*}
+
+        \pagebreak
+
+        % FIXME: align the equations below better
+
+        \begin{equation*}
+          \begin{aligned}
+            \textcolor{purple}{\delta^{[2]}} &= \textcolor{teal}{\frac{\partial E}{\partial x^{[2]}} \circ
+            \frac{\partial x^{[2]}}{\partial z^{[2]}}}
+            = (x^{[2]} - z_i) \circ 0.1e^{0.1z^{[2]}} \\
+            &= \left(
+              \begin{bmatrix}
+                \nicefrac{1.72900727}{2}
+              \end{bmatrix} - \begin{bmatrix}
+                1
+              \end{bmatrix}
+            \right) \circ 0.1e^{0.1 \begin{bmatrix}
+              5.47547409
+            \end{bmatrix}} \\
+            &= \begin{bmatrix}
+              - 0.135496365
+              \end{bmatrix} \circ \begin{bmatrix} 0.1e^{0.547547409} \end{bmatrix}\\
+            &= \begin{bmatrix}
+              - 0.02342741996
+              \end{bmatrix}
+          \end{aligned}
+        \end{equation*}
+
+        \begin{equation*}
+          \begin{aligned}
+            \textcolor{purple}{\delta^{[1]}} &= \frac{\partial z^{[2]^T}}{\partial x^{[1]}} \cdot \delta^{[2]} \circ \frac{\partial x^{[1]}}{\partial z^{[1]}} \\
+            &= \begin{bmatrix}
+                1 \\
+                1 \\
+                1
+              \end{bmatrix} \cdot \begin{bmatrix}
+                - 0.02342741996
+              \end{bmatrix} \circ \begin{bmatrix}
+                0.1e^{0.1z^{[1]}}
+              \end{bmatrix} \\
+            &= \begin{bmatrix}
+                - 0.02342741996 \\
+                - 0.02342741996 \\
+                - 0.02342741996
+              \end{bmatrix} \circ \begin{bmatrix}
+                0.1 e^{0.4} \\
+                0.1 e^{0.4} \\
+                0.1 e^{0.4}
+              \end{bmatrix} \\
+            &= \begin{bmatrix}
+                - 0.003494960370 \\
+                - 0.003494960370 \\
+                - 0.003494960370
+              \end{bmatrix}
+          \end{aligned}
+        \end{equation*}
+
+        In the last phase, we'll be updating our model: after computing the gradients,
+        we'll be able to update weights and biases!
+
+        Starting with weight matrices:
+
+          \begin{equation*}
+              \frac{\partial E}{\partial w^{[1]}} = \delta^{[1]} \cdot
+              \frac{\partial z^{[1]^T}}{\partial w^{[1]}}
+              = \delta^{[1]} \cdot x^{[0]^T}
+              = \begin{bmatrix}
+                -0.00279597 & -0.00349496 & -0.00419395\\
+                -0.00279597 & -0.00349496 & -0.00419395\\
+                -0.00279597 & -0.00349496 & -0.00419395\\
+              \end{bmatrix}
+          \end{equation*}
+
+          \begin{equation*}
+              \frac{\partial E}{\partial w^{[2]}} = \delta^{[2]} \cdot
+              \frac{\partial z^{[2]^T}}{\partial w^{[2]}}
+              = \delta^{[2]} 
+               \cdot x^{[1]^T}
+              = \begin{bmatrix}
+                -0.0349496 & -0.0349496 & -0.0349496\\
+              \end{bmatrix}
+          \end{equation*}
+
+          \begin{equation*}
+            \begin{aligned}
+              w^{[1]} = w^{[1]} - \eta \cdot \frac{\partial E}{\partial w^{[1]}}
+              &= \begin{bmatrix}
+                  1 & 1 & 1 \\
+                  1 & 1 & 1 \\
+                  1 & 1 & 1
+                \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
+                  - 0.00279597 & - 0.00349496 & - 0.00419395 \\
+                  - 0.00279597 & - 0.00349496 & - 0.00419395 \\
+                  - 0.00279597 & - 0.00349496 & - 0.00419395
+                \end{bmatrix} \\
+              &= \begin{bmatrix}
+                1.000279597 & 1.000349496 & 1.000419395 \\
+                1.000279597 & 1.000349496 & 1.000419395 \\
+                1.000279597 & 1.000349496 & 1.000419395
+                \end{bmatrix}
+            \end{aligned}
+          \end{equation*}
+
+          \begin{equation*}
+            \begin{aligned}
+              w^{[2]} = w^{[2]} - \eta \cdot \frac{\partial E}{\partial w^{[2]}}
+              &= \begin{bmatrix}
+                  1 & 1 & 1
+                \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
+                  - 0.0349496 & - 0.0349496 & - 0.0349496
+                \end{bmatrix} \\
+              &= \begin{bmatrix}
+                1.00349496 & 1.00349496 & 1.00349496
+                \end{bmatrix}
+            \end{aligned}
+          \end{equation*}
+
+          After updating weights, we'll update biases:
+          
+          \begin{equation*}
+            \frac{\partial E}{\partial b^{[1]}} = \delta^{[1]} \cdot
+            \frac{\partial z^{[1]^T}}{\partial b^{[1]}}
+            = \delta^{[1]} \cdot 1
+            = \delta^{[1]}
+            = \begin{bmatrix}
+                - 0.003494960370 \\
+                - 0.003494960370 \\
+                - 0.003494960370
+              \end{bmatrix}
+          \end{equation*}
+
+          \begin{equation*}
+            \frac{\partial E}{\partial b^{[2]}} = \delta^{[2]} \cdot
+            \frac{\partial z^{[2]^T}}{\partial b^{[2]}}
+            = \delta^{[2]} \cdot 1
+            = \delta^{[2]}
+            = \begin{bmatrix}
+                - 0.02342741996
+              \end{bmatrix}
+          \end{equation*}
+
+          \begin{equation*}
+            \begin{aligned}
+              b^{[1]} = b^{[1]} - \eta \cdot \frac{\partial E}{\partial b^{[1]}}
+              &= \begin{bmatrix}
+                  1 \\
+                  1 \\
+                  1
+                \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
+                  - 0.003494960370 \\
+                  - 0.003494960370 \\
+                  - 0.003494960370
+                \end{bmatrix} \\
+              &= \begin{bmatrix}
+                1.000349496037 \\
+                1.000349496037 \\
+                1.000349496037
+                \end{bmatrix}
+            \end{aligned}
+          \end{equation*}
+
+          \begin{equation*}
+            \begin{aligned}
+              b^{[2]} = b^{[2]} - \eta \cdot \frac{\partial E}{\partial b^{[2]}}
+              &= \begin{bmatrix}
+                  1
+                \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
+                  - 0.02342741996
+                \end{bmatrix} \\
+              &= \begin{bmatrix}
+                1.002342741996
+                \end{bmatrix}
+            \end{aligned}
+          \end{equation*}
 
         % TODO: thingies
 
