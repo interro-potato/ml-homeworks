@@ -578,7 +578,9 @@
         in order to better fit the data.
 
         The \textbf{different number of iterations} could, then, be associated
-        with the differing training sets used to train each regressor.
+        with the differing training sets used to train each regressor, plus the
+        fact that $MLP_1$ stops the validation phase tells it do so, while $MLP_2$
+        strictly looks at convergence regarding training data.
 
         Regarding performance, $MLP_1$ seems to perform better than $MLP_2$,
         with a lower (and thus better) MAE, as stated in question 4.'s answer.
@@ -588,8 +590,6 @@
         the data, as it would if it kept training for more epochs until reaching
         "regular" convergence, like $MLP_2$ (which appears to be a bit more overfitted,
         in comparison to $MLP_1$).
-
-        % TODO: continue this paragraph
 
 
 \end{enumerate}
