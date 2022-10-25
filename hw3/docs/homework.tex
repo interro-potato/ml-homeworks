@@ -248,13 +248,7 @@
 
         Our multi-layer perceptron, considering the parameters stated above, should only
         have one output-node, since we're considering a regression problem aiming to
-        predict a single output variable. As such, we can represent the network as follows:
-
-        \begin{figure}[H]
-          \centering
-          \includesvg{../assets/hw3-3-mlp-shape.svg}
-          \caption{Multi-layer perceptron shape}
-        \end{figure}
+        predict a single output variable.
 
         Each node in the hidden layer has an activation function $f(x) = e^{0.1x}$.
         Moreover, we know that the learning rule for the weights of the hidden layer
@@ -270,61 +264,61 @@
         biases and weights).
 
         Starting by the forward propagation, and considering $l$ as a given layer,
-        we have that:
+        we have (where $i$ matches the $i$-th sample):
 
         \begin{equation*}
-          z^{(l)} = w^{(l)} x^{(l - 1)} + b^{(l)}, \quad x^{(l)} = f(z^{(l)})
+          z_i^{[l]} = w^{[l]} x_i^{[l]} + b^{[l]}, \quad x_i^{[l]} = f(z_i^{[l]})
         \end{equation*}
 
-        \pagebreak
-
         We also know, from the question's statement, both the input nodes' values
-        and weight/bias matrices:
+        and weight/bias matrices (considering a column per sample):
 
         \begin{equation*}
           \begin{aligned}
-            x^{(0)} & = \begin{bmatrix}
-                          0.8 \\
-                          1   \\
-                          1.2
-                        \end{bmatrix}, \quad
-            w^{(1)} & = \begin{bmatrix}
-                          1 & 1 & 1 \\
-                          1 & 1 & 1
-                        \end{bmatrix}, \quad
-            b^{(1)} & = \begin{bmatrix}
+            x^{[0]} = \begin{bmatrix}
+              0.8 & 1 & 1.2
+            \end{bmatrix}
+          \end{aligned}
+        \end{equation*}
+        \begin{equation*}
+          \begin{aligned}
+            w^{[1]} & = \begin{bmatrix}
                           1 \\
                           1
                         \end{bmatrix}, \quad
-            w^{(2)} & = \begin{bmatrix}
+            b^{[1]} & = \begin{bmatrix}
+                          1 \\
+                          1
+                        \end{bmatrix}, \quad
+            w^{[2]} & = \begin{bmatrix}
                           1 & 1
                         \end{bmatrix}, \quad
-            b^{(2)} & = \begin{bmatrix}
+            b^{[2]} & = \begin{bmatrix}
                           1
                         \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
+        \pagebreak
+
         Applying the afore-mentioned equations in succession will lead us to the following results:
 
 
-        % FIXME: align second members
+        % FIXME: align better
         \begin{equation*}
           \begin{aligned}
-            z^{(1)} & = \begin{bmatrix}
-                          4.00000000 \\
-                          4.00000000
-                        \end{bmatrix}, \quad
-                    &                      & x^{(1)} = \begin{bmatrix}
-                                                         1.4918247 \\
-                                                         1.4918247
-                                                       \end{bmatrix} \\
-            z^{(2)} & = \begin{bmatrix}
-                          3.9836494 \\
-                        \end{bmatrix}, \quad
-                    &                      & x^{(2)} = \begin{bmatrix}
-                                                         1.48938747
-                                                       \end{bmatrix}
+            & z^{[1]} = \begin{bmatrix}
+              1.8 & 2. & 2.2\\
+              1.8 & 2. & 2.2\\
+            \end{bmatrix} \\ & z^{[2]} = \begin{bmatrix}
+                      3.39443473 & 3.44280552 & 3.49215346\\
+                    \end{bmatrix}  \\
+            & x^{[1]} = \begin{bmatrix}
+              1.19721736 & 1.22140276 & 1.24607673\\
+              1.19721736 & 1.22140276 & 1.24607673\\
+            \end{bmatrix} \\ & x^{[2]} = \begin{bmatrix}
+              1.40416592 & 1.41097443 & 1.41795451\\
+            \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
@@ -342,19 +336,18 @@
         calculated $\delta$'s - we have the following equalities:
 
         \begin{align*}
-          \frac{\partial E}{\partial w^{[L]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}} \circ
-            \frac{\partial x^{[L]}}{\partial z^{[L]}}}
+          \delta_i^{[L]}                        & = \textcolor{teal}{\frac{\partial E}{\partial x_i^{[L]}} \circ
+          \frac{\partial x_i^{[L]}}{\partial z_i^{[L]}}}                                                         \\
+          \delta_i^{[l]}                        & =
+          \frac{\partial z_i^{[l + 1]^T}}{\partial x_i^{[l]}} \cdot \delta_i^{[l + 1]} \circ \frac{\partial x_i^{[l]}}{\partial z_i^{[l]}} \\
+          \frac{\partial E}{\partial w^{[L]}} & = \sum_{i=1}^N \textcolor{teal}{\delta_i^{[L]}}
           \frac{\partial z^{[L]^T}}{\partial w^{[L]}}                                                        \\
-          \frac{\partial E}{\partial b^{[L]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}} \circ
-            \frac{\partial x^{[L]}}{\partial z^{[L]}}}
-          \frac{\partial z^{[L]^T}}{\partial b^{[L]}}                                                        \\
-          \delta^{[L]}                        & = \textcolor{teal}{\frac{\partial E}{\partial x^{[L]}} \circ
-          \frac{\partial x^{[L]}}{\partial z^{[L]}}}                                                         \\
-          \delta^{[l]}                        & =
-          \frac{\partial z^{[l + 1]^T}}{\partial x^{[l]}} \cdot \delta^{[l + 1]} \circ \frac{\partial x^{[l]}}{\partial z^{[l]}}
+          \frac{\partial E}{\partial b^{[L]}} & = \sum_{i=1}^N \textcolor{teal}{\delta_i^{[L]}}
+          \frac{\partial z_i^{[L]^T}}{\partial b^{[L]}}
         \end{align*}
 
-        \pagebreak
+        Note that we'll be able to create a matrix $\delta^{[l]}$ for each
+        layer $l$, where each column $i$ has the calculated $\delta_i^{[l]}$.
 
         We'll now be able to start propagating backwards (considering the following equalities,
         derived both in class and in the curricular unit's book):
@@ -363,58 +356,49 @@
 
         \begin{equation*}
           \begin{aligned}
-            \frac{\partial E}{\partial x^{[2]}} = \frac{\partial \frac{1}{2}\sum_{i=1}^N (z_i - x^{[2]})^2}{\partial x^{[2]}} = \sum_{i=1}^N (x^{[2]} - z_i), \quad
-            \frac{\partial x^{[l]}}{\partial z^{[l]}} = \frac{\partial e^{0.1z^{[l]}}}{\partial z^{[l]}} = 0.1e^{0.1z^{[l]}}
+            \frac{\partial E}{\partial x_i^{[2]}} = \frac{\partial \frac{1}{2}\sum_{i=1}^N (z_i - x_i^{[2]})^2}{\partial x_i^{[2]}} = \sum_{i=1}^N (x_i^{[2]} - z_i), \quad
+            \frac{\partial x_i^{[l]}}{\partial z_i^{[l]}} = \frac{\partial e^{0.1z_i^{[l]}}}{\partial z_i^{[l]}} = 0.1e^{0.1z_i^{[l]}}
           \end{aligned}
         \end{equation*}
 
         \begin{equation*}
           \begin{aligned}
-            \frac{\partial z^{[l]}}{\partial x^{[l - 1]}} = w^{[l]}, \quad
-            \frac{\partial z^{[l]}}{\partial b^{[l]}} = 1, \quad
-            \frac{\partial z^{[l]}}{\partial w^{[l]}} = x^{[l - 1]}
+            \frac{\partial z_i^{[l]}}{\partial x_i^{[l - 1]}} = w^{[l]}, \quad
+            \frac{\partial z_i^{[l]}}{\partial b^{[l]}} = 1, \quad
+            \frac{\partial z_i^{[l]}}{\partial w^{[l]}} = x_i^{[l - 1]}
           \end{aligned}
         \end{equation*}
 
-        \begin{multicols}{2}
-          \setlength{\columnseprule}{1pt}
-          \def\columnseprulecolor{\color{black}}
-          \centering
-
           \begin{equation*}
             \begin{aligned}
-              \textcolor{purple}{\delta^{[2]}} & = \textcolor{teal}{\frac{\partial E}{\partial x^{[2]}} \circ
-              \frac{\partial x^{[2]}}{\partial z^{[2]}}}                                                               \\
-                                               & = \left[\sum_{i=1}^N(x^{[2]} - z_i)\right] \circ 0.1e^{0.1z^{[2]}}    \\
+              \textcolor{purple}{\delta^{[2]}} & = \left[\sum_{i=1}^N(x_i^{[2]} - z_i)\right] \circ 0.1e^{0.1z_i^{[2]}}    \\
                                                & = \begin{bmatrix}
-                                                     - 49.53183759
-                                                   \end{bmatrix} \circ \begin{bmatrix} 0.1e^{0.39836494} \end{bmatrix} \\
+                                                -22.5958 & -18.5890 & -8.5820\\
+                                              \end{bmatrix} \circ \begin{bmatrix}
+                                                0.14041659 & 0.14109744 & 0.14179545\\
+                                              \end{bmatrix} \\
                                                & = \begin{bmatrix}
-                                                     - 7.377209816
-                                                   \end{bmatrix}
+                                                -3.17283001 & -2.62286398 & -1.21689501\\
+                                              \end{bmatrix}
             \end{aligned}
           \end{equation*}
-
-          \columnbreak
 
           \begin{equation*}
             \begin{aligned}
               \textcolor{purple}{\delta^{[1]}} & = \frac{\partial z^{[2]^T}}{\partial x^{[1]}} \cdot \delta^{[2]} \circ \frac{\partial x^{[1]}}{\partial z^{[1]}} \\
                                                & = \begin{bmatrix}
-                                                     -7.37720981 \\
-                                                     -7.37720981 \\
-                                                   \end{bmatrix} \circ \begin{bmatrix}
-                                                                         0.1 e^{0.4} \\
-                                                                         0.1 e^{0.4}
-                                                                       \end{bmatrix}                                                                             \\
+                                                -3.1728 & -2.6229 & -1.2169\\
+                                                -3.1728 & -2.6229 & -1.2169\\
+                                              \end{bmatrix} \circ \begin{bmatrix}
+                                                0.11972174 & 0.12214028 & 0.12460767\\
+                                                0.11972174 & 0.12214028 & 0.12460767\\
+                                              \end{bmatrix}                                                                            \\
                                                & = \begin{bmatrix}
-                                                     -1.10055038 \\
-                                                     -1.10055038 \\
-                                                   \end{bmatrix}
+                                                -0.37985672 & -0.32035733 & -0.15163446\\
+                                                -0.37985672 & -0.32035733 & -0.15163446\\
+                                              \end{bmatrix}
             \end{aligned}
           \end{equation*}
-
-        \end{multicols}
 
         In the last phase, we'll be updating our model: after computing the gradients,
         we'll be able to update weights and biases!
@@ -422,22 +406,21 @@
         Starting with weight matrices:
 
         \begin{equation*}
-          \frac{\partial E}{\partial w^{[1]}} = \delta^{[1]} \cdot
-          \frac{\partial z^{[1]^T}}{\partial w^{[1]}}
-          = \delta^{[1]} \cdot x^{[0]^T}
+          \frac{\partial E}{\partial w^{[1]}} = \sum_{i=1}^N \delta_i^{[1]} \cdot
+          \frac{\partial z_i^{[1]^T}}{\partial w^{[1]}}
+          = \sum_{i=1}^N \delta_i^{[1]} \cdot x_i^{[0]^T}
           = \begin{bmatrix}
-            -0.8804403 & -1.10055038 & -1.32066046 \\
-            -0.8804403 & -1.10055038 & -1.32066046 \\
+            -0.80620405\\
+            -0.80620405\\
           \end{bmatrix}
         \end{equation*}
 
         \begin{equation*}
-          \frac{\partial E}{\partial w^{[2]}} = \delta^{[2]} \cdot
-          \frac{\partial z^{[2]^T}}{\partial w^{[2]}}
-          = \delta^{[2]}
-          \cdot x^{[1]^T}
-          = \begin{bmatrix}
-            -11.0055038 & -11.0055038 \\
+          \frac{\partial E}{\partial w^{[2]}}
+          = \sum_{i=1}^N \delta_i^{[2]}
+          \cdot x_i^{[1]^T}
+          \begin{bmatrix}
+            -8.51848503 & -8.51848503\\
           \end{bmatrix}
         \end{equation*}
 
@@ -445,16 +428,16 @@
           \begin{aligned}
             w^{[1]} = w^{[1]} - \eta \cdot \frac{\partial E}{\partial w^{[1]}}
              & = \begin{bmatrix}
-                   1 & 1 & 1 \\
-                   1 & 1 & 1
+                   1 \\
+                   1
                  \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                                             -0.8804403 & -1.10055038 & -1.32066046 \\
-                                             -0.8804403 & -1.10055038 & -1.32066046 \\
-                                           \end{bmatrix} \\
+                  -0.80620405\\
+                  -0.80620405\\
+                \end{bmatrix} \\
              & = \begin{bmatrix}
-                   1.08804403 & 1.11005504 & 1.13206605 \\
-                   1.08804403 & 1.11005504 & 1.13206605 \\
-                 \end{bmatrix}
+              1.08062041\\
+              1.08062041\\
+            \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
@@ -463,12 +446,13 @@
             w^{[2]} = w^{[2]} - \eta \cdot \frac{\partial E}{\partial w^{[2]}}
              & = \begin{bmatrix}
                    1 & 1
-                 \end{bmatrix} - 0.1 \cdot\begin{bmatrix}
-                                            -11.0055038 & -11.0055038 \\
-                                          \end{bmatrix} \\
+                 \end{bmatrix} - 0.1 \cdot
+                 \begin{bmatrix}
+                   -8.51848503 & -8.51848503\\
+                 \end{bmatrix} \\
              & = \begin{bmatrix}
-                   2.10055038 & 2.10055038 \\
-                 \end{bmatrix}
+              1.8518485 & 1.8518485\\
+            \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
@@ -477,21 +461,21 @@
         \begin{equation*}
           \frac{\partial E}{\partial b^{[1]}} = \delta^{[1]} \cdot
           \frac{\partial z^{[1]^T}}{\partial b^{[1]}}
-          = \delta^{[1]} \cdot 1
-          = \delta^{[1]}
+          = \left[\sum_{i=1}^N \delta^{[1]}\right] \cdot 1
+          = \left[\sum_{i=1}^N \delta^{[1]}\right]
           = \begin{bmatrix}
-            -1.10055038 \\
-            -1.10055038 \\
+            -0.08518485\\
+            -0.08518485\\
           \end{bmatrix}
         \end{equation*}
 
         \begin{equation*}
           \frac{\partial E}{\partial b^{[2]}} = \delta^{[2]} \cdot
           \frac{\partial z^{[2]^T}}{\partial b^{[2]}}
-          = \delta^{[2]} \cdot 1
-          = \delta^{[2]}
+          = \left[\sum_{i=1}^N \delta^{[2]}\right] \cdot 1
+          = \left[\sum_{i=1}^N \delta^{[2]}\right]
           = \begin{bmatrix}
-            -7.37720981 \\
+            -0.7012589\\
           \end{bmatrix}
         \end{equation*}
 
@@ -502,13 +486,12 @@
                    1 \\
                    1
                  \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                                             -1.10055038 \\
-                                             -1.10055038 \\
-                                           \end{bmatrix} \\
-             & = \begin{bmatrix}
-                   1.11005504 \\
-                   1.11005504 \\
-                 \end{bmatrix}
+                  -0.08518485\\
+                  -0.08518485\\
+                \end{bmatrix} = \begin{bmatrix}
+              1.08518485\\
+              1.08518485\\
+            \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
@@ -518,11 +501,10 @@
              & = \begin{bmatrix}
                    1
                  \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                                             -7.37720981 \\
-                                           \end{bmatrix} \\
-             & = \begin{bmatrix}
-                   1.73772098 \\
-                 \end{bmatrix}
+                  -0.7012589\\
+                \end{bmatrix} = \begin{bmatrix}
+              1.7012589\\
+            \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
