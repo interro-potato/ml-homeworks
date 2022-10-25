@@ -271,13 +271,13 @@
         \end{equation*}
 
         We also know, from the question's statement, both the input nodes' values
-        and weight/bias matrices (considering a column per sample):
+        and weight/bias matrices (considering a column per sample for $x$):
 
         \begin{equation*}
           \begin{aligned}
             x^{[0]} = \begin{bmatrix}
-              0.8 & 1 & 1.2
-            \end{bmatrix}
+                        0.8 & 1 & 1.2
+                      \end{bmatrix}
           \end{aligned}
         \end{equation*}
         \begin{equation*}
@@ -301,23 +301,25 @@
 
         \pagebreak
 
-        Applying the afore-mentioned equations in succession will lead us to the following results:
+        Applying the afore-mentioned equations in succession will lead us to the following results
+        (note that, just like with $x$, we'll also have one column per sample
+        for $z^{[l]}$):
 
 
         % FIXME: align better
         \begin{equation*}
           \begin{aligned}
-            & z^{[1]} = \begin{bmatrix}
-              1.8 & 2. & 2.2\\
-              1.8 & 2. & 2.2\\
-            \end{bmatrix} \\ & z^{[2]} = \begin{bmatrix}
-                      3.39443473 & 3.44280552 & 3.49215346\\
-                    \end{bmatrix}  \\
-            & x^{[1]} = \begin{bmatrix}
-              1.19721736 & 1.22140276 & 1.24607673\\
-              1.19721736 & 1.22140276 & 1.24607673\\
-            \end{bmatrix} \\ & x^{[2]} = \begin{bmatrix}
-              1.40416592 & 1.41097443 & 1.41795451\\
+             & z^{[1]} = \begin{bmatrix}
+                           1.8 & 2. & 2.2 \\
+                           1.8 & 2. & 2.2 \\
+                         \end{bmatrix}                       \\ & z^{[2]} = \begin{bmatrix}
+              3.39443473 & 3.44280552 & 3.49215346 \\
+            \end{bmatrix}  \\
+             & x^{[1]} = \begin{bmatrix}
+                           1.19721736 & 1.22140276 & 1.24607673 \\
+                           1.19721736 & 1.22140276 & 1.24607673 \\
+                         \end{bmatrix} \\ & x^{[2]} = \begin{bmatrix}
+              1.40416592 & 1.41097443 & 1.41795451 \\
             \end{bmatrix}
           \end{aligned}
         \end{equation*}
@@ -336,12 +338,12 @@
         calculated $\delta$'s - we have the following equalities:
 
         \begin{align*}
-          \delta_i^{[L]}                        & = \textcolor{teal}{\frac{\partial E}{\partial x_i^{[L]}} \circ
-          \frac{\partial x_i^{[L]}}{\partial z_i^{[L]}}}                                                         \\
-          \delta_i^{[l]}                        & =
+          \delta_i^{[L]}                      & = \textcolor{teal}{\frac{\partial E}{\partial x_i^{[L]}} \circ
+          \frac{\partial x_i^{[L]}}{\partial z_i^{[L]}}}                                                                                   \\
+          \delta_i^{[l]}                      & =
           \frac{\partial z_i^{[l + 1]^T}}{\partial x_i^{[l]}} \cdot \delta_i^{[l + 1]} \circ \frac{\partial x_i^{[l]}}{\partial z_i^{[l]}} \\
           \frac{\partial E}{\partial w^{[L]}} & = \sum_{i=1}^N \textcolor{teal}{\delta_i^{[L]}}
-          \frac{\partial z^{[L]^T}}{\partial w^{[L]}}                                                        \\
+          \frac{\partial z^{[L]^T}}{\partial w^{[L]}}                                                                                      \\
           \frac{\partial E}{\partial b^{[L]}} & = \sum_{i=1}^N \textcolor{teal}{\delta_i^{[L]}}
           \frac{\partial z_i^{[L]^T}}{\partial b^{[L]}}
         \end{align*}
@@ -369,36 +371,36 @@
           \end{aligned}
         \end{equation*}
 
-          \begin{equation*}
-            \begin{aligned}
-              \textcolor{purple}{\delta^{[2]}} & = \left[\sum_{i=1}^N(x_i^{[2]} - z_i)\right] \circ 0.1e^{0.1z_i^{[2]}}    \\
-                                               & = \begin{bmatrix}
-                                                -22.5958 & -18.5890 & -8.5820\\
-                                              \end{bmatrix} \circ \begin{bmatrix}
-                                                0.14041659 & 0.14109744 & 0.14179545\\
-                                              \end{bmatrix} \\
-                                               & = \begin{bmatrix}
-                                                -3.17283001 & -2.62286398 & -1.21689501\\
-                                              \end{bmatrix}
-            \end{aligned}
-          \end{equation*}
+        \begin{equation*}
+          \begin{aligned}
+            \textcolor{purple}{\delta^{[2]}} & = \left[\sum_{i=1}^N(x_i^{[2]} - z_i)\right] \circ 0.1e^{0.1z_i^{[2]}} \\
+                                             & = \begin{bmatrix}
+                                                   -22.5958 & -18.5890 & -8.5820 \\
+                                                 \end{bmatrix} \circ \begin{bmatrix}
+                                                                       0.14041659 & 0.14109744 & 0.14179545 \\
+                                                                     \end{bmatrix}             \\
+                                             & = \begin{bmatrix}
+                                                   -3.17283001 & -2.62286398 & -1.21689501 \\
+                                                 \end{bmatrix}
+          \end{aligned}
+        \end{equation*}
 
-          \begin{equation*}
-            \begin{aligned}
-              \textcolor{purple}{\delta^{[1]}} & = \frac{\partial z^{[2]^T}}{\partial x^{[1]}} \cdot \delta^{[2]} \circ \frac{\partial x^{[1]}}{\partial z^{[1]}} \\
-                                               & = \begin{bmatrix}
-                                                -3.1728 & -2.6229 & -1.2169\\
-                                                -3.1728 & -2.6229 & -1.2169\\
-                                              \end{bmatrix} \circ \begin{bmatrix}
-                                                0.11972174 & 0.12214028 & 0.12460767\\
-                                                0.11972174 & 0.12214028 & 0.12460767\\
-                                              \end{bmatrix}                                                                            \\
-                                               & = \begin{bmatrix}
-                                                -0.37985672 & -0.32035733 & -0.15163446\\
-                                                -0.37985672 & -0.32035733 & -0.15163446\\
-                                              \end{bmatrix}
-            \end{aligned}
-          \end{equation*}
+        \begin{equation*}
+          \begin{aligned}
+            \textcolor{purple}{\delta^{[1]}} & = \frac{\partial z^{[2]^T}}{\partial x^{[1]}} \cdot \delta^{[2]} \circ \frac{\partial x^{[1]}}{\partial z^{[1]}} \\
+                                             & = \begin{bmatrix}
+                                                   -3.1728 & -2.6229 & -1.2169 \\
+                                                   -3.1728 & -2.6229 & -1.2169 \\
+                                                 \end{bmatrix} \circ \begin{bmatrix}
+                                                                       0.11972174 & 0.12214028 & 0.12460767 \\
+                                                                       0.11972174 & 0.12214028 & 0.12460767 \\
+                                                                     \end{bmatrix}                                                       \\
+                                             & = \begin{bmatrix}
+                                                   -0.37985672 & -0.32035733 & -0.15163446 \\
+                                                   -0.37985672 & -0.32035733 & -0.15163446 \\
+                                                 \end{bmatrix}
+          \end{aligned}
+        \end{equation*}
 
         In the last phase, we'll be updating our model: after computing the gradients,
         we'll be able to update weights and biases!
@@ -410,8 +412,8 @@
           \frac{\partial z_i^{[1]^T}}{\partial w^{[1]}}
           = \sum_{i=1}^N \delta_i^{[1]} \cdot x_i^{[0]^T}
           = \begin{bmatrix}
-            -0.80620405\\
-            -0.80620405\\
+            -0.80620405 \\
+            -0.80620405 \\
           \end{bmatrix}
         \end{equation*}
 
@@ -420,7 +422,7 @@
           = \sum_{i=1}^N \delta_i^{[2]}
           \cdot x_i^{[1]^T}
           \begin{bmatrix}
-            -8.51848503 & -8.51848503\\
+            -8.51848503 & -8.51848503 \\
           \end{bmatrix}
         \end{equation*}
 
@@ -431,12 +433,12 @@
                    1 \\
                    1
                  \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                  -0.80620405\\
-                  -0.80620405\\
-                \end{bmatrix} = \begin{bmatrix}
-              1.08062041\\
-              1.08062041\\
-            \end{bmatrix}
+                                             -0.80620405 \\
+                                             -0.80620405 \\
+                                           \end{bmatrix} = \begin{bmatrix}
+                                                             1.08062041 \\
+                                                             1.08062041 \\
+                                                           \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
@@ -446,12 +448,12 @@
              & = \begin{bmatrix}
                    1 & 1
                  \end{bmatrix} - 0.1 \cdot
-                 \begin{bmatrix}
-                   -8.51848503 & -8.51848503\\
-                 \end{bmatrix} \\
+            \begin{bmatrix}
+              -8.51848503 & -8.51848503 \\
+            \end{bmatrix}      \\
              & = \begin{bmatrix}
-              1.8518485 & 1.8518485\\
-            \end{bmatrix}
+                   1.8518485 & 1.8518485 \\
+                 \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
@@ -463,8 +465,8 @@
           = \left[\sum_{i=1}^N \delta^{[1]}\right] \cdot 1
           = \left[\sum_{i=1}^N \delta^{[1]}\right]
           = \begin{bmatrix}
-            -0.08518485\\
-            -0.08518485\\
+            -0.08518485 \\
+            -0.08518485 \\
           \end{bmatrix}
         \end{equation*}
 
@@ -474,7 +476,7 @@
           = \left[\sum_{i=1}^N \delta^{[2]}\right] \cdot 1
           = \left[\sum_{i=1}^N \delta^{[2]}\right]
           = \begin{bmatrix}
-            -0.7012589\\
+            -0.7012589 \\
           \end{bmatrix}
         \end{equation*}
 
@@ -485,12 +487,12 @@
                    1 \\
                    1
                  \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                  -0.08518485\\
-                  -0.08518485\\
-                \end{bmatrix} = \begin{bmatrix}
-              1.08518485\\
-              1.08518485\\
-            \end{bmatrix}
+                                             -0.08518485 \\
+                                             -0.08518485 \\
+                                           \end{bmatrix} = \begin{bmatrix}
+                                                             1.08518485 \\
+                                                             1.08518485 \\
+                                                           \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
@@ -500,10 +502,10 @@
              & = \begin{bmatrix}
                    1
                  \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                  -0.7012589\\
-                \end{bmatrix} = \begin{bmatrix}
-              1.7012589\\
-            \end{bmatrix}
+                                             -0.7012589 \\
+                                           \end{bmatrix} = \begin{bmatrix}
+                                                             1.7012589 \\
+                                                           \end{bmatrix}
           \end{aligned}
         \end{equation*}
 
