@@ -117,78 +117,29 @@
             1      & \phi_1(x_2) & \phi_2(x_2) & \phi_3(x_2) \\
             \vdots & \vdots      & \vdots      & \vdots      \\
             1      & \phi_1(x_5) & \phi_2(x_5) & \phi_3(x_5)
-          \end{bmatrix} = \begin{bmatrix}
-            1 & 0.8 & 0.64 & 0.512 \\
-            1 & 1   & 1    & 1     \\
-            1 & 1.2 & 1.44 & 1.728 \\
-            1 & 1.4 & 1.96 & 2.744 \\
-            1 & 1.6 & 2.56 & 4.096
-          \end{bmatrix}
+          \end{bmatrix} = \input{aux-matrices/ex-1/Phi}
         \end{equation*}
 
         We are now able to learn the given polynomial regression model, with $\lambda = 2$:
         $$
           \begin{aligned}
-            (\Phi^T \Phi + \lambda I)^{-1} & = \left(
-            \begin{bmatrix}
-              1 & 0.8 & 0.64 & 0.512 \\
-              1 & 1   & 1    & 1     \\
-              1 & 1.2 & 1.44 & 1.728 \\
-              1 & 1.4 & 1.96 & 2.744 \\
-              1 & 1.6 & 2.56 & 4.096
-            \end{bmatrix}^T
-            \begin{bmatrix}
-              1 & 0.8 & 0.64 & 0.512 \\
-              1 & 1   & 1    & 1     \\
-              1 & 1.2 & 1.44 & 1.728 \\
-              1 & 1.4 & 1.96 & 2.744 \\
-              1 & 1.6 & 2.56 & 4.096
-            \end{bmatrix} +
-            \begin{bmatrix}
-              2 & 0 & 0 & 0 \\
-              0 & 2 & 0 & 0 \\
-              0 & 0 & 2 & 0 \\
-              0 & 0 & 0 & 2
-            \end{bmatrix}
-            \right)^{-1}                                                                             \\
-                                           & = \begin{bmatrix}
-                                                 0.34168753  & -0.1214259  & -0.07490231 & -0.00932537 \\
-                                                 -0.1214259  & 0.3892078   & -0.09667718 & -0.07445624 \\
-                                                 -0.07490231 & -0.09667718 & 0.37257788  & -0.17135047 \\
-                                                 -0.00932537 & -0.07445624 & -0.17135047 & 0.17998796  \\
-                                               \end{bmatrix}
+            (\Phi^T \Phi + \lambda I)^{-1}
+             & = \left(
+            \input{aux-matrices/ex-1/Phi}^T
+            \input{aux-matrices/ex-1/Phi} +
+            \input{aux-matrices/ex-1/I}
+            \right)^{-1}                        \\
+             & = \input{aux-matrices/ex-1/left} \\
           \end{aligned}
         $$
 
         \begin{equation*}
-          \Phi^T z = \begin{bmatrix}
-            1 & 0.8 & 0.64 & 0.512 \\
-            1 & 1   & 1    & 1     \\
-            1 & 1.2 & 1.44 & 1.728 \\
-            1 & 1.4 & 1.96 & 2.744 \\
-            1 & 1.6 & 2.56 & 4.096
-          \end{bmatrix}^T
-          \begin{bmatrix}
-            24 \\
-            20 \\
-            10 \\
-            13 \\
-            12
-          \end{bmatrix} = \begin{bmatrix}
-            79      \\
-            88.6    \\
-            105.96  \\
-            134.392 \\
-          \end{bmatrix}
+          \Phi^T z = \input{aux-matrices/ex-1/Phi}^T
+          \input{aux-matrices/ex-1/z} = \input{aux-matrices/ex-1/right}
         \end{equation*}
 
         \begin{equation*}
-          w = (\Phi^T \Phi + \lambda I)^{-1} \Phi^T z = \begin{bmatrix}
-            7.0450759   \\
-            4.64092765  \\
-            1.96734046  \\
-            -1.30088142 \\
-          \end{bmatrix}
+          w = (\Phi^T \Phi + \lambda I)^{-1} \Phi^T z = \input{aux-matrices/ex-1/w}
         \end{equation*}
 
         Having learned the regression model, we can now use it to predict labels $z$
@@ -212,25 +163,8 @@
 
         \begin{equation*}
           \begin{aligned}
-            \hat{z} = \Phi \cdot w & = \begin{bmatrix}
-                                         1 & 0.8 & 0.64 & 0.512 \\
-                                         1 & 1   & 1    & 1     \\
-                                         1 & 1.2 & 1.44 & 1.728 \\
-                                         1 & 1.4 & 1.96 & 2.744 \\
-                                         1 & 1.6 & 2.56 & 4.096
-                                       \end{bmatrix}
-            \begin{bmatrix}
-              7.0450759   \\
-              4.64092765  \\
-              1.96734046  \\
-              -1.30088142 \\
-            \end{bmatrix} = \begin{bmatrix}
-                              11.35086463 \\
-                              12.35246259 \\
-                              13.19923625 \\
-                              13.8287433  \\
-                              14.17854143 \\
-                            \end{bmatrix}                                                                                    \\
+            \hat{z} = \Phi \cdot w & = \input{aux-matrices/ex-1/Phi} \cdot \input{aux-matrices/ex-1/w}
+            = \input{aux-matrices/ex-2/z_hat}                                                                                 \\
             \text{RMSE}            & = \sqrt{\frac{1}{5} \sum_{i=1}^5 (z_i - \hat{z}_i)^2}                                    \\
                                    & = \sqrt{\frac{1}{5} \left( (24 - 11.35086463)^2 + \hdots + (12 - 14.17854143)^2 \right)} \\
                                    & = 6.84329
@@ -275,27 +209,15 @@
 
         \begin{equation*}
           \begin{aligned}
-            x^{[0]} = \begin{bmatrix}
-                        0.8 & 1 & 1.2
-                      \end{bmatrix}
+            x^{[0]} = \input{aux-matrices/ex-3/x_0}
           \end{aligned}
         \end{equation*}
         \begin{equation*}
           \begin{aligned}
-            w^{[1]} & = \begin{bmatrix}
-                          1 \\
-                          1
-                        \end{bmatrix}, \quad
-            b^{[1]} & = \begin{bmatrix}
-                          1 \\
-                          1
-                        \end{bmatrix}, \quad
-            w^{[2]} & = \begin{bmatrix}
-                          1 & 1
-                        \end{bmatrix}, \quad
-            b^{[2]} & = \begin{bmatrix}
-                          1
-                        \end{bmatrix}
+            w^{[1]} & = \input{aux-matrices/ex-3/w_1}, \quad
+            b^{[1]} & = \input{aux-matrices/ex-3/b_1}, \quad
+            w^{[2]} & = \input{aux-matrices/ex-3/w_2}, \quad
+            b^{[2]} & = \input{aux-matrices/ex-3/b_2}
           \end{aligned}
         \end{equation*}
 
@@ -306,21 +228,12 @@
         for $z^{[l]}$):
 
 
-        % FIXME: align better
         \begin{equation*}
           \begin{aligned}
-             & z^{[1]} = \begin{bmatrix}
-                           1.8 & 2. & 2.2 \\
-                           1.8 & 2. & 2.2 \\
-                         \end{bmatrix}                       \\ & z^{[2]} = \begin{bmatrix}
-              3.39443473 & 3.44280552 & 3.49215346 \\
-            \end{bmatrix}  \\
-             & x^{[1]} = \begin{bmatrix}
-                           1.19721736 & 1.22140276 & 1.24607673 \\
-                           1.19721736 & 1.22140276 & 1.24607673 \\
-                         \end{bmatrix} \\ & x^{[2]} = \begin{bmatrix}
-              1.40416592 & 1.41097443 & 1.41795451 \\
-            \end{bmatrix}
+             & z^{[1]} = \input{aux-matrices/ex-3/z_1.tex} \\
+             & z^{[2]} = \input{aux-matrices/ex-3/z_2.tex} \\
+             & x^{[1]} = \input{aux-matrices/ex-3/x_1.tex} \\
+             & x^{[2]} = \input{aux-matrices/ex-3/x_2.tex}
           \end{aligned}
         \end{equation*}
 
@@ -373,32 +286,17 @@
 
         \begin{equation*}
           \begin{aligned}
-            \textcolor{purple}{\delta^{[2]}} & = \left[\sum_{i=1}^N(x_i^{[2]} - z_i)\right] \circ 0.1e^{0.1z_i^{[2]}} \\
-                                             & = \begin{bmatrix}
-                                                   -22.5958 & -18.5890 & -8.5820 \\
-                                                 \end{bmatrix} \circ \begin{bmatrix}
-                                                                       0.14041659 & 0.14109744 & 0.14179545 \\
-                                                                     \end{bmatrix}             \\
-                                             & = \begin{bmatrix}
-                                                   -3.17283001 & -2.62286398 & -1.21689501 \\
-                                                 \end{bmatrix}
+            \textcolor{purple}{\delta^{[2]}} & = \left[\sum_{i=1}^N(x_i^{[2]} - z_i)\right] \circ 0.1e^{0.1z_i^{[2]}}          \\
+                                             & = \input{aux-matrices/ex-3/delta_sum} \circ \input{aux-matrices/ex-3/d_x_2_z_2} \\
+                                             & = \input{aux-matrices/ex-3/delta_2}
           \end{aligned}
         \end{equation*}
 
         \begin{equation*}
           \begin{aligned}
             \textcolor{purple}{\delta^{[1]}} & = \frac{\partial z^{[2]^T}}{\partial x^{[1]}} \cdot \delta^{[2]} \circ \frac{\partial x^{[1]}}{\partial z^{[1]}} \\
-                                             & = \begin{bmatrix}
-                                                   -3.1728 & -2.6229 & -1.2169 \\
-                                                   -3.1728 & -2.6229 & -1.2169 \\
-                                                 \end{bmatrix} \circ \begin{bmatrix}
-                                                                       0.11972174 & 0.12214028 & 0.12460767 \\
-                                                                       0.11972174 & 0.12214028 & 0.12460767 \\
-                                                                     \end{bmatrix}                                                       \\
-                                             & = \begin{bmatrix}
-                                                   -0.37985672 & -0.32035733 & -0.15163446 \\
-                                                   -0.37985672 & -0.32035733 & -0.15163446 \\
-                                                 \end{bmatrix}
+                                             & = \input{aux-matrices/ex-3/left_delta_1} \circ \input{aux-matrices/ex-3/right_delta_1}                           \\
+                                             & = \input{aux-matrices/ex-3/delta_1}
           \end{aligned}
         \end{equation*}
 
@@ -411,49 +309,29 @@
           \frac{\partial E}{\partial w^{[1]}} = \sum_{i=1}^N \delta_i^{[1]} \cdot
           \frac{\partial z_i^{[1]^T}}{\partial w^{[1]}}
           = \sum_{i=1}^N \delta_i^{[1]} \cdot x_i^{[0]^T}
-          = \begin{bmatrix}
-            -0.80620405 \\
-            -0.80620405 \\
-          \end{bmatrix}
+          = \input{aux-matrices/ex-3/d_E_w_1}
         \end{equation*}
 
         \begin{equation*}
           \frac{\partial E}{\partial w^{[2]}}
           = \sum_{i=1}^N \delta_i^{[2]}
           \cdot x_i^{[1]^T}
-          \begin{bmatrix}
-            -8.51848503 & -8.51848503 \\
-          \end{bmatrix}
+          = \input{aux-matrices/ex-3/d_E_w_2}
         \end{equation*}
 
         \begin{equation*}
           \begin{aligned}
             w^{[1]} = w^{[1]} - \eta \cdot \frac{\partial E}{\partial w^{[1]}}
-             & = \begin{bmatrix}
-                   1 \\
-                   1
-                 \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                                             -0.80620405 \\
-                                             -0.80620405 \\
-                                           \end{bmatrix} = \begin{bmatrix}
-                                                             1.08062041 \\
-                                                             1.08062041 \\
-                                                           \end{bmatrix}
+             & = \input{aux-matrices/ex-3/w_1} - 0.1 \cdot \input{aux-matrices/ex-3/d_E_w_1}
+            = \input{aux-matrices/ex-3/w_1_after_update}
           \end{aligned}
         \end{equation*}
 
         \begin{equation*}
           \begin{aligned}
             w^{[2]} = w^{[2]} - \eta \cdot \frac{\partial E}{\partial w^{[2]}}
-             & = \begin{bmatrix}
-                   1 & 1
-                 \end{bmatrix} - 0.1 \cdot
-            \begin{bmatrix}
-              -8.51848503 & -8.51848503 \\
-            \end{bmatrix}      \\
-             & = \begin{bmatrix}
-                   1.8518485 & 1.8518485 \\
-                 \end{bmatrix}
+             & = \input{aux-matrices/ex-3/w_2} - 0.1 \cdot \input{aux-matrices/ex-3/d_E_w_2} \\
+             & = \input{aux-matrices/ex-3/w_2_after_update}
           \end{aligned}
         \end{equation*}
 
@@ -464,10 +342,7 @@
           \frac{\partial z^{[1]^T}}{\partial b^{[1]}}
           = \left[\sum_{i=1}^N \delta^{[1]}\right] \cdot 1
           = \left[\sum_{i=1}^N \delta^{[1]}\right]
-          = \begin{bmatrix}
-            -0.08518485 \\
-            -0.08518485 \\
-          \end{bmatrix}
+          = \input{aux-matrices/ex-3/d_E_b_1}
         \end{equation*}
 
         \begin{equation*}
@@ -475,37 +350,22 @@
           \frac{\partial z^{[2]^T}}{\partial b^{[2]}}
           = \left[\sum_{i=1}^N \delta^{[2]}\right] \cdot 1
           = \left[\sum_{i=1}^N \delta^{[2]}\right]
-          = \begin{bmatrix}
-            -0.7012589 \\
-          \end{bmatrix}
+          = \input{aux-matrices/ex-3/d_E_b_2}
         \end{equation*}
 
         \begin{equation*}
           \begin{aligned}
             b^{[1]} = b^{[1]} - \eta \cdot \frac{\partial E}{\partial b^{[1]}}
-             & = \begin{bmatrix}
-                   1 \\
-                   1
-                 \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                                             -0.08518485 \\
-                                             -0.08518485 \\
-                                           \end{bmatrix} = \begin{bmatrix}
-                                                             1.08518485 \\
-                                                             1.08518485 \\
-                                                           \end{bmatrix}
+             & = \input{aux-matrices/ex-3/b_1} - 0.1 \input{aux-matrices/ex-3/d_E_b_1} \\
+             & = \input{aux-matrices/ex-3/b_1_after_update}
           \end{aligned}
         \end{equation*}
 
         \begin{equation*}
           \begin{aligned}
             b^{[2]} = b^{[2]} - \eta \cdot \frac{\partial E}{\partial b^{[2]}}
-             & = \begin{bmatrix}
-                   1
-                 \end{bmatrix} - 0.1 \cdot \begin{bmatrix}
-                                             -0.7012589 \\
-                                           \end{bmatrix} = \begin{bmatrix}
-                                                             1.7012589 \\
-                                                           \end{bmatrix}
+             & = \input{aux-matrices/ex-3/b_2} - 0.1 \cdot \input{aux-matrices/ex-3/d_E_b_2} \\
+             & = \input{aux-matrices/ex-3/b_2_after_update}
           \end{aligned}
         \end{equation*}
 
