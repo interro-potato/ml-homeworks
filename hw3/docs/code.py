@@ -73,7 +73,7 @@ def print_regressor(regressor, description, y_pred):
     print('Iterations: {}'.format(regressor.n_iter_))
 
 regressors = {
-  "Ridge Regression": Ridge(alpha=0.1),
+  "Ridge": Ridge(alpha=0.1),
   "MLP 1": MLPRegressor(
     hidden_layer_sizes=(10, 10),
     activation='tanh',
