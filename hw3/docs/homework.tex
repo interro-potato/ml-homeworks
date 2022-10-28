@@ -260,10 +260,10 @@
             \frac{\partial x^{[L]}}{\partial z^{[L]}}}                                                                             \\
             \delta^{[l]}                        & =
             \frac{\partial z^{[l + 1]^T}}{\partial x^{[l]}} \cdot \delta^{[l + 1]} \circ \frac{\partial x^{[l]}}{\partial z^{[l]}} \\
-            \frac{\partial E}{\partial w^{[L]}} & = \textcolor{teal}{\delta^{[L]}}
-            \frac{\partial z^{[L]^T}}{\partial w^{[L]}}                                                                            \\
-            \frac{\partial E}{\partial b^{[L]}} & = \textcolor{teal}{\delta^{[L]}}
-            \frac{\partial z^{[L]^T}}{\partial b^{[L]}}
+            \frac{\partial E}{\partial w^{[l]}} & = \textcolor{teal}{\delta^{[l]}}
+            \frac{\partial z^{[l]^T}}{\partial w^{[l]}}                                                                            \\
+            \frac{\partial E}{\partial b^{[l]}} & = \textcolor{teal}{\delta^{[l]}}
+            \frac{\partial z^{[l]^T}}{\partial b^{[l]}}
           \end{aligned}
         \end{equation*}
 
@@ -312,15 +312,15 @@
 
         \begin{equation*}
           \frac{\partial E}{\partial w^{[1]}} = \textcolor{purple}{\delta^{[1]}} \cdot
-          \frac{\partial z_i^{[1]^T}}{\partial w^{[1]}}
-          = \textcolor{purple}{\delta^{[1]}} \cdot x_i^{[0]^T}
+          \frac{\partial z^{[1]^T}}{\partial w^{[1]}}
+          = \textcolor{purple}{\delta^{[1]}} \cdot x^{[0]^T}
           = \input{aux-matrices/ex-3/d_E_w_1}
         \end{equation*}
 
         \begin{equation*}
           \frac{\partial E}{\partial w^{[2]}}
           = \textcolor{purple}{\delta^{[2]}}
-          \cdot x_i^{[1]^T}
+          \cdot x^{[1]^T}
           = \input{aux-matrices/ex-3/d_E_w_2}
         \end{equation*}
 
