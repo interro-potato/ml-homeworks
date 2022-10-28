@@ -7,6 +7,7 @@ from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error
 from sklearn.neural_network import MLPRegressor
+
 sns.set_style('darkgrid')
 
 # Load data
@@ -27,7 +28,8 @@ def predict(regressor):
   return regressor.predict(X_test)
 
 def plot_regressors_residues():
-  """Utilized for answering question 2."""
+  """Utilized for answering question 5."""
+  global regressors
   predictions = []
   descriptions = []
   for description, regressor in regressors.items():
@@ -35,12 +37,14 @@ def plot_regressors_residues():
     descriptions.append(description)
 
   fig, (ax1, ax2) = plt.subplots(2, figsize=(8, 12))
-  
+
+  data = pd.DataFrame({
+    description: np.abs(y_test - prediction)
+    for description, prediction in zip(descriptions, predictions)
+  })
+
   sns.histplot(
-    data=pd.DataFrame({
-      description: np.abs(y_test - prediction)
-      for description, prediction in zip(descriptions, predictions)
-    }),
+    data=data,
     bins=30,
     ax=ax1,
     multiple='dodge',
@@ -51,10 +55,7 @@ def plot_regressors_residues():
   ax1.legend(descriptions)
 
   sns.boxplot(
-    data=pd.DataFrame({
-      description: np.abs(y_test - prediction)
-      for description, prediction in zip(descriptions, predictions)
-    }),
+    data=data,
     ax=ax2,
     orient='h',
   )
@@ -66,7 +67,7 @@ def plot_regressors_residues():
 
 
 def print_regressor(regressor, description, y_pred):
-  """Utilized for answering questions 1. and 3."""
+  """Utilized for answering questions 4. and 6."""
   print(description)
   print('MAE: {:.5f}'.format(mean_absolute_error(y_test, y_pred)))
   if "MLP" in description:

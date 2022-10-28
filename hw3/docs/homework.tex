@@ -70,7 +70,7 @@
         We have in hands a \textbf{supervised learning} problem, with a given training
         dataset as shown below:
 
-        \begin{table}[h]
+        \begin{table}[H]
           \centering
           \begin{tabular}{c|c|c}
                   & $y_1$ & $z$  \\ \hline
@@ -292,7 +292,7 @@
 
           \item \textbf{Back Propagation}
 
-                We'll want, now, to propagate information backwards; for that, we'll need to use
+                Now we'll want to propagate information backwards; for that, we'll need to use
                 the chain rule, multiplying successive derivatives as we go backwards.
                 We know the following:
 
@@ -437,15 +437,15 @@
 
         We gathered the following results:
 
-        \begin{table}[h]
+        \begin{table}[H]
           \centering
           \begin{tabular}{l|l}
-            Regressor                 & MAE       \\ \hline
-            Linear Regression (Ridge) & $0.16283$ \\
-            $MLP_1$                   & $0.06804$ \\
+            \textbf{Regressor}        & \textbf{MAE} \\ \hline
+            Linear Regression (Ridge) & $0.16283$    \\
+            $MLP_1$                   & $0.06804$    \\
             $MLP_2$                   & $0.09781$
           \end{tabular}
-          \caption{Gathered Mean Absolute Errors for each specified regressor}
+          \caption{Collected Mean Absolute Errors for each specified regressor}
           \label{tab:mean-absolute-errors}
         \end{table}
 
@@ -460,14 +460,25 @@
 
         Calling the \texttt{print\_regressor} method for each regressor shows us
         not only the MAE, but also the number of iterations required for each of
-        the MLP regressors to converge. In this case, the number of iterations
-        required for $MLP_1$ ($MLP$ with early stopping) to converge was 452,
-        while $MLP_2$ ($MLP$ \textit{without} early stopping) required only 77.
+        the MLP regressors to converge. In this case:
+
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{l|l|l}
+            \textbf{Regressor} & \textbf{Early Stopping?} & \textbf{\# Iters. Req. Converge} \\ \hline
+            $MLP_1$            & Yes                      & $452$                            \\
+            $MLP_2$            & No                       & $77$
+          \end{tabular}
+          \caption{Number of iterations required for each specified regressor to converge}
+          \label{tab:mean-absolute-errors}
+        \end{table}
+
+        \pagebreak
 
   \item \textbf{What can be motivating the unexpected differences on the number of iterations?
           Hypothesize one reason underlying the observed performance differences between the MLPs.}
 
-        As has been noted in the previous question's answer, $MLP_1$ takes many more
+        As it has been noted in the previous question's answer, $MLP_1$ takes many more
         iterations to converge than $MLP_2$ - almost six times as many. It's probably
         worth emphasizing that the number of iterations in a batch gradient descent
         algorithm matches the number of epochs ran - the amount of times the algorithm goes
@@ -477,7 +488,7 @@
         after a given number of epochs have passed without the validation score
         improving by at least a given tolerance (in order to avoid overfitting).
         The validation set, with \texttt{MLPRegressor}'s \texttt{shuffle} parameter
-        set by default to True, may contain samples from both the training and test sets:
+        set by default to \texttt{True}, may contain samples from both the training and test sets:
         with differing training sets (which forcefully seems like the case here),
         the training process may converge at a different amount of epochs; it's
         also likely that a training set with a lesser amount of samples may
@@ -487,7 +498,7 @@
 
         The \textbf{different number of iterations} could, then, be associated
         with the differing training sets used to train each regressor, plus the
-        fact that $MLP_1$ stops the validation phase tells it do so, while $MLP_2$
+        fact that $MLP_1$ stops when the validation phase tells it do so, while $MLP_2$
         strictly looks at convergence regarding training data.
 
         Regarding performance, $MLP_1$ seems to perform better than $MLP_2$,
