@@ -1,0 +1,278 @@
+\documentclass[12pt]{article}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{newtxtext, newtxmath}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{svg}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{paracol}
+\usepackage{nicefrac}
+\usepackage{ragged2e}
+\usepackage[autostyle]{csquotes}
+\usepackage[colorlinks=true]{hyperref}
+
+\MakeOuterQuote{"}
+\setlength{\droptitle}{-6em}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{
+        style=mystyle,
+        inputencoding=utf8,
+        extendedchars=true,
+}
+
+
+\title{\large{Aprendizagem 2022}\vskip 0.2cm Homework IV -- Group 019\vskip 0.2cm Diogo Gaspar 99207, Rafael Oliveira 99311}
+\date{}
+\begin{document}
+\maketitle
+\center\large{\vskip -2.5cm\textbf{Part I}: Pen and paper}
+\begin{enumerate}[leftmargin=\labelsep]
+
+  Given the bivariate observations $\left\{ \input{aux-matrices/x_1}, \input{aux-matrices/x_2}, \input{aux-matrices/x_3} \right\}$,
+  and the following multivariate Gaussian mixture:
+
+  \begin{equation*}
+    \mu_1 = \input{aux-matrices/mu_1}, \quad \mu_2 = \input{aux-matrices/mu_2},
+    \quad \Sigma_1 = \input{aux-matrices/Sigma_1}, \quad \Sigma_2 = \input{aux-matrices/Sigma_2},
+    \quad \pi_1 = \pi_2 = 0.5
+  \end{equation*}
+
+  \item \textbf{Perform one epoch of the EM clustering algorithm and determine the new parameters.}
+
+        As a side note, we'll be using the $k_1$ and $k_2$ notation to represent
+        clusters $1$ and $2$ - with that, we'll say that $\pi_1 = P(C = k_1)$,
+        with analogous notation for $\pi_2$.
+
+        EM-Clustering, being an unsupervised learning algorithm intending to calculate
+        the probability of a sample belonging to a certain cluster, is a method that
+        iteratively updates the parameters of the model until convergence is reached
+        (for a given definition of convergence). Here, we'll perform exactly one
+        epoch of the algorithm, which means we'll be going through two steps:
+
+        \begin{itemize}[leftmargin=\labelsep]
+          \item \textbf{E-step:} Here, we're aiming to calculate the \textbf{posterior
+                  probability} of each sample belonging to each cluster.
+                In order to perform this calculation, we'll be using \textbf{Bayes' rule},
+                of course, to decompose the posterior probability into the product of
+                the \textbf{likelihood} and the \textbf{prior probability} of the sample
+                belonging to the cluster. Let's try, then, to assign each sample to
+                the cluster that maximizes the posterior probability.
+
+                For starters, we must first note that the likelihood of a sample
+                belonging to a cluster is given by the \textbf{multivariate Gaussian
+                  distribution}, which can be written as (considering $d = 2$):
+
+                \begin{equation*}
+                  P(x_i \mid C = k_n) \sim \mathcal{N}(x_i; \mu_n, \Sigma_n) = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_n}}
+                  \exp \left( -\frac{1}{2} (x - \mu_n)^T \Sigma_n^{-1} (x - \mu_n) \right)
+                \end{equation*}
+
+                Moreover, in this step we'll use \textcolor{teal}{teal} to denote the priors and
+                \textcolor{purple}{purple} to denote the likelihoods.
+
+                \pagebreak
+
+                As a given, we have that the priors are (for every sample, of course):
+
+                \begin{equation*}
+                  \textcolor{teal}{P(C = k_1)} = \textcolor{teal}{P(C = k_2)} = 0.5
+                \end{equation*}
+
+                Regarding $x_1$, we have:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \textcolor{purple}{P(x_1 \mid C = k_1)}
+                     & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_1}} \exp \left( -\frac{1}{2} (x_1 - \mu_1)^T \Sigma_1^{-1} (x_1 - \mu_1) \right)                                                                                \\
+                     & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_1}}}
+                    \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_1}\right)^T \input{aux-matrices/Sigma_1}^{-1} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_1}\right) \right) \\
+                     & = 0.0658407
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \textcolor{purple}{P(x_1 \mid C = k_2)}
+                     & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_2}} \exp \left( -\frac{1}{2} (x_1 - \mu_2)^T \Sigma_2^{-1} (x_1 - \mu_2) \right)                                                                                \\
+                     & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_2}}}
+                    \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_2}\right)^T \input{aux-matrices/Sigma_2}^{-1} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_2}\right) \right) \\
+                     & = 0.0227993
+                  \end{aligned}
+                \end{equation*}
+
+
+                The (normalized) posteriors can be computed as follows:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    P(C = k_1 \mid x_1) & = \frac{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)}}{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)} + \textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}} \\
+                                        & = \frac{0.5 \cdot 0.0658407}{0.5 \cdot 0.0658407 + 0.5 \cdot 0.0227993}                                                                                                                                                    \\
+                                        & = 0.742788
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    P(C = k_2 \mid x_1) & = \frac{\textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}}{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)} + \textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}} \\
+                                        & = \frac{0.5 \cdot 0.0227993}{0.5 \cdot 0.0658407 + 0.5 \cdot 0.0227993}                                                                                                                                                    \\
+                                        & = 0.257212
+                  \end{aligned}
+                \end{equation*}
+
+                Note that, with the aid of the total probability law, we can say that
+                $P(C = k_1 \mid x_1) + P(C = k_2 \mid x_1) = 1$; going forward, we'll
+                calculate the normalized posterior for $k_2$ utilizing this fact.
+
+                We can now repeat the same process for $x_2$:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \textcolor{purple}{P(x_2 \mid C = k_1)}
+                     & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_1}} \exp \left( -\frac{1}{2} (x_2 - \mu_1)^T \Sigma_1^{-1} (x_2 - \mu_1) \right)                                                                                \\
+                     & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_1}}}
+                    \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_2} - \input{aux-matrices/mu_1}\right)^T \input{aux-matrices/Sigma_1}^{-1} \left(\input{aux-matrices/x_2} - \input{aux-matrices/mu_1}\right) \right) \\
+                     & = 0.00891057
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \textcolor{purple}{P(x_2 \mid C = k_2)}
+                     & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_2}} \exp \left( -\frac{1}{2} (x_2 - \mu_2)^T \Sigma_2^{-1} (x_2 - \mu_2) \right)                                                                                \\
+                     & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_2}}}
+                    \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_2} - \input{aux-matrices/mu_2}\right)^T \input{aux-matrices/Sigma_2}^{-1} \left(\input{aux-matrices/x_2} - \input{aux-matrices/mu_2}\right) \right) \\
+                     & = 0.0482662
+                  \end{aligned}
+                \end{equation*}
+
+                The (normalized) posteriors can be computed as follows:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    P(C = k_1 \mid x_2) & = \frac{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_2 \mid C = k_1)}}{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_2 \mid C = k_1)} + \textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_2 \mid C = k_2)}} \\
+                                        & = \frac{0.5 \cdot 0.00891057}{0.5 \cdot 0.00891057 + 0.5 \cdot 0.0482662}                                                                                                                                                  \\
+                                        & = 0.155843
+                  \end{aligned}
+                \end{equation*}
+
+                Like stated above, using the total probability law, we can say that
+                $P(C = k_1 \mid x_2) + P(C = k_2 \mid x_2) = 1$; therefore,
+                $P(C = k_2 \mid x_2) = 1 - P(C = k_1 \mid x_2) = 0.844157$.
+
+                Finally, repeating the same process for $x_3$:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \textcolor{purple}{P(x_2 \mid C = k_1)}
+                     & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_1}} \exp \left( -\frac{1}{2} (x_3 - \mu_1)^T \Sigma_1^{-1} (x_3 - \mu_1) \right)                                                                                \\
+                     & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_1}}}
+                    \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_3} - \input{aux-matrices/mu_1}\right)^T \input{aux-matrices/Sigma_1}^{-1} \left(\input{aux-matrices/x_3} - \input{aux-matrices/mu_1}\right) \right) \\
+                     & = 0.0338038
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \textcolor{purple}{P(x_3 \mid C = k_2)}
+                     & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_2}} \exp \left( -\frac{1}{2} (x_3 - \mu_2)^T \Sigma_2^{-1} (x_3 - \mu_2) \right)                                                                                \\
+                     & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_2}}}
+                    \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_3} - \input{aux-matrices/mu_2}\right)^T \input{aux-matrices/Sigma_2}^{-1} \left(\input{aux-matrices/x_3} - \input{aux-matrices/mu_2}\right) \right) \\
+                     & = 0.061975
+                  \end{aligned}
+                \end{equation*}
+
+                The (normalized) posteriors can be computed as follows:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    P(C = k_1 \mid x_3) & = \frac{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_3 \mid C = k_1)}}{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_3 \mid C = k_1)} + \textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_3 \mid C = k_2)}} \\
+                                        & = \frac{0.5 \cdot 0.0338038}{0.5 \cdot 0.0338038 + 0.5 \cdot 0.061975}                                                                                                                                                     \\
+                                        & = 0.352936
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  P(C = k_2 \mid x_3) = 1 - P(C = k_1 \mid x_3) = 0.647064
+                \end{equation*}
+
+          \item \textbf{M-Step: Having calculated the posteriors, we can now
+                  update the parameters of the cluster-defining distributions.}
+
+        \end{itemize}
+
+  \item \textbf{Given the updated parameters computed in previous question:}
+
+        \begin{enumerate}[leftmargin=\labelsep]
+          \item \textbf{Perform a hard assignment of observations to clusters under a MAP assumption.}
+          \item \textbf{Compute the silhouette of the larger cluster using the Euclidean distance.}
+        \end{enumerate}
+
+\end{enumerate}
+
+\pagebreak
+
+\center\large{\textbf{Part II}: Programming and critical analysis}
+
+\begin{justify}
+  The code utilized to answer the following questions is available in this
+  report's appendix.
+\end{justify}
+
+Recall the \texttt{pd\_speech.arff} dataset from earlier homeworks, centered on
+the Parkinson diagnosis from speech features. For the following exercises, normalize
+the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
+
+\begin{enumerate}[leftmargin=\labelsep,resume]
+
+  \item \textbf{Using \texttt{sklearn}, apply $k$-means clustering fully unsupervisedly
+          (without targets) on the normalized data with $k = 3$ and three different seeds
+          (using $\text{random} \in \{0, 1, 2\}$). Assess the silhouette and purity of the produced solutions.}
+
+  \item \textbf{What is causing the non-determinism?}
+
+  \item \textbf{Using a scatter plot, visualize side-by-side the labeled data using as labels: i) the original
+          Parkinson diagnoses, and ii) the previously learned $k = 3$ clusters (\texttt{random = 0}). To this end, select
+          the two most informative features as axes and color observations according to their label. For feature
+          selection, select the two input variables with highest variance on the MinMax normalized data.}
+
+  \item \textbf{The fraction of variance explained by a principal component is the ratio between the
+          variance of that component (i.e., its eigenvalue) and total variance (i.e., sum of all eigenvalues).
+          How many principal components are necessary to explain more than 80\% of variability?}
+
+\end{enumerate}
+
+\pagebreak
+
+\large{\textbf{Appendix}\vskip 0.3cm}
+
+\lstinputlisting[language=Python]{code.py}
+
+\end{document}
