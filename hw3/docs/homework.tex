@@ -498,7 +498,8 @@
         improving by at least a given tolerance (in order to avoid overfitting).
         The validation set, with \texttt{MLPRegressor}'s \texttt{shuffle} parameter
         set by default to \texttt{True}, may contain samples from both the training and test sets:
-        with differing training sets (which forcefully seems like the case here),
+        with differing training sets (which is the case by default, with the training
+        set being split in a 90-10 ratio between actual training data and validation data),
         the training process may converge at a different amount of epochs; it's
         also likely that a training set with a lesser amount of samples may
         take more epochs to converge, as the algorithm will have to go through

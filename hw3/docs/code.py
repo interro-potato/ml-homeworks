@@ -65,7 +65,6 @@ def plot_regressors_residues():
   ax2.set_title("Residues boxplot for each regressor")
   ax2.set_xlabel("Residue")
   ax2.set_ylabel("Regressor")
-  ax2.legend(descriptions)
   plt.savefig("assets/residues.png")
 
 
