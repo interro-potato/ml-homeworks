@@ -86,20 +86,21 @@
 
         We can note that in the statement's estimation function, $\hat{z}(x, w)$, $x$ is a single-element vector
         (with its only entry being each sample's $y_1$ value). Therefore, it makes
-        sense to "expand" the table above as follows, in order to have a broader
-        representation of the values we'll be using in the estimation function:
+        sense to "expand" the table above with the values of the $\phi_j(x) = x^j$ basis function,
+        as follows, in order to have a broader representation of the values we'll be using in the
+        estimation function:
 
         \begin{table}[h]
           \centering
-          \begin{tabular}{c|ccc|c}
-                  & $y_1$ & $y_1^2$ & $y_1^3$ & $z$  \\ \hline
-            $x_1$ & $0.8$ & $0.64$  & $0.512$ & $24$ \\
-            $x_2$ & $1$   & $1$     & $1$     & $20$ \\
-            $x_3$ & $1.2$ & $1.44$  & $1.728$ & $10$ \\
-            $x_4$ & $1.4$ & $1.96$  & $2.744$ & $13$ \\
-            $x_5$ & $1.6$ & $2.56$  & $4.096$ & $12$
+          \begin{tabular}{c|c|cccc|c}
+                  & $y_1$ & $\phi_0(y_1)$ & $\phi_1(y_1)$ & $\phi_2(y_1)$ & $\phi_3(y_1)$ & $z$  \\ \hline
+            $x_1$ & $0.8$ & $1$           & $0.8$         & $0.64$        & $0.512$       & $24$ \\
+            $x_2$ & $1$   & $1$           & $1$           & $1$           & $1$           & $20$ \\
+            $x_3$ & $1.2$ & $1$           & $1.2$         & $1.44$        & $1.728$       & $10$ \\
+            $x_4$ & $1.4$ & $1$           & $1.4$         & $1.96$        & $2.744$       & $13$ \\
+            $x_5$ & $1.6$ & $1$           & $1.6$         & $2.56$        & $4.096$       & $12$
           \end{tabular}
-          \caption{Training dataset with additional information}
+          \caption{Training dataset with additional information (basis function values)}
           \label{tab:expanded-training-dataset}
         \end{table}
 
@@ -144,6 +145,14 @@
         \begin{equation*}
           w = (\Phi^T \Phi + \lambda I)^{-1} \Phi^T z = \input{aux-matrices/ex-1/w}
         \end{equation*}
+
+        This gives us an expression as follows:
+
+        \vspace{-0.5cm}
+
+        $$
+          \hat{z}(x) = w_0 + w_1 x + w_2 x^2 + w_3 x^3 = 7.04508 + 4.64093 x + 1.96734 x^2 + -1.30088 x^3
+        $$
 
         Having learned the regression model, we can now use it to predict labels $z$
         for new samples!
