@@ -226,6 +226,82 @@
           \item \textbf{M-Step: Having calculated the posteriors, we can now
                   update the parameters of the cluster-defining distributions.}
 
+                For each cluster, we'll want to find the new distribution parameters:
+                in this case, $\mu_k$ and $\Sigma_k$ (for every cluster $k$).
+                For likelihoods, we'll need to update both $\mu_k$ and $\Sigma_k$,
+                using all samples weighted by their respective posteriors, as can be seen below;
+                for priors, we'll need to perform a weighted mean of the posteriors.
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \mu_k         & = \frac{\sum_{i=1}^3 P(C = k \mid x_i) x_i}{\sum_{i=1}^3 P(C = k \mid x_i)}                                               \\
+                    \Sigma_k^{nm} & = \frac{\sum_{i=1}^3 P(C = k \mid x_i) (x_{i, n} - \mu_{k, n}) (x_{i, m} - \mu_{k, m})^T}{\sum_{i=1}^3 P(C = k \mid x_i)} \\
+                    P(C = k)      & = \frac{\sum_{i=1}^3 P(C = k \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)}
+                  \end{aligned}
+                \end{equation*}
+
+                In the equations stated above, we're considering $x_{i, n}$ as the $n$-th
+                feature's value of the $i$-th sample, and $\mu_{k, n}$ as the $n$-th
+                index of centroid $\mu_k$.
+
+                \pagebreak
+
+                We can now estimate the new parameters of the distributions (and the new
+                priors) as can be seen below (note that the new $\mu_k$'s are used
+                in the calculation of the new $\Sigma_k$'s):
+
+                % sim rafa, eu sei que não está centrado, por acaso achei que visualmente ficava um efeito fixe
+
+                For $k_1$:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \mu_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_1 \mid x_i)}                                                                                      \\
+                          & = \frac{0.742788 \cdot \input{aux-matrices/x_1} + 0.155843 \cdot \input{aux-matrices/x_2} + 0.352936 \cdot \input{aux-matrices/x_3}}{0.742788 + 0.155843 + 0.352936} \\
+                          & = \input{aux-matrices/mu_1_after_update}
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \Sigma_1^{nm} & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i, n} - \mu_{k_1, n}) (x_{i, m} - \mu_{k_1, m})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)} \\
+                    % TODO: check whether it's needed to write intermediate steps here
+                                  & = \input{aux-matrices/Sigma_1_after_update}
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    P(C = k_1) = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)} = 0.417189
+                    % TODO: once again, check whether it's needed to write intermediate steps here
+                  \end{aligned}
+                \end{equation*}
+
+                For $k_2$:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \mu_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_2 \mid x_i)}                                                                                      \\
+                          & = \frac{0.257212 \cdot \input{aux-matrices/x_1} + 0.844157 \cdot \input{aux-matrices/x_2} + 0.647064 \cdot \input{aux-matrices/x_3}}{0.257212 + 0.844157 + 0.647064} \\
+                          & = \input{aux-matrices/mu_2_after_update}
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \Sigma_2^{nm} & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i, n} - \mu_{k_2, n}) (x_{i, m} - \mu_{k_2, m})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)} \\
+                    % TODO: "" 
+                                  & = \input{aux-matrices/Sigma_2_after_update}
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    % TODO: ""
+                    P(C = k_2) = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)} = 0.582811
+                  \end{aligned}
+                \end{equation*}
+
         \end{itemize}
 
   \item \textbf{Given the updated parameters computed in previous question:}
