@@ -29,7 +29,7 @@ def predict(regressor):
 
 
 def plot_regressors_residues():
-  """Utilized for answering question 5."""
+  """Used to answer question 5."""
   global regressors
   predictions = []
   descriptions = []
@@ -70,7 +70,7 @@ def plot_regressors_residues():
 
 
 def print_regressor(regressor, description, y_pred):
-  """Utilized for answering questions 4. and 6."""
+  """Used to answer questions 4. and 6."""
   print(description)
   print("MAE: {:.5f}".format(mean_absolute_error(y_test, y_pred)))
   if "MLP" in description:
