@@ -308,6 +308,118 @@
 
         \begin{enumerate}[leftmargin=\labelsep]
           \item \textbf{Perform a hard assignment of observations to clusters under a MAP assumption.}
+
+                Just like in the first question's answer, we'll need to compute the posterior
+                probabilities of each sample belonging to each cluster (now utilizing the newly updated
+                parameters); however, instead of proceeding to the \textbf{M-Step}, we'll just assign
+                each sample to the cluster with the highest posterior probability. Note that,
+                since all calculations follow the same formulas utilized in the previous
+                question's \textbf{E-Step}, we're not going to repeat them here,
+                opting instead to just write the final results.
+
+                The priors have been updated in the previous question's answer to:
+
+                \begin{equation*}
+                  \pi_1 = 0.417189, \quad
+                  \pi_2 = 0.582811
+                \end{equation*}
+
+                Moreover, we've also updated the means and covariances of the distributions
+                to:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \mu_1 & = \input{aux-matrices/mu_1_after_update}       \quad
+                          & \Sigma_1                                             & = \input{aux-matrices/Sigma_1_after_update} \\
+                    \mu_2 & = \input{aux-matrices/mu_2_after_update} \quad
+                          & \Sigma_2                                             & = \input{aux-matrices/Sigma_2_after_update}
+                  \end{aligned}
+                \end{equation*}
+
+                % TODO: check whether it's needed to write intermediate steps here
+
+                Therefore, for each sample, we'll have:
+
+                \vspace*{0.5cm}
+
+                \begin{paracol}{3}
+                  \setlength{\columnseprule}{1pt}
+                  \def\columnseprulecolor{\color{black}}
+                  \centering
+
+                  $x_1$:
+
+                  \begin{normalsize}
+                    \begin{equation*}
+                      \begin{aligned}
+                        \textcolor{purple}{P(x_1 | C = k_1)} & = 0.1957  \\
+                        \textcolor{purple}{P(x_1 | C = k_2)} & = 0.01352
+                      \end{aligned}
+                    \end{equation*}
+
+                    \begin{equation*}
+                      \begin{aligned}
+                        P(C = k_1 | x_1) & = \underline{0.91198} \\
+                        P(C = k_2 | x_1) & = 0.088017
+                      \end{aligned}
+                    \end{equation*}
+                  \end{normalsize}
+
+                  \switchcolumn
+
+                  $x_2$:
+
+                  \begin{normalsize}
+                    \begin{equation*}
+                      \begin{aligned}
+                        \textcolor{purple}{P(x_2 | C = k_1)} & = 0.0081953 \\
+                        \textcolor{purple}{P(x_2 | C = k_2)} & = 0.14365
+                      \end{aligned}
+                    \end{equation*}
+
+                    \begin{equation*}
+                      \begin{aligned}
+                        P(C = k_1 | x_2) & = 0.039237            \\
+                        P(C = k_2 | x_2) & = \underline{0.96076}
+                      \end{aligned}
+                    \end{equation*}
+                  \end{normalsize}
+
+                  \switchcolumn
+
+                  $x_3$:
+
+                  \begin{normalsize}
+                    \begin{equation*}
+                      \begin{aligned}
+                        \textcolor{purple}{P(x_3 | C = k_1)} & = 0.077166 \\
+                        \textcolor{purple}{P(x_3 | C = k_2)} & = 0.10478
+                      \end{aligned}
+                    \end{equation*}
+
+                    \begin{equation*}
+                      \begin{aligned}
+                        P(C = k_1 | x_3) & = 0.34519             \\
+                        P(C = k_2 | x_3) & = \underline{0.65481}
+                      \end{aligned}
+                    \end{equation*}
+                  \end{normalsize}
+
+                \end{paracol}
+
+                After performing these calculations, under a MAP (Maximum A Posteriori) assumption,
+                we'll assign each sample to the cluster with the highest posterior probability:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \text{MAP}(x_1) & \mapsto k_1 \\
+                    \text{MAP}(x_2) & \mapsto k_2 \\
+                    \text{MAP}(x_3) & \mapsto k_2
+                  \end{aligned}
+                \end{equation*}
+
+                \pagebreak
+
           \item \textbf{Compute the silhouette of the larger cluster using the Euclidean distance.}
         \end{enumerate}
 
