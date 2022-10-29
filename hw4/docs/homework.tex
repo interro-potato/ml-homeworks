@@ -302,6 +302,9 @@
                   \end{aligned}
                 \end{equation*}
 
+                % TODO: do we need to calculate the log-likelihood here?
+                % In the slides it's done
+
         \end{itemize}
 
   \item \textbf{Given the updated parameters computed in previous question:}
@@ -433,7 +436,7 @@
                 other samples in its \textbf{neighboring cluster} - the neighboring
                 cluster being, therefore, the cluster minimizing such average distance.
 
-                Moreover, the silhouette of a given cluster $k_n$ with $m$ assigned samples is defined as:
+                Moreover, the silhouette of a given cluster $k_n$ with $m$ assigned samples, is defined as:
 
                 \begin{equation*}
                   s(k_n) = \frac{\sum_{i=1}^m s_i}{m}
@@ -487,6 +490,8 @@
 
                 \end{paracol}
 
+                \vspace*{0.5cm}
+
                 With this, we can compute the silhouette of the larger cluster:
 
                 \begin{equation*}
@@ -507,6 +512,9 @@
   report's appendix.
 \end{justify}
 
+% display a horizontal line
+\hrule \vspace*{0.5cm}
+
 Recall the \texttt{pd\_speech.arff} dataset from earlier homeworks, centered on
 the Parkinson diagnosis from speech features. For the following exercises, normalize
 the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
@@ -517,16 +525,73 @@ the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
           (without targets) on the normalized data with $k = 3$ and three different seeds
           (using $\text{random} \in \{0, 1, 2\}$). Assess the silhouette and purity of the produced solutions.}
 
+        \texttt{sklearn.metrics} offers us the \texttt{silhouette\_score} method, which
+        computes the silhouette of a given clustering solution.
+        \texttt{purity\_score} is a custom method defined in the appendix of this report,
+        which computes the purity of a given clustering solution.
+
+        Regarding the $k$-means clustering solutions for $k = 3$, for each of the
+        given seeds, we were able to gather the following scores:
+
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c|c}
+            \textbf{\texttt{random\_state}} & \textbf{Silhouette score} & \textbf{Purity score} \\ \hline
+            0                               & 0.11362028                & 0.76719577            \\
+            1                               & 0.11403554                & 0.76322751            \\
+            2                               & 0.11362028                & 0.76719577            \\
+          \end{tabular}
+          \caption{Silhouette and Purity scores for each clustering solution}
+          \label{tab:clustering-solutions-scores}
+        \end{table}
+
+        % TODO: are we supposed to comment the results?
+
   \item \textbf{What is causing the non-determinism?}
+
+        The non-determinism present in the $k$-means clustering solutions gathered
+        in the previous exercise is caused by the fact that the algorithm is
+        inherently random: \texttt{sklearn}'s \texttt{KMeans} class sets up
+        the centroids' initial positions in a randomly generated fashion,
+        thus leading to possible different convergence points for the same
+        data and number of clusters. \texttt{random\_state}, here, works
+        as a mere manner of controlling the random seed used to generate
+        the initial centroid positions: for the same seed, the same
+        initial centroids' positions will be generated, thus leading to
+        the same convergence point. For different seeds, different
+        initial centroid positions will be generated, which could lead
+        to possible different convergence points.
+
+        \pagebreak
 
   \item \textbf{Using a scatter plot, visualize side-by-side the labeled data using as labels: i) the original
           Parkinson diagnoses, and ii) the previously learned $k = 3$ clusters (\texttt{random = 0}). To this end, select
           the two most informative features as axes and color observations according to their label. For feature
           selection, select the two input variables with highest variance on the MinMax normalized data.}
 
+        In order to select the two most informative features, we'll use the
+        custom method \texttt{select\_most\_informative\_features} defined in
+        the appendix of this report. After gathering that the two
+        input variables presenting the highest variance are both \\
+        \texttt{tqwt\_entropy\_shannon\_dec\_16} and
+        \texttt{tqwt\_kurtosisValue\_dec\_34}, we were able to gather the
+        scatter plots present in Figure \ref{fig:diagnoses-plots}.
+
   \item \textbf{The fraction of variance explained by a principal component is the ratio between the
           variance of that component (i.e., its eigenvalue) and total variance (i.e., sum of all eigenvalues).
           How many principal components are necessary to explain more than 80\% of variability?}
+
+        The \texttt{PCA} class from \texttt{sklearn.decomposition} can be used to
+        compute the \textbf{principal components} of a dataset. Moreover, its
+        \texttt{n\_components} parameter, if set to a value between 0 and 1, will
+        automatically select the number of components necessary to explain a fraction
+        of variability greater than the given value - in our case, 0.8 - which can
+        be consulted in the \texttt{n\_components\_} attribute.
+
+        After running the \texttt{calculate\_pca} method, present in the latter
+        section of this report's appendix, we were able to gather that the
+        number of principal components necessary to explain 80\% of variability
+        is $31$.
 
 \end{enumerate}
 
@@ -535,5 +600,12 @@ the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
 \large{\textbf{Appendix}\vskip 0.3cm}
 
 \lstinputlisting[language=Python]{code.py}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../assets/parkinsons.png}
+  \caption{Ground truth vs $k$-means clustering of Parkinson's dataset}
+  \label{fig:diagnoses-plots}
+\end{figure}
 
 \end{document}
