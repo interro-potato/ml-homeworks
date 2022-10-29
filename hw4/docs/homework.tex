@@ -421,6 +421,79 @@
                 \pagebreak
 
           \item \textbf{Compute the silhouette of the larger cluster using the Euclidean distance.}
+
+                As we know, the silhouette of a given sample $x_i$ is defined as:
+
+                \begin{equation*}
+                  s_i = \frac{b_i - a_i}{\max(a_i, b_i)}
+                \end{equation*}
+
+                where $a_i$ is the average distance between $x_i$ and all other samples
+                in the same cluster, and $b_i$ is the average distance between $x_i$ and all
+                other samples in its \textbf{neighboring cluster} - the neighboring
+                cluster being, therefore, the cluster minimizing such average distance.
+
+                Moreover, the silhouette of a given cluster $k_n$ with $m$ assigned samples is defined as:
+
+                \begin{equation*}
+                  s(k_n) = \frac{\sum_{i=1}^m s_i}{m}
+                \end{equation*}
+
+                Here, the \textbf{largest cluster} will be the cluster with the
+                biggest associated prior value ($\pi_k$). As was computed in 1.,
+                $\pi_2 = 0.582811 > 0.417189 = \pi_1$,
+                hence the larger cluster will be $k_2$. Its assigned samples,
+                considering a MAP assumption, are $x_2$ and $x_3$, so we'll have
+                the following:
+
+                \vspace*{0.5cm}
+
+                \begin{paracol}{2}
+                  \setlength{\columnseprule}{1pt}
+                  \def\columnseprulecolor{\color{black}}
+                  \centering
+
+                  $x_2$:
+
+                  \begin{equation*}
+                    \begin{aligned}
+                      a_2 & = \left\| x_2 - x_3 \right\|_2                                           \\
+                          & = \left\| \input{aux-matrices/x_2} - \input{aux-matrices/x_3} \right\|_2
+                      = 2.2361                                                                       \\
+                      b_2 & = \left\| x_2 - x_1 \right\|_2                                           \\
+                          & = \left\| \input{aux-matrices/x_2} - \input{aux-matrices/x_1} \right\|_2
+                      = 2.2361                                                                       \\
+                      s_2 & = \frac{b_2 - a_2}{\max(a_2, b_2)}                                       \\
+                          & = \frac{2.2361 - 2.2361}{\max(2.2361, 2.2361)} = 0
+                    \end{aligned}
+                  \end{equation*}
+
+                  \switchcolumn
+
+                  $x_3$:
+
+                  \begin{equation*}
+                    \begin{aligned}
+                      a_3 & = \left\| x_3 - x_2 \right\|_2                                           \\
+                          & = \left\| \input{aux-matrices/x_3} - \input{aux-matrices/x_2} \right\|_2
+                      = 2.2361                                                                       \\
+                      b_3 & = \left\| x_3 - x_1 \right\|_2                                           \\
+                          & = \left\| \input{aux-matrices/x_3} - \input{aux-matrices/x_1} \right\|_2
+                      = 2                                                                            \\
+                      s_3 & = \frac{b_3 - a_3}{\max(a_3, b_3)}                                       \\
+                          & = \frac{2 - 2.2361}{\max(2.2361, 2)} = -0.11803
+                    \end{aligned}
+                  \end{equation*}
+
+                \end{paracol}
+
+                With this, we can compute the silhouette of the larger cluster:
+
+                \begin{equation*}
+                  s(k_2) = \frac{s_2 + s_3}{2} = -0.059015
+                \end{equation*}
+
+
         \end{enumerate}
 
 \end{enumerate}
