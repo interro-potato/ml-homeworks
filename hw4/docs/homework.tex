@@ -213,9 +213,9 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \mu_k         & = \frac{\sum_{i=1}^3 P(C = k \mid x_i) x_i}{\sum_{i=1}^3 P(C = k \mid x_i)}                                               \\
-                    \Sigma_k^{nm} & = \frac{\sum_{i=1}^3 P(C = k \mid x_i) (x_{i, n} - \mu_{k, n}) (x_{i, m} - \mu_{k, m})^T}{\sum_{i=1}^3 P(C = k \mid x_i)} \\
-                    P(C = k)      & = \frac{\sum_{i=1}^3 P(C = k \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)}
+                    \mu_k    & = \frac{\sum_{i=1}^3 P(C = k \mid x_i) x_i}{\sum_{i=1}^3 P(C = k \mid x_i)}                                               \\
+                    \Sigma_k & = \frac{\sum_{i=1}^3 P(C = k \mid x_i) (x_{i, n} - \mu_{k, n}) (x_{i, m} - \mu_{k, m})^T}{\sum_{i=1}^3 P(C = k \mid x_i)} \\
+                    P(C = k) & = \frac{\sum_{i=1}^3 P(C = k \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)}
                   \end{aligned}
                 \end{equation*}
 
@@ -243,9 +243,9 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \Sigma_1^{nm} & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i, n} - \mu_{k_1, n}) (x_{i, m} - \mu_{k_1, m})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)} \\
+                    \Sigma_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i, n} - \mu_{k_1, n}) (x_{i, m} - \mu_{k_1, m})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)} \\
                     % TODO: check whether it's needed to write intermediate steps here
-                                  & = \input{aux-matrices/Sigma_1_after_update}
+                             & = \input{aux-matrices/Sigma_1_after_update}
                   \end{aligned}
                 \end{equation*}
 
@@ -268,9 +268,9 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \Sigma_2^{nm} & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i, n} - \mu_{k_2, n}) (x_{i, m} - \mu_{k_2, m})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)} \\
+                    \Sigma_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i, n} - \mu_{k_2, n}) (x_{i, m} - \mu_{k_2, m})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)} \\
                     % TODO: "" 
-                                  & = \input{aux-matrices/Sigma_2_after_update}
+                             & = \input{aux-matrices/Sigma_2_after_update}
                   \end{aligned}
                 \end{equation*}
 
