@@ -56,14 +56,14 @@
 \center\large{\vskip -2.5cm\textbf{Part I}: Pen and paper}
 \begin{enumerate}[leftmargin=\labelsep]
 
-  Given the bivariate observations $\left\{ \input{aux-matrices/x_1}, \input{aux-matrices/x_2}, \input{aux-matrices/x_3} \right\}$,
-  and the following multivariate Gaussian mixture:
+  % Given the bivariate observations $\left\{ \input{aux-matrices/x_1}, \input{aux-matrices/x_2}, \input{aux-matrices/x_3} \right\}$,
+  % and the following multivariate Gaussian mixture:
 
-  \begin{equation*}
-    \mu_1 = \input{aux-matrices/mu_1}, \quad \mu_2 = \input{aux-matrices/mu_2},
-    \quad \Sigma_1 = \input{aux-matrices/Sigma_1}, \quad \Sigma_2 = \input{aux-matrices/Sigma_2},
-    \quad \pi_1 = \pi_2 = 0.5
-  \end{equation*}
+  % \begin{equation*}
+  %   \mu_1 = \input{aux-matrices/mu_1}, \quad \mu_2 = \input{aux-matrices/mu_2},
+  %   \quad \Sigma_1 = \input{aux-matrices/Sigma_1}, \quad \Sigma_2 = \input{aux-matrices/Sigma_2},
+  %   \quad \pi_1 = \pi_2 = 0.5
+  % \end{equation*}
 
   \item \textbf{Perform one epoch of the EM clustering algorithm and determine the new parameters.}
 
@@ -93,6 +93,14 @@
                 \begin{equation*}
                   P(x_i \mid C = k_n) \sim \mathcal{N}(x_i; \mu_n, \Sigma_n) = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_n}}
                   \exp \left( -\frac{1}{2} (x - \mu_n)^T \Sigma_n^{-1} (x - \mu_n) \right)
+                \end{equation*}
+
+                We'll also use the $\gamma_{i, j}$ notation to represent the normalized
+                posteriors, where $i$ matches the $i$-th sample and $j$ the $j$-th cluster:
+
+                \begin{equation*}
+                  \gamma_{i, j} = \frac{\pi_j P(x_i \mid C = k_j)}{\sum_{k=1}^d \pi_k P(x_i \mid C = k_k)}
+                  = \frac{\pi_j \mathcal{N}(x_i \mid \mu_j, \Sigma_j)}{\sum_{k=1}^d \pi_k \mathcal{N}(x_i \mid \mu_k, \Sigma_k)}
                 \end{equation*}
 
                 Moreover, in this step we'll use \textcolor{teal}{teal} to denote the priors and
@@ -133,17 +141,17 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    P(C = k_1 \mid x_1) & = \frac{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)}}{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)} + \textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}} \\
-                                        & = \frac{0.5 \cdot 0.0658407}{0.5 \cdot 0.0658407 + 0.5 \cdot 0.0227993}                                                                                                                                                    \\
-                                        & = 0.742788
+                    \gamma_{1, 1} & = \frac{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)}}{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)} + \textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}} \\
+                                  & = \frac{0.5 \cdot 0.0658407}{0.5 \cdot 0.0658407 + 0.5 \cdot 0.0227993}                                                                                                                                                    \\
+                                  & = 0.742788
                   \end{aligned}
                 \end{equation*}
 
                 \begin{equation*}
                   \begin{aligned}
-                    P(C = k_2 \mid x_1) & = \frac{\textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}}{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)} + \textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}} \\
-                                        & = \frac{0.5 \cdot 0.0227993}{0.5 \cdot 0.0658407 + 0.5 \cdot 0.0227993}                                                                                                                                                    \\
-                                        & = 0.257212
+                    \gamma_{1, 2} & = \frac{\textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}}{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)} + \textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}} \\
+                                  & = \frac{0.5 \cdot 0.0227993}{0.5 \cdot 0.0658407 + 0.5 \cdot 0.0227993}                                                                                                                                                    \\
+                                  & = 0.257212
                   \end{aligned}
                 \end{equation*}
 
@@ -169,8 +177,8 @@
 
                   \begin{equation*}
                     \begin{aligned}
-                      P(C = k_1 | x_2) & = 0.155843 \\
-                      P(C = k_2 | x_2) & = 0.844157
+                      \gamma_{2, 1} & = 0.155843 \\
+                      \gamma_{2, 2} & = 0.844157
                     \end{aligned}
                   \end{equation*}
 
@@ -187,8 +195,8 @@
 
                   \begin{equation*}
                     \begin{aligned}
-                      P(C = k_1 | x_3) & = 0.352936 \\
-                      P(C = k_2 | x_3) & = 0.647064
+                      \gamma_{3, 1} & = 0.352936 \\
+                      \gamma_{3, 2} & = 0.647064
                     \end{aligned}
                   \end{equation*}
 
@@ -216,7 +224,7 @@
                 index of centroid $\mu_k$.
 
                 We can now estimate the new parameters of the distributions (and the new
-                priors) as shown below (note that the updated $\mu_k$'s are used
+                priors) as shown in the next page (note that the updated $\mu_k$'s are used
                 in the calculation of the new $\Sigma_k$'s).
                 The \texttt{python} code utilized for these calculations is also
                 available in the appendix.
@@ -335,8 +343,8 @@
 
                     \begin{equation*}
                       \begin{aligned}
-                        P(C = k_1 | x_1) & = \underline{0.91198} \\
-                        P(C = k_2 | x_1) & = 0.088017
+                        \gamma_{1, 1} & = \underline{0.91198} \\
+                        \gamma_{1, 2} & = 0.088017
                       \end{aligned}
                     \end{equation*}
                   \end{normalsize}
@@ -355,8 +363,8 @@
 
                     \begin{equation*}
                       \begin{aligned}
-                        P(C = k_1 | x_2) & = 0.039237            \\
-                        P(C = k_2 | x_2) & = \underline{0.96076}
+                        \gamma_{2, 1} & = 0.039237            \\
+                        \gamma_{2, 2} & = \underline{0.96076}
                       \end{aligned}
                     \end{equation*}
                   \end{normalsize}
@@ -375,8 +383,8 @@
 
                     \begin{equation*}
                       \begin{aligned}
-                        P(C = k_1 | x_3) & = 0.34519             \\
-                        P(C = k_2 | x_3) & = \underline{0.65481}
+                        \gamma_{3, 1} & = 0.34519             \\
+                        \gamma_{3, 2} & = \underline{0.65481}
                       \end{aligned}
                     \end{equation*}
                   \end{normalsize}
