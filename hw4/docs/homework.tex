@@ -1,0 +1,599 @@
+\documentclass[12pt]{article}
+\usepackage[paper=letterpaper,margin=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{newtxtext, newtxmath}
+\usepackage{enumitem}
+\usepackage{titling}
+\usepackage{svg}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{paracol}
+\usepackage{nicefrac}
+\usepackage{ragged2e}
+\usepackage[autostyle]{csquotes}
+\usepackage[colorlinks=true]{hyperref}
+
+\MakeOuterQuote{"}
+\setlength{\droptitle}{-6em}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{
+        style=mystyle,
+        inputencoding=utf8,
+        extendedchars=true,
+}
+
+
+\title{\large{Aprendizagem 2022}\vskip 0.2cm Homework IV -- Group 019\vskip 0.2cm Diogo Gaspar 99207, Rafael Oliveira 99311}
+\date{}
+\begin{document}
+\maketitle
+\center\large{\vskip -2.5cm\textbf{Part I}: Pen and paper}
+\begin{enumerate}[leftmargin=\labelsep]
+
+  % Given the bivariate observations $\left\{ \input{aux-matrices/x_1}, \input{aux-matrices/x_2}, \input{aux-matrices/x_3} \right\}$,
+  % and the following multivariate Gaussian mixture:
+
+  % \begin{equation*}
+  %   \mu_1 = \input{aux-matrices/mu_1}, \quad \mu_2 = \input{aux-matrices/mu_2},
+  %   \quad \Sigma_1 = \input{aux-matrices/Sigma_1}, \quad \Sigma_2 = \input{aux-matrices/Sigma_2},
+  %   \quad \pi_1 = \pi_2 = 0.5
+  % \end{equation*}
+
+  \item \textbf{Perform one epoch of the EM clustering algorithm and determine the new parameters.}
+
+        As a side note, we'll be using the $k_1$ and $k_2$ notation to represent
+        clusters $1$ and $2$ - with that, we'll say that $\pi_1 = P(C = k_1)$,
+        with analogous notation for $\pi_2$.
+
+        EM-Clustering, being an unsupervised learning algorithm intending to calculate
+        the probability of a sample belonging to a certain cluster, is a method that
+        iteratively updates the parameters of the model until convergence is reached
+        (for a given definition of convergence). Here, we'll perform exactly one
+        epoch of the algorithm, which means we'll be going through two steps:
+
+        \begin{itemize}[leftmargin=\labelsep]
+          \item \textbf{E-step:} Here, we're aiming to calculate the \textbf{posterior
+                  probability} of each sample belonging to each cluster.
+                In order to perform this calculation, we'll be using \textbf{Bayes' rule},
+                of course, to decompose the posterior probability into the product of
+                the \textbf{likelihood} and the \textbf{prior probability} of the sample
+                belonging to the cluster. Let's try, then, to assign each sample to
+                the cluster that maximizes the posterior probability.
+
+                For starters, we must first note that the likelihood of a sample
+                belonging to a cluster is given by the \textbf{multivariate Gaussian
+                  distribution}, which can be written as (considering $d = 2$):
+
+                \begin{equation*}
+                  P(x_i \mid C = k_n) \sim \mathcal{N}(x_i; \mu_n, \Sigma_n) = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_n}}
+                  \exp \left( -\frac{1}{2} (x - \mu_n)^T \Sigma_n^{-1} (x - \mu_n) \right)
+                \end{equation*}
+
+                We'll also use the $\gamma_{i, j}$ notation to represent the normalized
+                posteriors, where $i$ matches the $i$-th sample and $j$ the $j$-th cluster:
+
+                \begin{equation*}
+                  \gamma_{i, j} = \frac{\pi_j P(x_i \mid C = k_j)}{\sum_{k=1}^d \pi_k P(x_i \mid C = k_k)}
+                  = \frac{\pi_j \mathcal{N}(x_i \mid \mu_j, \Sigma_j)}{\sum_{k=1}^d \pi_k \mathcal{N}(x_i \mid \mu_k, \Sigma_k)}
+                \end{equation*}
+
+                Moreover, in this step we'll use \textcolor{teal}{teal} to denote the priors and
+                \textcolor{purple}{purple} to denote the likelihoods.
+
+                \pagebreak
+
+                As a given, we have that the priors are (for every sample, of course):
+
+                \begin{equation*}
+                  \textcolor{teal}{P(C = k_1)} = \textcolor{teal}{P(C = k_2)} = 0.5
+                \end{equation*}
+
+                Regarding $x_1$, we have:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \textcolor{purple}{P(x_1 \mid C = k_1)}
+                     & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_1}} \exp \left( -\frac{1}{2} (x_1 - \mu_1)^T \Sigma_1^{-1} (x_1 - \mu_1) \right)                                                                                \\
+                     & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_1}}}
+                    \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_1}\right)^T \input{aux-matrices/Sigma_1}^{-1} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_1}\right) \right) \\
+                     & = 0.0658407
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \textcolor{purple}{P(x_1 \mid C = k_2)}
+                     & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_2}} \exp \left( -\frac{1}{2} (x_1 - \mu_2)^T \Sigma_2^{-1} (x_1 - \mu_2) \right)                                                                                \\
+                     & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_2}}}
+                    \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_2}\right)^T \input{aux-matrices/Sigma_2}^{-1} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_2}\right) \right) \\
+                     & = 0.0227993
+                  \end{aligned}
+                \end{equation*}
+
+
+                The (normalized) posteriors can be computed as follows:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \gamma_{1, 1} & = \frac{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)}}{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)} + \textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}} \\
+                                  & = \frac{0.5 \cdot 0.0658407}{0.5 \cdot 0.0658407 + 0.5 \cdot 0.0227993}                                                                                                                                                    \\
+                                  & = 0.742788
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \gamma_{1, 2} & = \frac{\textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}}{\textcolor{teal}{P(C = k_1)} \textcolor{purple}{P(x_1 \mid C = k_1)} + \textcolor{teal}{P(C = k_2)} \textcolor{purple}{P(x_1 \mid C = k_2)}} \\
+                                  & = \frac{0.5 \cdot 0.0227993}{0.5 \cdot 0.0658407 + 0.5 \cdot 0.0227993}                                                                                                                                                    \\
+                                  & = 0.257212
+                  \end{aligned}
+                \end{equation*}
+
+                In order to avoid repeating showing such similar calculations for the
+                remaining samples, and after talking with prof. Rui, we'll opt to write
+                the results of all intermediate steps instead, provided that the \texttt{python}
+                code required to perform the calculations is available
+                in this report's appendix.
+
+                \begin{paracol}{2}
+                  \setlength{\columnseprule}{1pt}
+                  \def\columnseprulecolor{\color{black}}
+                  \centering
+
+                  $x_2$:
+
+                  \begin{equation*}
+                    \begin{aligned}
+                      \textcolor{purple}{P(x_2 | C = k_1)} & = 0.00891057 \\
+                      \textcolor{purple}{P(x_2 | C = k_2)} & = 0.0482662
+                    \end{aligned}
+                  \end{equation*}
+
+                  \begin{equation*}
+                    \begin{aligned}
+                      \gamma_{2, 1} & = 0.155843 \\
+                      \gamma_{2, 2} & = 0.844157
+                    \end{aligned}
+                  \end{equation*}
+
+                  \switchcolumn
+
+                  $x_3$:
+
+                  \begin{equation*}
+                    \begin{aligned}
+                      \textcolor{purple}{P(x_3 | C = k_1)} & = 0.0338038 \\
+                      \textcolor{purple}{P(x_3 | C = k_2)} & = 0.061975
+                    \end{aligned}
+                  \end{equation*}
+
+                  \begin{equation*}
+                    \begin{aligned}
+                      \gamma_{3, 1} & = 0.352936 \\
+                      \gamma_{3, 2} & = 0.647064
+                    \end{aligned}
+                  \end{equation*}
+
+                \end{paracol}
+
+          \item \textbf{M-step: Having calculated the posteriors, we can now
+                  update the parameters of the cluster-defining distributions.}
+
+                For each cluster, we'll want to find the new distribution parameters:
+                in this case, $\mu_k$ and $\Sigma_k$ (for every cluster $k$).
+                For likelihoods, we'll need to update both $\mu_k$ and $\Sigma_k$,
+                using all samples weighted by their respective posteriors, as can be seen below;
+                for priors, we'll need to perform a weighted mean of the posteriors.
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \mu_k    & = \frac{\sum_{i=1}^3 P(C = k \mid x_i) x_i}{\sum_{i=1}^3 P(C = k \mid x_i)}                                               \\
+                    \Sigma_k & = \frac{\sum_{i=1}^3 P(C = k \mid x_i) (x_{i, n} - \mu_{k, n}) (x_{i, m} - \mu_{k, m})^T}{\sum_{i=1}^3 P(C = k \mid x_i)} \\
+                    P(C = k) & = \frac{\sum_{i=1}^3 P(C = k \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)}
+                  \end{aligned}
+                \end{equation*}
+
+                In the equations stated above, we're considering $x_{i, n}$ as the $n$-th
+                feature's value of the $i$-th sample, and $\mu_{k, n}$ as the $n$-th
+                index of centroid $\mu_k$.
+
+                We can now estimate the new parameters of the distributions (and the new
+                priors) as shown in the next page (note that the updated $\mu_k$'s are used
+                in the calculation of the new $\Sigma_k$'s).
+                The \texttt{python} code utilized for these calculations is also
+                available in the appendix.
+
+                \pagebreak
+
+                Regarding $k_1$:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \mu_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_1 \mid x_i)}                                                                                      \\
+                          & = \frac{0.742788 \cdot \input{aux-matrices/x_1} + 0.155843 \cdot \input{aux-matrices/x_2} + 0.352936 \cdot \input{aux-matrices/x_3}}{0.742788 + 0.155843 + 0.352936} \\
+                          & = \input{aux-matrices/mu_1_after_update}
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \Sigma_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i, n} - \mu_{k_1, n}) (x_{i, m} - \mu_{k_1, m})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)} \\
+                    % TODO: check whether it's needed to write intermediate steps here
+                             & = \input{aux-matrices/Sigma_1_after_update}
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \pi_1 = P(C = k_1) = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)} = 0.417189
+                    % TODO: once again, check whether it's needed to write intermediate steps here
+                  \end{aligned}
+                \end{equation*}
+
+                Regarding $k_2$:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \mu_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_2 \mid x_i)}                                                                                      \\
+                          & = \frac{0.257212 \cdot \input{aux-matrices/x_1} + 0.844157 \cdot \input{aux-matrices/x_2} + 0.647064 \cdot \input{aux-matrices/x_3}}{0.257212 + 0.844157 + 0.647064} \\
+                          & = \input{aux-matrices/mu_2_after_update}
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \Sigma_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i, n} - \mu_{k_2, n}) (x_{i, m} - \mu_{k_2, m})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)} \\
+                    % TODO: "" 
+                             & = \input{aux-matrices/Sigma_2_after_update}
+                  \end{aligned}
+                \end{equation*}
+
+                \begin{equation*}
+                  \begin{aligned}
+                    % TODO: ""
+                    \pi_2 = P(C = k_2) = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)} = 0.582811
+                  \end{aligned}
+                \end{equation*}
+
+        \end{itemize}
+
+        \pagebreak
+
+  \item \textbf{Given the updated parameters computed in previous question:}
+
+        \begin{enumerate}[leftmargin=\labelsep]
+          \item \textbf{Perform a hard assignment of observations to clusters under a MAP assumption.}
+
+                \textit{Note that, since all calculations follow the same formulas utilized
+                  in the previous question's \textbf{E-Step}, we're not going to repeat them here,
+                  opting instead to just write the final results for each intermediate step.
+                  The code required for these calculations is, once again, available in the
+                  appendix.}
+
+                Just like in the first question's answer, we'll need to compute the posterior
+                probabilities of each sample belonging to each cluster (now utilizing the newly updated
+                parameters); however, instead of proceeding to the \textbf{M-Step}, we'll just assign
+                each sample to the cluster with the highest posterior probability.
+
+                The priors have been updated in the previous question's answer to:
+
+                \begin{equation*}
+                  \pi_1 = 0.417189, \quad
+                  \pi_2 = 0.582811
+                \end{equation*}
+
+                Moreover, we've also updated the means and covariances of the distributions
+                to:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \mu_1 & = \input{aux-matrices/mu_1_after_update}       \quad
+                          & \Sigma_1                                             & = \input{aux-matrices/Sigma_1_after_update} \\
+                    \mu_2 & = \input{aux-matrices/mu_2_after_update} \quad
+                          & \Sigma_2                                             & = \input{aux-matrices/Sigma_2_after_update}
+                  \end{aligned}
+                \end{equation*}
+
+                % TODO: check whether it's needed to write intermediate steps here
+
+                Therefore, for each sample, we'll have:
+
+                \vspace*{0.5cm}
+
+                \begin{paracol}{3}
+                  \setlength{\columnseprule}{1pt}
+                  \def\columnseprulecolor{\color{black}}
+                  \centering
+
+                  $x_1$:
+
+                  \begin{normalsize}
+                    \begin{equation*}
+                      \begin{aligned}
+                        \textcolor{purple}{P(x_1 | C = k_1)} & = 0.1957  \\
+                        \textcolor{purple}{P(x_1 | C = k_2)} & = 0.01352
+                      \end{aligned}
+                    \end{equation*}
+
+                    \begin{equation*}
+                      \begin{aligned}
+                        \gamma_{1, 1} & = \underline{0.91198} \\
+                        \gamma_{1, 2} & = 0.088017
+                      \end{aligned}
+                    \end{equation*}
+                  \end{normalsize}
+
+                  \switchcolumn
+
+                  $x_2$:
+
+                  \begin{normalsize}
+                    \begin{equation*}
+                      \begin{aligned}
+                        \textcolor{purple}{P(x_2 | C = k_1)} & = 0.0081953 \\
+                        \textcolor{purple}{P(x_2 | C = k_2)} & = 0.14365
+                      \end{aligned}
+                    \end{equation*}
+
+                    \begin{equation*}
+                      \begin{aligned}
+                        \gamma_{2, 1} & = 0.039237            \\
+                        \gamma_{2, 2} & = \underline{0.96076}
+                      \end{aligned}
+                    \end{equation*}
+                  \end{normalsize}
+
+                  \switchcolumn
+
+                  $x_3$:
+
+                  \begin{normalsize}
+                    \begin{equation*}
+                      \begin{aligned}
+                        \textcolor{purple}{P(x_3 | C = k_1)} & = 0.077166 \\
+                        \textcolor{purple}{P(x_3 | C = k_2)} & = 0.10478
+                      \end{aligned}
+                    \end{equation*}
+
+                    \begin{equation*}
+                      \begin{aligned}
+                        \gamma_{3, 1} & = 0.34519             \\
+                        \gamma_{3, 2} & = \underline{0.65481}
+                      \end{aligned}
+                    \end{equation*}
+                  \end{normalsize}
+
+                \end{paracol}
+
+                After performing these calculations, under a MAP (Maximum A Posteriori) assumption,
+                we'll assign each sample to the cluster with the highest posterior probability:
+
+                \begin{equation*}
+                  \begin{aligned}
+                    \text{MAP}(x_1) & \mapsto k_1 \\
+                    \text{MAP}(x_2) & \mapsto k_2 \\
+                    \text{MAP}(x_3) & \mapsto k_2
+                  \end{aligned}
+                \end{equation*}
+
+                \pagebreak
+
+          \item \textbf{Compute the silhouette of the larger cluster using the Euclidean distance.}
+
+                As we know, the silhouette of a given sample $x_i$ is defined as
+
+                \begin{equation*}
+                  s_i = \frac{b_i - a_i}{\max\left\{a_i, b_i\right\}},
+                \end{equation*}
+
+                where $a_i$ is the average distance between $x_i$ and all other samples
+                in the same cluster, and $b_i$ is the average distance between $x_i$ and all
+                other samples in its \textbf{neighboring cluster} - the neighboring
+                cluster being, therefore, the cluster minimizing such average distance.
+
+                Moreover, the silhouette of a given cluster $k_n$, with $m$ assigned samples, is defined as:
+
+                \begin{equation*}
+                  s(k_n) = \frac{\sum_{i=1}^m s_i}{m}
+                \end{equation*}
+
+                Here, the \textbf{largest cluster} will be the cluster with the
+                biggest associated prior value ($\pi_k$). As was computed in 1.,
+                $\pi_2 = 0.582811 > 0.417189 = \pi_1$,
+                hence the larger cluster will be $k_2$. Its assigned samples,
+                considering a MAP assumption, are $x_2$ and $x_3$ (as asserted
+                in the previous question's answer), so we'll have the following:
+
+                \vspace*{0.5cm}
+
+                \begin{paracol}{2}
+                  \setlength{\columnseprule}{1pt}
+                  \def\columnseprulecolor{\color{black}}
+                  \centering
+
+                  $x_2$:
+
+                  \begin{equation*}
+                    \begin{aligned}
+                      a_2 & = \frac{\left\| x_2 - x_3 \right\|_2}{2 - 1}                             \\
+                          & = \left\| \input{aux-matrices/x_2} - \input{aux-matrices/x_3} \right\|_2
+                      = 2.2361                                                                       \\
+                      b_2 & = \min\left\{\frac{\left\| x_2 - x_1 \right\|_2}{1}\right\}              \\
+                          & = \left\| \input{aux-matrices/x_2} - \input{aux-matrices/x_1} \right\|_2
+                      = 2.2361                                                                       \\
+                      s_2 & = \frac{b_2 - a_2}{\max\left\{a_2, b_2\right\}}                          \\
+                          & = \frac{2.2361 - 2.2361}{\max\left\{2.2361, 2.2361\right\}} = 0
+                    \end{aligned}
+                  \end{equation*}
+
+                  \switchcolumn
+
+                  $x_3$:
+
+                  \begin{equation*}
+                    \begin{aligned}
+                      a_3 & = \frac{\left\| x_3 - x_2 \right\|_2}{2 - 1}                             \\
+                          & = \left\| \input{aux-matrices/x_3} - \input{aux-matrices/x_2} \right\|_2
+                      = 2.2361                                                                       \\
+                      b_3 & = \min\left\{\frac{\left\| x_3 - x_1 \right\|_2}{1}\right\}              \\
+                          & = \left\| \input{aux-matrices/x_3} - \input{aux-matrices/x_1} \right\|_2
+                      = 2                                                                            \\
+                      s_3 & = \frac{b_3 - a_3}{\max\left\{a_3, b_3\right\}}                          \\
+                          & = \frac{2 - 2.2361}{\max\left\{2.2361, 2\right\}} = -0.11803
+                    \end{aligned}
+                  \end{equation*}
+
+                \end{paracol}
+
+                \vspace*{0.5cm}
+
+                With this, we can compute the silhouette of the larger cluster:
+
+                \begin{equation*}
+                  s(k_2) = \frac{s_2 + s_3}{2} = -0.059015
+                \end{equation*}
+
+
+        \end{enumerate}
+
+\end{enumerate}
+
+\pagebreak
+
+\center\large{\textbf{Part II}: Programming and critical analysis}
+
+\begin{justify}
+  The code utilized to answer the following questions is available in this
+  report's appendix.
+\end{justify}
+
+% display a horizontal line
+\hrule \vspace*{0.5cm}
+
+Recall the \texttt{pd\_speech.arff} dataset from earlier homeworks, centered on
+the Parkinson diagnosis from speech features. For the following exercises, normalize
+the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
+
+\begin{enumerate}[leftmargin=\labelsep,resume]
+
+  \item \textbf{Using \texttt{sklearn}, apply $k$-means clustering fully unsupervisedly
+          (without targets) on the normalized data with $k = 3$ and three different seeds
+          (using $\text{random} \in \{0, 1, 2\}$). Assess the silhouette and purity of the produced solutions.}
+
+        \texttt{sklearn.metrics} offers us the \texttt{silhouette\_score} method, which
+        computes the silhouette of a given clustering solution.
+        \texttt{purity\_score} is a custom method defined in the appendix of this report,
+        which computes the purity of a given clustering solution.
+
+        Regarding the $k$-means clustering solutions for $k = 3$, for each of the
+        given seeds, we were able to gather the following scores:
+
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c|c}
+            \textbf{\texttt{random\_state}} & \textbf{Silhouette score} & \textbf{Purity score} \\ \hline
+            0                               & 0.11362028                & 0.76719577            \\
+            1                               & 0.11403554                & 0.76322751            \\
+            2                               & 0.11362028                & 0.76719577            \\
+          \end{tabular}
+          \caption{Silhouette and Purity scores for each clustering solution}
+          \label{tab:clustering-solutions-scores}
+        \end{table}
+
+        % TODO: we can add a small comment here
+        % however, not adding it won't affect the report's grade
+
+  \item \textbf{What is causing the non-determinism?}
+
+        The non-determinism present in the $k$-means clustering solutions gathered
+        in the previous exercise is caused by the fact that the algorithm is
+        inherently random: \texttt{sklearn}'s \texttt{KMeans} class sets up
+        the centroids' initial positions in a randomly generated fashion,
+        thus leading to possible different convergence points for the same
+        data and number of clusters. \texttt{random\_state}, here, works
+        as a mere manner of controlling the random seed used to generate
+        the initial centroid positions: for the same seed, the same
+        initial centroids' positions will be generated, thus leading to
+        the same convergence point. For different seeds, different
+        initial centroid positions will be generated, which could lead
+        to possible different convergence points.
+
+        \pagebreak
+
+  \item \textbf{Using a scatter plot, visualize side-by-side the labeled data using as labels: i) the original
+          Parkinson diagnoses, and ii) the previously learned $k = 3$ clusters (\texttt{random = 0}). To this end, select
+          the two most informative features as axes and color observations according to their label. For feature
+          selection, select the two input variables with highest variance on the MinMax normalized data.}
+
+        In order to select the two most informative features, we'll use the
+        custom method \texttt{select\_most\_informative\_features} defined in
+        the appendix of this report. After gathering that the two
+        input variables presenting the highest variance are both \\
+        \texttt{tqwt\_entropy\_shannon\_dec\_16} and
+        \texttt{tqwt\_kurtosisValue\_dec\_34}, we were able to gather the
+        scatter plots present in Figure \ref{fig:diagnoses-plots}.
+
+  \item \textbf{The fraction of variance explained by a principal component is the ratio between the
+          variance of that component (i.e., its eigenvalue) and total variance (i.e., sum of all eigenvalues).
+          How many principal components are necessary to explain more than 80\% of variability?}
+
+        The \texttt{PCA} class from \texttt{sklearn.decomposition} can be used to
+        compute the \textbf{principal components} of a dataset. Moreover, its
+        \texttt{n\_components} parameter, if set to a value between 0 and 1, will
+        automatically select the number of components necessary to explain a fraction
+        of variability greater than the given value - in our case, 0.8 - which can
+        be consulted in the \texttt{n\_components\_} attribute.
+
+        After running the \texttt{calculate\_pca} method, present in the latter
+        section of this report's appendix, we were able to gather that the
+        number of principal components necessary to explain 80\% of variability
+        is $31$.
+
+\end{enumerate}
+
+\pagebreak
+
+\large{\textbf{Appendix}\vskip 0.3cm}
+
+Code utilized to answer the questions in the Pen-and-Paper section:
+
+\lstinputlisting[language=Python]{pen-and-paper.py}
+
+Code utilized to answer the questions in the Programming and critical analysis section:
+
+\lstinputlisting[language=Python]{programming.py}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{../assets/parkinsons.png}
+  \caption{Ground truth vs $k$-means clustering of Parkinson's dataset}
+  \label{fig:diagnoses-plots}
+\end{figure}
+
+\end{document}
