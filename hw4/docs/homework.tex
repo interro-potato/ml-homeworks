@@ -56,15 +56,6 @@
 \center\large{\vskip -2.5cm\textbf{Part I}: Pen and paper}
 \begin{enumerate}[leftmargin=\labelsep]
 
-  % Given the bivariate observations $\left\{ \input{aux-matrices/x_1}, \input{aux-matrices/x_2}, \input{aux-matrices/x_3} \right\}$,
-  % and the following multivariate Gaussian mixture:
-
-  % \begin{equation*}
-  %   \mu_1 = \input{aux-matrices/mu_1}, \quad \mu_2 = \input{aux-matrices/mu_2},
-  %   \quad \Sigma_1 = \input{aux-matrices/Sigma_1}, \quad \Sigma_2 = \input{aux-matrices/Sigma_2},
-  %   \quad \pi_1 = \pi_2 = 0.5
-  % \end{equation*}
-
   \item \textbf{Perform one epoch of the EM clustering algorithm and determine the new parameters.}
 
         As a side note, we'll be using the $k_1$ and $k_2$ notation to represent
@@ -245,7 +236,7 @@
                   \begin{aligned}
                     \Sigma^{nm}_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i, n} - \mu_{k_1, n}) (x_{i, m} - \mu_{k_1, m})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)} \\
                     % TODO: check whether it's needed to write intermediate steps here
-                             & = \input{aux-matrices/Sigma_1_after_update}
+                                  & = \input{aux-matrices/Sigma_1_after_update}
                   \end{aligned}
                 \end{equation*}
 
@@ -270,7 +261,7 @@
                   \begin{aligned}
                     \Sigma^{nm}_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i, n} - \mu_{k_2, n}) (x_{i, m} - \mu_{k_2, m})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)} \\
                     % TODO: "" 
-                             & = \input{aux-matrices/Sigma_2_after_update}
+                                  & = \input{aux-matrices/Sigma_2_after_update}
                   \end{aligned}
                 \end{equation*}
 
@@ -541,8 +532,10 @@ the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
         the initial centroid positions: for the same seed, the same
         initial centroids' positions will be generated, thus leading to
         the same convergence point. For different seeds, different
-        initial centroid positions will be generated, which could lead
-        to possible different convergence points.
+        initial centroid positions will be generated, which will generally lead
+        to different convergence points. In the case seen above, with seeds 0
+        and 2, the convergence point reached was practically the same (in terms of
+        evaluated), even though the final centroids' positions were different.
 
         \pagebreak
 
