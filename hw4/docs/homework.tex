@@ -81,7 +81,8 @@
 
                 For starters, we must first note that the likelihood of a sample
                 belonging to a cluster is given by the \textbf{multivariate Gaussian
-                  distribution}, which can be written as (considering $d = 2$):
+                  distribution}, which can be written as (considering $d = 2$, as we
+                are working with two dimensions here):
 
                 \begin{equation*}
                   P(x_i \mid C = k_n) \sim \mathcal{N}(x_i; \mu_n, \Sigma_n) = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_n}}
@@ -89,11 +90,12 @@
                 \end{equation*}
 
                 We'll also use the $\gamma_{i, j}$ notation to represent the normalized
-                posteriors, where $i$ matches the $i$-th sample and $j$ the $j$-th cluster:
+                posteriors, where $i$ matches the $i$-th sample and $j$ the $j$-th cluster
+                (considering $N = 2$, as we have two clusters $k_\alpha, \forall_{1 \leq \alpha \leq N}$):
 
                 \begin{equation*}
-                  \gamma_{i, j} = \frac{\pi_j P(x_i \mid C = k_j)}{\sum_{k=1}^d \pi_k P(x_i \mid C = k_k)}
-                  = \frac{\pi_j \mathcal{N}(x_i \mid \mu_j, \Sigma_j)}{\sum_{k=1}^d \pi_k \mathcal{N}(x_i \mid \mu_k, \Sigma_k)}
+                  \gamma_{i, j} = \frac{\pi_j P(x_i \mid C = k_j)}{\sum_{\alpha=1}^N \pi_\alpha P(x_i \mid C = k_\alpha)}
+                  = \frac{\pi_j \mathcal{N}(x_i; \mu_j, \Sigma_j)}{\sum_{\alpha=1}^N \pi_\alpha \mathcal{N}(x_i; \mu_\alpha, \Sigma_\alpha)}
                 \end{equation*}
 
                 Moreover, in this step we'll use \textcolor{teal}{teal} to denote the priors and
@@ -115,7 +117,6 @@
                      & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_1}} \exp \left( -\frac{1}{2} (x_1 - \mu_1)^T \Sigma_1^{-1} (x_1 - \mu_1) \right)                                                                                \\
                      & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_1}}}
                     \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_1}\right)^T \input{aux-matrices/Sigma_1}^{-1} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_1}\right) \right) \\
-                     & = \frac{\me^{-\nicefrac{1}{3}}}{\sqrt{(2\pi)^2 \cdot 3}}                                                                                                                                              \\
                      & \approx 0.0658407
                   \end{aligned}
                 \end{equation*}
@@ -512,7 +513,7 @@ Recall the \texttt{pd\_speech.arff} dataset from earlier homeworks, centered on
 the Parkinson diagnosis from speech features. For the following exercises, normalize
 the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
 
-\begin{enumerate}[leftmargin=\labelsep,resume]
+\begin{enumerate}[leftmargin=\labelsep]
 
   \item \textbf{Using \texttt{sklearn}, apply $k$-means clustering fully unsupervisedly
           (without targets) on the normalized data with $k = 3$ and three different seeds
@@ -556,9 +557,13 @@ the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
         initial centroid positions will be generated, which will generally lead
         to different convergence points. In the case seen above, with seeds 0
         and 2, the convergence point reached was practically the same (in terms of
-        evaluated), even though the final centroids' positions were different - by calculating
-        the norm of the difference between the final centroids' positions for each run,
-        we were able to gather the following results:
+        observed purity and silhouette performance scores), even though the final
+        centroids' positions were different:
+
+        $$
+          pos_{seed = 0} = \begin{bmatrix} a \\ b \end{bmatrix} \neq
+          \begin{bmatrix} c \\ d \end{bmatrix} = pos_{seed = 2}
+        $$
 
         \begin{table}[H]
           \centering
