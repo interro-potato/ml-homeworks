@@ -18,6 +18,8 @@ data = loadarff('data/pd_speech.arff')
 df = pd.DataFrame(data[0])
 df['class'] = df['class'].str.decode('utf-8')
 
+# Exercise 1 below
+
 def calculate_scores(kmeans):
     def purity_score(y_true, y_pred):
         confusion_matrix = contingency_matrix(y_true, y_pred)
@@ -34,7 +36,7 @@ def calculate_scores(kmeans):
 X = df.iloc[:, :-1].values
 labels = df.iloc[:, -1].values
 
-# Normalize the data
+## Normalize the data
 scaler = MinMaxScaler()
 X_scaled = scaler.fit_transform(X)
 
@@ -60,15 +62,15 @@ print(most_informative_features)
 
 plt.suptitle('Ground truth vs $k$-means clustering of Parkinson\'s dataset', fontsize=15)
 
-# TODO: change legend to show the actual class names/clusters
-
 for i, ax in enumerate(axes):
   if i == 0:
     sns.scatterplot(x=x, y=y, hue=labels, ax=ax, palette='Set2')
     ax.set_title('Original labels')
+    ax.get_legend().set_title("Diagnosis")
   else:
     sns.scatterplot(x=x, y=y, hue=kmeans[0].labels_, ax=ax, palette='Set2')
     ax.set_title("Cluster labels")
+    ax.get_legend().set_title("Cluster")
   ax.set_xlabel(f'Feature: {most_informative_features[0]}')
   ax.set_ylabel(f'Feature: {most_informative_features[1]}')
 plt.savefig('assets/parkinsons.png')
