@@ -49,6 +49,14 @@ kmeans = [KMeans(n_clusters=3, random_state=seed).fit(X_scaled) for seed in rang
 
 calculate_scores(kmeans)
 
+# get the cluster centroids
+centroids = np.array([k.cluster_centers_ for k in kmeans])
+
+# show that the centroids between all seeds are different
+print(f'Norm between centroids for seeds 0 and 1: {np.linalg.norm(centroids[0] - centroids[1]):.5g}')
+print(f'Norm between centroids for seeds 0 and 2: {np.linalg.norm(centroids[0] - centroids[2]):.5g}')
+print(f'Norm between centroids for seeds 1 and 2: {np.linalg.norm(centroids[1] - centroids[2]):.5g}')
+
 # Exercise 4 below
 
 

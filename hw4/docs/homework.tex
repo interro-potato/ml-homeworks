@@ -556,9 +556,19 @@ the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
         initial centroid positions will be generated, which will generally lead
         to different convergence points. In the case seen above, with seeds 0
         and 2, the convergence point reached was practically the same (in terms of
-        evaluated), even though the final centroids' positions were different.
+        evaluated), even though the final centroids' positions were different - by calculating
+        the norm of the difference between the final centroids' positions for each run,
+        we were able to gather the following results:
 
-        \pagebreak
+        \begin{table}[H]
+          \centering
+          \begin{tabular}{c|c|c}
+            Difference - seeds 0 and 1 & Difference - seeds 0 and 2 & Difference - seeds 1 and 2 \\ \hline
+            3.1566                     & 4.4269                     & 3.3163
+          \end{tabular}
+          \caption{Norm of the difference between the final centroids' positions for each run}
+          \label{tab:difference-norms}
+        \end{table}
 
   \item \textbf{Using a scatter plot, visualize side-by-side the labeled data using as labels: i) the original
           Parkinson diagnoses, and ii) the previously learned $k = 3$ clusters (\texttt{random = 0}). To this end, select
