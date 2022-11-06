@@ -70,7 +70,7 @@ posteriors_x_3 = calc_posteriors(priors, [p_x_3_given_k_1, p_x_3_given_k_2])
 k1_posteriors = np.array([posteriors_x_1[0], posteriors_x_2[0], posteriors_x_3[0]])
 k2_posteriors = np.array([posteriors_x_1[1], posteriors_x_2[1], posteriors_x_3[1]])
 
-# update parameters
+# update the parameters
 
 mu_1_after_update, mu_2_after_update = update_means(k1_posteriors, k2_posteriors)
 Sigma_1_after_update, Sigma_2_after_update = update_covs(k1_posteriors, k2_posteriors, mu_1_after_update, mu_2_after_update)
@@ -97,8 +97,15 @@ hard_assignments = np.argmax(np.array([updated_posteriors_x_1, updated_posterior
 
 ### Question 2b ###
 
-# Calculate the norm between x1 and x2, x2 and x3, x1 and x3
+# calculate the norm between x1 and x2, x2 and x3, x1 and x3
 
 norm_x1_x2 = np.linalg.norm(x_1 - x_2)
 norm_x2_x3 = np.linalg.norm(x_2 - x_3)
 norm_x1_x3 = np.linalg.norm(x_1 - x_3)
+
+# calculate the silhouette
+
+s_2 = (norm_x1_x2 - norm_x2_x3)/norm_x1_x2
+s_3 = (norm_x1_x3 - norm_x2_x3)/max(norm_x1_x3, norm_x2_x3)
+
+s_k_2 = (s_2 + s_3)/2
