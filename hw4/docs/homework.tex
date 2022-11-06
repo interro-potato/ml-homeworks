@@ -208,8 +208,8 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \mu_\alpha      & = \frac{\sum_{i=1}^3 P(C = k_\alpha \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_\alpha \mid x_i)}                                                         \\
-                    \Sigma_\alpha   & = \frac{\sum_{i=1}^3 P(C = k_\alpha \mid x_i) (x_{i, n} - \mu_{\alpha, n}) (x_{i, m} - \mu_{\alpha, m})^T}{\sum_{i=1}^3 P(C = k_\alpha \mid x_i)} \\
+                    \mu_\alpha      & = \frac{\sum_{i=1}^3 P(C = k_\alpha \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_\alpha \mid x_i)}                                             \\
+                    \Sigma_\alpha   & = \frac{\sum_{i=1}^3 P(C = k_\alpha \mid x_i) (x_{i} - \mu_{\alpha}) (x_{i} - \mu_{\alpha})^T}{\sum_{i=1}^3 P(C = k_\alpha \mid x_i)} \\
                     P(C = k_\alpha) & = \frac{\sum_{i=1}^3 P(C = k_\alpha \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = k_c \mid x_i)}
                   \end{aligned}
                 \end{equation*}
@@ -238,16 +238,14 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \Sigma^{nm}_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i, n} - \mu_{1, n}) (x_{i, m} - \mu_{1, m})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)} \\
-                    % TODO: check whether it's needed to write intermediate steps here
-                                  & = \input{aux-matrices/Sigma_1_after_update}
+                    \Sigma_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i} - \mu_{1}) (x_{i} - \mu_{1})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)} \\
+                             & = \input{aux-matrices/Sigma_1_after_update}
                   \end{aligned}
                 \end{equation*}
 
                 \begin{equation*}
                   \begin{aligned}
                     \pi_1 = P(C = k_1) = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = k_c \mid x_i)} = 0.417189
-                    % TODO: once again, check whether it's needed to write intermediate steps here
                   \end{aligned}
                 \end{equation*}
 
@@ -263,15 +261,13 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \Sigma^{nm}_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i, n} - \mu_{2, n}) (x_{i, m} - \mu_{2, m})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)} \\
-                    % TODO: "" 
-                                  & = \input{aux-matrices/Sigma_2_after_update}
+                    \Sigma_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i} - \mu_{2}) (x_{i} - \mu_{2})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)} \\
+                             & = \input{aux-matrices/Sigma_2_after_update}
                   \end{aligned}
                 \end{equation*}
 
                 \begin{equation*}
                   \begin{aligned}
-                    % TODO: ""
                     \pi_2 = P(C = k_2) = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = k_c \mid x_i)} = 0.582811
                   \end{aligned}
                 \end{equation*}
@@ -314,8 +310,6 @@
                           & \Sigma_2                                             & = \input{aux-matrices/Sigma_2_after_update}
                   \end{aligned}
                 \end{equation*}
-
-                % TODO: check whether it's needed to write intermediate steps here
 
                 Therefore, for each sample, we'll have:
 
