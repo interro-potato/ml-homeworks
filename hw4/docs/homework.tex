@@ -49,6 +49,8 @@
 }
 
 
+\newcommand{\me}{\mathrm{e}}
+
 \title{\large{Aprendizagem 2022}\vskip 0.2cm Homework IV -- Group 019\vskip 0.2cm Diogo Gaspar 99207, Rafael Oliveira 99311}
 \date{}
 \begin{document}
@@ -69,7 +71,7 @@
         epoch of the algorithm, which means we'll be going through two steps:
 
         \begin{itemize}[leftmargin=\labelsep]
-          \item \textbf{E-step:} Here, we're aiming to calculate the \textbf{posterior
+          \item \textbf{E-step:} In this step, our goal is to calculate the \textbf{posterior
                   probability} of each sample belonging to each cluster.
                 In order to perform this calculation, we'll be using \textbf{Bayes' rule},
                 of course, to decompose the posterior probability into the product of
@@ -83,7 +85,7 @@
 
                 \begin{equation*}
                   P(x_i \mid C = k_n) \sim \mathcal{N}(x_i; \mu_n, \Sigma_n) = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_n}}
-                  \exp \left( -\frac{1}{2} (x - \mu_n)^T \Sigma_n^{-1} (x - \mu_n) \right)
+                  \exp \left( -\frac{1}{2} (x_i - \mu_n)^T \Sigma_n^{-1} (x_i - \mu_n) \right)
                 \end{equation*}
 
                 We'll also use the $\gamma_{i, j}$ notation to represent the normalized
@@ -102,7 +104,7 @@
                 As a given, we have that the priors are (for every sample, of course):
 
                 \begin{equation*}
-                  \textcolor{teal}{P(C = k_1)} = \textcolor{teal}{P(C = k_2)} = 0.5
+                  \textcolor{teal}{P(C = k_1)} = \textcolor{teal}{P(C = k_2)} = \pi_1 = \pi_2 = 0.5
                 \end{equation*}
 
                 Regarding $x_1$, we have:
@@ -113,7 +115,8 @@
                      & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_1}} \exp \left( -\frac{1}{2} (x_1 - \mu_1)^T \Sigma_1^{-1} (x_1 - \mu_1) \right)                                                                                \\
                      & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_1}}}
                     \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_1}\right)^T \input{aux-matrices/Sigma_1}^{-1} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_1}\right) \right) \\
-                     & = 0.0658407
+                     & = \frac{\me^{-\nicefrac{1}{3}}}{\sqrt{(2\pi)^2 \cdot 3}}                                                                                                                                              \\
+                     & \approx 0.0658407
                   \end{aligned}
                 \end{equation*}
 
@@ -123,7 +126,7 @@
                      & = \frac{1}{\sqrt{(2\pi)^d \det \Sigma_2}} \exp \left( -\frac{1}{2} (x_1 - \mu_2)^T \Sigma_2^{-1} (x_1 - \mu_2) \right)                                                                                \\
                      & = \frac{1}{\sqrt{(2\pi)^2 \det \input{aux-matrices/Sigma_2}}}
                     \exp \left( -\frac{1}{2} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_2}\right)^T \input{aux-matrices/Sigma_2}^{-1} \left(\input{aux-matrices/x_1} - \input{aux-matrices/mu_2}\right) \right) \\
-                     & = 0.0227993
+                     & \approx 0.0227993
                   \end{aligned}
                 \end{equation*}
 
@@ -146,11 +149,12 @@
                   \end{aligned}
                 \end{equation*}
 
-                In order to avoid repeating showing such similar calculations for the
-                remaining samples, and after talking with prof. Rui, we'll opt to write
-                the results of all intermediate steps instead, provided that the \texttt{python}
-                code required to perform the calculations is available
-                in this report's appendix.
+                \pagebreak
+
+                As to avoid presenting here the repetitive calculations for the remaining samples,
+                for which the results in question are calculated in the same manner, we include here
+                only the intermediate values of such calculations, as discussed with Prof. Rui
+                Henriques. The respective Python code is available in this report's appendix.
 
                 \begin{paracol}{2}
                   \setlength{\columnseprule}{1pt}
@@ -204,9 +208,9 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \mu_k    & = \frac{\sum_{i=1}^3 P(C = k \mid x_i) x_i}{\sum_{i=1}^3 P(C = k \mid x_i)}                                               \\
-                    \Sigma_k & = \frac{\sum_{i=1}^3 P(C = k \mid x_i) (x_{i, n} - \mu_{k, n}) (x_{i, m} - \mu_{k, m})^T}{\sum_{i=1}^3 P(C = k \mid x_i)} \\
-                    P(C = k) & = \frac{\sum_{i=1}^3 P(C = k \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)}
+                    \mu_\alpha      & = \frac{\sum_{i=1}^3 P(C = k_\alpha \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_\alpha \mid x_i)}                                                         \\
+                    \Sigma_\alpha   & = \frac{\sum_{i=1}^3 P(C = k_\alpha \mid x_i) (x_{i, n} - \mu_{\alpha, n}) (x_{i, m} - \mu_{\alpha, m})^T}{\sum_{i=1}^3 P(C = k_\alpha \mid x_i)} \\
+                    P(C = k_\alpha) & = \frac{\sum_{i=1}^3 P(C = k_\alpha \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = k_c \mid x_i)}
                   \end{aligned}
                 \end{equation*}
 
@@ -215,9 +219,9 @@
                 index of centroid $\mu_k$.
 
                 We can now estimate the new parameters of the distributions (and the new
-                priors) as shown in the next page (note that the updated $\mu_k$'s are used
-                in the calculation of the new $\Sigma_k$'s).
-                The \texttt{python} code utilized for these calculations is also
+                priors) as shown in the next page (note that the updated $\mu_\alpha$'s are used
+                in the calculation of the new $\Sigma_\alpha$'s).
+                The Python code used for these calculations is also
                 available in the appendix.
 
                 \pagebreak
@@ -234,7 +238,7 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \Sigma^{nm}_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i, n} - \mu_{k_1, n}) (x_{i, m} - \mu_{k_1, m})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)} \\
+                    \Sigma^{nm}_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i, n} - \mu_{1, n}) (x_{i, m} - \mu_{1, m})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)} \\
                     % TODO: check whether it's needed to write intermediate steps here
                                   & = \input{aux-matrices/Sigma_1_after_update}
                   \end{aligned}
@@ -242,7 +246,7 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \pi_1 = P(C = k_1) = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)} = 0.417189
+                    \pi_1 = P(C = k_1) = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = k_c \mid x_i)} = 0.417189
                     % TODO: once again, check whether it's needed to write intermediate steps here
                   \end{aligned}
                 \end{equation*}
@@ -259,7 +263,7 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \Sigma^{nm}_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i, n} - \mu_{k_2, n}) (x_{i, m} - \mu_{k_2, m})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)} \\
+                    \Sigma^{nm}_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i, n} - \mu_{2, n}) (x_{i, m} - \mu_{2, m})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)} \\
                     % TODO: "" 
                                   & = \input{aux-matrices/Sigma_2_after_update}
                   \end{aligned}
@@ -268,7 +272,7 @@
                 \begin{equation*}
                   \begin{aligned}
                     % TODO: ""
-                    \pi_2 = P(C = k_2) = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = c \mid x_i)} = 0.582811
+                    \pi_2 = P(C = k_2) = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = k_c \mid x_i)} = 0.582811
                   \end{aligned}
                 \end{equation*}
 
@@ -281,9 +285,9 @@
         \begin{enumerate}[leftmargin=\labelsep]
           \item \textbf{Perform a hard assignment of observations to clusters under a MAP assumption.}
 
-                \textit{Note that, since all calculations follow the same formulas utilized
-                  in the previous question's \textbf{E-Step}, we're not going to repeat them here,
-                  opting instead to just write the final results for each intermediate step.
+                \textit{Note that, since all calculations follow the same general expressions used
+                  in the previous question's \textbf{E-Step}, we have opted not to repeat them here,
+                  showing just the final results for each intermediate step instead.
                   The code required for these calculations is, once again, available in the
                   appendix.}
 
@@ -327,15 +331,15 @@
                   \begin{normalsize}
                     \begin{equation*}
                       \begin{aligned}
-                        \textcolor{purple}{P(x_1 | C = k_1)} & = 0.1957  \\
-                        \textcolor{purple}{P(x_1 | C = k_2)} & = 0.01352
+                        \textcolor{purple}{P(x_1 | C = k_1)} & = 0.195695  \\
+                        \textcolor{purple}{P(x_1 | C = k_2)} & = 0.0135196
                       \end{aligned}
                     \end{equation*}
 
                     \begin{equation*}
                       \begin{aligned}
-                        \gamma_{1, 1} & = \underline{0.91198} \\
-                        \gamma_{1, 2} & = 0.088017
+                        \gamma_{1, 1} & = \underline{0.911983} \\
+                        \gamma_{1, 2} & = 0.0880168
                       \end{aligned}
                     \end{equation*}
                   \end{normalsize}
@@ -347,15 +351,15 @@
                   \begin{normalsize}
                     \begin{equation*}
                       \begin{aligned}
-                        \textcolor{purple}{P(x_2 | C = k_1)} & = 0.0081953 \\
-                        \textcolor{purple}{P(x_2 | C = k_2)} & = 0.14365
+                        \textcolor{purple}{P(x_2 | C = k_1)} & = 0.00819528 \\
+                        \textcolor{purple}{P(x_2 | C = k_2)} & = 0.143645
                       \end{aligned}
                     \end{equation*}
 
                     \begin{equation*}
                       \begin{aligned}
-                        \gamma_{2, 1} & = 0.039237            \\
-                        \gamma_{2, 2} & = \underline{0.96076}
+                        \gamma_{2, 1} & = 0.0392368            \\
+                        \gamma_{2, 2} & = \underline{0.960763}
                       \end{aligned}
                     \end{equation*}
                   \end{normalsize}
@@ -367,31 +371,53 @@
                   \begin{normalsize}
                     \begin{equation*}
                       \begin{aligned}
-                        \textcolor{purple}{P(x_3 | C = k_1)} & = 0.077166 \\
-                        \textcolor{purple}{P(x_3 | C = k_2)} & = 0.10478
+                        \textcolor{purple}{P(x_3 | C = k_1)} & = 0.0771661 \\
+                        \textcolor{purple}{P(x_3 | C = k_2)} & = 0.104784
                       \end{aligned}
                     \end{equation*}
 
                     \begin{equation*}
                       \begin{aligned}
-                        \gamma_{3, 1} & = 0.34519             \\
-                        \gamma_{3, 2} & = \underline{0.65481}
+                        \gamma_{3, 1} & = 0.345186             \\
+                        \gamma_{3, 2} & = \underline{0.654814}
                       \end{aligned}
                     \end{equation*}
                   \end{normalsize}
 
                 \end{paracol}
 
-                After performing these calculations, under a MAP (Maximum A Posteriori) assumption,
-                we'll assign each sample to the cluster with the highest posterior probability:
+                After performing these calculations, under a MAP (\emph{Maximum A Posteriori})
+                assumption, we'll assign each sample to the cluster with the highest posterior
+                probability, as underlined above:
 
-                \begin{equation*}
-                  \begin{aligned}
-                    \text{MAP}(x_1) & \mapsto k_1 \\
-                    \text{MAP}(x_2) & \mapsto k_2 \\
-                    \text{MAP}(x_3) & \mapsto k_2
-                  \end{aligned}
-                \end{equation*}
+                \begin{paracol}{3}
+                  \setlength{\columnseprule}{1pt}
+                  \def\columnseprulecolor{\color{black}}
+                  \centering
+
+                  $x_1$:
+
+                  $$
+                    \text{MAP}(x_1) \mapsto \textcolor{blue}{k_1}
+                  $$
+
+                  \switchcolumn
+
+                  $x_2$:
+
+                  $$
+                    \text{MAP}(x_2) \mapsto \textcolor{red}{k_2}
+                  $$
+
+                  \switchcolumn
+
+                  $x_3$:
+
+                  $$
+                    \text{MAP}(x_3) \mapsto \textcolor{red}{k_2}
+                  $$
+
+                \end{paracol}
 
                 \pagebreak
 
@@ -408,14 +434,15 @@
                 other samples in its \textbf{neighboring cluster} - the neighboring
                 cluster being, therefore, the cluster minimizing such average distance.
 
-                Moreover, the silhouette of a given cluster $k_n$, with $m$ assigned samples, is defined as:
+                Moreover, the silhouette of a given cluster $k_n$, with $m$ assigned samples,
+                is defined as:
 
                 \begin{equation*}
                   s(k_n) = \frac{\sum_{i=1}^m s_i}{m}
                 \end{equation*}
 
                 Here, the \textbf{largest cluster} will be the cluster with the
-                biggest associated prior value ($\pi_k$). As was computed in 1.,
+                greatest associated prior value ($\pi_k$). As we computed in 1.,
                 $\pi_2 = 0.582811 > 0.417189 = \pi_1$,
                 hence the larger cluster will be $k_2$. Its assigned samples,
                 considering a MAP assumption, are $x_2$ and $x_3$ (as asserted
@@ -434,12 +461,12 @@
                     \begin{aligned}
                       a_2 & = \frac{\left\| x_2 - x_3 \right\|_2}{2 - 1}                             \\
                           & = \left\| \input{aux-matrices/x_2} - \input{aux-matrices/x_3} \right\|_2
-                      = 2.2361                                                                       \\
+                      = 2.23607                                                                      \\
                       b_2 & = \min\left\{\frac{\left\| x_2 - x_1 \right\|_2}{1}\right\}              \\
                           & = \left\| \input{aux-matrices/x_2} - \input{aux-matrices/x_1} \right\|_2
-                      = 2.2361                                                                       \\
+                      = 2.23607                                                                      \\
                       s_2 & = \frac{b_2 - a_2}{\max\left\{a_2, b_2\right\}}                          \\
-                          & = \frac{2.2361 - 2.2361}{\max\left\{2.2361, 2.2361\right\}} = 0
+                          & = \frac{2.23607 - 2.23607}{\max\left\{2.23607, 2.23607\right\}} = 0
                     \end{aligned}
                   \end{equation*}
 
@@ -451,12 +478,12 @@
                     \begin{aligned}
                       a_3 & = \frac{\left\| x_3 - x_2 \right\|_2}{2 - 1}                             \\
                           & = \left\| \input{aux-matrices/x_3} - \input{aux-matrices/x_2} \right\|_2
-                      = 2.2361                                                                       \\
+                      = 2.23607                                                                      \\
                       b_3 & = \min\left\{\frac{\left\| x_3 - x_1 \right\|_2}{1}\right\}              \\
                           & = \left\| \input{aux-matrices/x_3} - \input{aux-matrices/x_1} \right\|_2
                       = 2                                                                            \\
                       s_3 & = \frac{b_3 - a_3}{\max\left\{a_3, b_3\right\}}                          \\
-                          & = \frac{2 - 2.2361}{\max\left\{2.2361, 2\right\}} = -0.10557
+                          & = \frac{2 - 2.23607}{\max\left\{2.23607, 2\right\}} = -0.105573
                     \end{aligned}
                   \end{equation*}
 
