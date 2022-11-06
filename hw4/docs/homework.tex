@@ -558,21 +558,16 @@ the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
         to different convergence points. In the case seen above, with seeds 0
         and 2, the convergence point reached was practically the same (in terms of
         observed purity and silhouette performance scores), even though the final
-        centroids' positions were different:
-
-        $$
-          pos_{seed = 0} = \begin{bmatrix} a \\ b \end{bmatrix} \neq
-          \begin{bmatrix} c \\ d \end{bmatrix} = pos_{seed = 2}
-        $$
+        centroids' positions were different, as their Euclidean distance is significant:
 
         \begin{table}[H]
           \centering
           \begin{tabular}{c|c|c}
-            Difference - seeds 0 and 1 & Difference - seeds 0 and 2 & Difference - seeds 1 and 2 \\ \hline
-            3.1566                     & 4.4269                     & 3.3163
+            Distance - seeds 0 and 1 & Distance - seeds 0 and 2 & Distance - seeds 1 and 2 \\ \hline
+            3.15662                  & 4.42694                  & 3.31635
           \end{tabular}
-          \caption{Norm of the difference between the final centroids' positions for each run}
-          \label{tab:difference-norms}
+          \caption{Euclidean distance ($d(x, y) = ||x - y||$) between the final centroids' positions for each run}
+          \label{tab:centroid-distances}
         \end{table}
 
   \item \textbf{Using a scatter plot, visualize side-by-side the labeled data using as labels: i) the original
