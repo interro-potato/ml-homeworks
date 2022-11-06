@@ -14,10 +14,11 @@ sns.set_style("darkgrid")
 rc("font", **{"family": "serif", "serif": ["Computer Modern"]})
 rc("text", usetex=True)
 
-# Load the data
+## Load the data
 data = loadarff("data/pd_speech.arff")
 df = pd.DataFrame(data[0])
 df["class"] = df["class"].str.decode("utf-8")
+
 
 # Exercise 1 below
 
@@ -49,15 +50,23 @@ kmeans = [KMeans(n_clusters=3, random_state=seed).fit(X_scaled) for seed in rang
 
 calculate_scores(kmeans)
 
-# get the cluster centroids
+# Exercise 2 below
+
+## get the cluster centroids
 centroids = np.array([k.cluster_centers_ for k in kmeans])
 
-# show that the centroids between all seeds are different
-print(f'Norm between centroids for seeds 0 and 1: {np.linalg.norm(centroids[0] - centroids[1]):.5g}')
-print(f'Norm between centroids for seeds 0 and 2: {np.linalg.norm(centroids[0] - centroids[2]):.5g}')
-print(f'Norm between centroids for seeds 1 and 2: {np.linalg.norm(centroids[1] - centroids[2]):.5g}')
+## show that the centroids between all seeds are different
+print(
+    f"Norm of differences between centroids for seeds 0 and 1: {np.linalg.norm(centroids[0] - centroids[1]):.6g}"
+)
+print(
+    f"Norm of differences between centroids for seeds 0 and 2: {np.linalg.norm(centroids[0] - centroids[2]):.6g}"
+)
+print(
+    f"Norm of differences between centroids for seeds 1 and 2: {np.linalg.norm(centroids[1] - centroids[2]):.6g}"
+)
 
-# Exercise 4 below
+# Exercise 3 below
 
 
 def select_most_informative_features(kmeans, n):
@@ -93,7 +102,7 @@ for i, ax in enumerate(axes):
 plt.savefig("assets/parkinsons.png")
 plt.show()
 
-# Exercise 6 below
+# Exercise 4 below
 
 
 def calculate_pca(X, n_components):
