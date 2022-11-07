@@ -530,30 +530,20 @@ the data using \texttt{sklearn}'s \texttt{MinMaxScaler}.
   \item \textbf{What is causing the non-determinism?}
 
         The non-determinism present in the $k$-means clustering solutions gathered
-        in the previous exercise is caused by the fact that the algorithm is
+        in the previous exercise is caused by the fact that the algorithm's implementation is
         inherently random: \texttt{sklearn}'s \texttt{KMeans} class sets up
-        the centroids' initial positions in a randomly generated fashion,
+        the centroids' initial positions in a randomly generated fashion
+        (utilizing, by default, the \texttt{k-means++} algorithm for that purpose),
         thus leading to possible different convergence points for the same
         data and number of clusters. \texttt{random\_state}, here, works
         as a mere manner of controlling the random seed used to generate
-        the initial centroid positions: for the same seed, the same
+        said initial centroid positions: for the same seed, the same
         initial centroids' positions will be generated, thus leading to
         the same convergence point. For different seeds, different
         initial centroid positions will be generated, which will generally lead
         to different convergence points. In the case seen above, with seeds 0
-        and 2, the convergence point reached was practically the same (in terms of
-        observed purity and silhouette performance scores), even though the final
-        centroids' positions were different, as their Euclidean distance is significant:
-
-        \begin{table}[H]
-          \centering
-          \begin{tabular}{c|c|c}
-            Distance - seeds 0 and 1 & Distance - seeds 0 and 2 & Distance - seeds 1 and 2 \\ \hline
-            3.15662                  & 4.42694                  & 3.31635
-          \end{tabular}
-          \caption{Euclidean distance ($d(x, y) = ||x - y||$) between the final centroids' positions for each run}
-          \label{tab:centroid-distances}
-        \end{table}
+        and 2, the convergence point reached was the same (at least regarding the
+        amount of digits we're able to assess), differing however from seed 1.
 
   \item \textbf{Using a scatter plot, visualize side-by-side the labeled data using as labels: i) the original
           Parkinson diagnoses, and ii) the previously learned $k = 3$ clusters (\texttt{random = 0}). To this end, select
