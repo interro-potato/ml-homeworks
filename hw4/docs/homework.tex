@@ -94,7 +94,7 @@
                 (considering $N = 2$, as we have two clusters $k_\alpha, \forall_{1 \leq \alpha \leq N}$):
 
                 \begin{equation*}
-                  \gamma_{i, j} = \frac{\pi_j P(x_i \mid C = k_j)}{\sum_{\alpha=1}^N \pi_\alpha P(x_i \mid C = k_\alpha)}
+                  \gamma_{i, j} = P(C = k_j | x_i) = \frac{\pi_j P(x_i \mid C = k_j)}{\sum_{\alpha=1}^N \pi_\alpha P(x_i \mid C = k_\alpha)}
                   = \frac{\pi_j \mathcal{N}(x_i; \mu_j, \Sigma_j)}{\sum_{\alpha=1}^N \pi_\alpha \mathcal{N}(x_i; \mu_\alpha, \Sigma_\alpha)}
                 \end{equation*}
 
@@ -231,22 +231,14 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \mu_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_1 \mid x_i)}                                                                                      \\
-                          & = \frac{0.742788 \cdot \input{aux-matrices/x_1} + 0.155843 \cdot \input{aux-matrices/x_2} + 0.352936 \cdot \input{aux-matrices/x_3}}{0.742788 + 0.155843 + 0.352936} \\
-                          & = \input{aux-matrices/mu_1_after_update}
-                  \end{aligned}
-                \end{equation*}
-
-                \begin{equation*}
-                  \begin{aligned}
-                    \Sigma_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i} - \mu_{1}) (x_{i} - \mu_{1})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)} \\
-                             & = \input{aux-matrices/Sigma_1_after_update}
-                  \end{aligned}
-                \end{equation*}
-
-                \begin{equation*}
-                  \begin{aligned}
-                    \pi_1 = P(C = k_1) = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = k_c \mid x_i)} = 0.417189
+                    \mu_1    & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_1 \mid x_i)}                                                                                      \\
+                             & = \frac{0.742788 \cdot \input{aux-matrices/x_1} + 0.155843 \cdot \input{aux-matrices/x_2} + 0.352936 \cdot \input{aux-matrices/x_3}}{0.742788 + 0.155843 + 0.352936} \\
+                             & = \input{aux-matrices/mu_1_after_update}                                                                                                                             \\
+                    \\
+                    \Sigma_1 & = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i) (x_{i} - \mu_{1}) (x_{i} - \mu_{1})^T}{\sum_{i=1}^3 P(C = k_1 \mid x_i)}                                                    \\
+                             & = \input{aux-matrices/Sigma_1_after_update}                                                                                                                          \\
+                    \\
+                    \pi_1    & = P(C = k_1) = \frac{\sum_{i=1}^3 P(C = k_1 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = k_c \mid x_i)} = 0.417189
                   \end{aligned}
                 \end{equation*}
 
@@ -254,22 +246,14 @@
 
                 \begin{equation*}
                   \begin{aligned}
-                    \mu_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_2 \mid x_i)}                                                                                      \\
-                          & = \frac{0.257212 \cdot \input{aux-matrices/x_1} + 0.844157 \cdot \input{aux-matrices/x_2} + 0.647064 \cdot \input{aux-matrices/x_3}}{0.257212 + 0.844157 + 0.647064} \\
-                          & = \input{aux-matrices/mu_2_after_update}
-                  \end{aligned}
-                \end{equation*}
-
-                \begin{equation*}
-                  \begin{aligned}
-                    \Sigma_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i} - \mu_{2}) (x_{i} - \mu_{2})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)} \\
+                    \mu_2    & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) x_i}{\sum_{i=1}^3 P(C = k_2 \mid x_i)}                                                                                      \\
+                             & = \frac{0.257212 \cdot \input{aux-matrices/x_1} + 0.844157 \cdot \input{aux-matrices/x_2} + 0.647064 \cdot \input{aux-matrices/x_3}}{0.257212 + 0.844157 + 0.647064} \\
+                             & = \input{aux-matrices/mu_2_after_update}
+                    \\
+                    \Sigma_2 & = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i) (x_{i} - \mu_{2}) (x_{i} - \mu_{2})^T}{\sum_{i=1}^3 P(C = k_2 \mid x_i)}                                                    \\
                              & = \input{aux-matrices/Sigma_2_after_update}
-                  \end{aligned}
-                \end{equation*}
-
-                \begin{equation*}
-                  \begin{aligned}
-                    \pi_2 = P(C = k_2) = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = k_c \mid x_i)} = 0.582811
+                    \\
+                    \pi_2    & = P(C = k_2) = \frac{\sum_{i=1}^3 P(C = k_2 \mid x_i)}{\sum_{c=1}^2\sum_{i=1}^3 P(C = k_c \mid x_i)} = 0.582811
                   \end{aligned}
                 \end{equation*}
 
