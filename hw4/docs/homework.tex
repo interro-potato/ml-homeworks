@@ -400,11 +400,15 @@
 
                 As we know, the silhouette of a given sample $x_i$ present in cluster $k_n$ is defined as
 
+                \vskip -0.7cm
+
                 \begin{equation*}
                   s_i = \frac{b_i - a_i}{\max\left\{a_i, b_i\right\}}, \quad
                   a_i = \frac{1}{|k_n| - 1} \sum_{x_j \in k_n, j \neq i} d(x_i, x_j), \quad
                   b_i = \min_{m \neq n} \frac{1}{|k_m|} \sum_{x_j \in k_m} d(x_i, x_j)
                 \end{equation*}
+
+                \vskip -0.2cm
 
                 where $a_i$ is the average distance between $x_i$ and all other samples
                 in the same cluster, and $b_i$ is the average distance between $x_i$ and all
