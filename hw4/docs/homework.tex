@@ -215,10 +215,6 @@
                   \end{aligned}
                 \end{equation*}
 
-                In the equations stated above, we're considering $x_{i, n}$ as the $n$-th
-                feature's value of the $i$-th sample, and $\mu_{k, n}$ as the $n$-th
-                index of centroid $\mu_k$.
-
                 We can now estimate the new parameters of the distributions (and the new
                 priors) as shown in the next page (note that the updated $\mu_\alpha$'s are used
                 in the calculation of the new $\Sigma_\alpha$'s).
@@ -275,8 +271,8 @@
                 Just like in the first question's answer, we'll need to compute the posterior
                 probabilities of each sample belonging to each cluster (now utilizing the newly updated
                 parameters); however, instead of proceeding to the \textbf{M-Step}, we'll just assign
-                each sample to the cluster with the highest posterior probability.
-
+                each sample to the cluster with the highest posterior probability,
+                since we're working under a MAP assumption.
                 The priors have been updated in the previous question's answer to:
 
                 \begin{equation*}
@@ -423,7 +419,7 @@
                 Here, the \textbf{largest cluster} will be the cluster with the
                 greatest associated prior value ($\pi_k$). As we computed in 1.,
                 $\pi_2 = 0.582811 > 0.417189 = \pi_1$,
-                hence the larger cluster will be $k_2$. Its assigned samples,
+                hence the larger cluster will be $k_2$. Its hard-assigned samples,
                 considering a MAP assumption, are $x_2$ and $x_3$ (as asserted
                 in the previous question's answer), so we'll have the following:
 
