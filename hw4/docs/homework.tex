@@ -410,14 +410,8 @@
                 in the same cluster, and $b_i$ is the average distance between $x_i$ and all
                 other samples in its \textbf{neighboring cluster} - the neighboring
                 cluster being, here, the cluster minimizing such average distance.
-
                 Moreover, the silhouette of a given cluster $k_n$, with $m$ assigned samples,
-                is defined as:
-
-                \begin{equation*}
-                  s(k_n) = \frac{\sum_{i=1}^m s_i}{m}
-                \end{equation*}
-
+                is defined as $s(k_n) = \frac{\sum_{i=1}^m s_i}{m}$.
                 Here, the \textbf{largest cluster} will be the one where the most
                 samples have been assigned to in the previous question's answer;
                 in this case, it's the cluster $k_2$, with $2$ assigned samples.
